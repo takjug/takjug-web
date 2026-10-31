@@ -1,8 +1,11 @@
 import { NextResponse } from "next/server";
 
 interface ContactRequestBody {
+  firstName?: string;
+  lastName?: string;
   name?: string;
   email: string;
+  company?: string;
   message: string;
 }
 
@@ -17,10 +20,30 @@ export async function POST(req: Request) {
       );
     }
 
-    const { name = "Anonymous / Partner", email, message } = body;
+    let fName = (body.firstName || "").trim();
+    let lName = (body.lastName || "").trim();
+
+    if ((!fName || !lName) && body.name) {
+      const parts = body.name.trim().split(/\s+/);
+      if (parts.length === 1) {
+        fName = fName || parts[0];
+        lName = lName || parts[0];
+      } else {
+        fName = fName || parts[0];
+        lName = lName || parts.slice(1).join(" ");
+      }
+    }
+
+    if (!fName) fName = "Prospective";
+    if (!lName) lName = "Partner";
+
+    const comp = (body.company || "").trim() || `${fName} ${lName}` || "Venture Inquiry";
+    const email = body.email.trim();
+    const message = body.message.trim();
+    const fullName = `${fName} ${lName}`;
     const timestamp = new Date().toISOString();
 
-    console.log(`[Contact Protocol] Incoming transmission from ${email} (${name}): ${message}`);
+    console.log(`[Contact Protocol] Incoming transmission from ${email} (${fullName}, Company: ${comp})`);
 
     // 1. Check for Zoho Webhook or Web-to-Lead endpoint in environment variables
     const zohoWebhookUrl = process.env.ZOHO_WEBHOOK_URL;
@@ -36,8 +59,11 @@ export async function POST(req: Request) {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            name,
+            first_name: fName,
+            last_name: lName,
+            name: fullName,
             email,
+            company: comp,
             message,
             source: "Takjug Systems Engineering Web Modal",
             submitted_at: timestamp,
@@ -59,10 +85,10 @@ export async function POST(req: Request) {
         formData.append("returnURL", "");
         formData.append("zc_gad", "");
 
-        formData.append("Last Name", name || "Web Inquiry");
-        formData.append("First Name", "");
+        formData.append("First Name", fName);
+        formData.append("Last Name", lName);
         formData.append("Email", email);
-        formData.append("Company", name ? `${name}` : "Venture Inquiry");
+        formData.append("Company", comp);
         formData.append("Description", message);
         formData.append("Lead Source", "takjug.com");
 
@@ -90,10 +116,11 @@ export async function POST(req: Request) {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             access_key: web3formsAccessKey,
-            name,
+            name: fullName,
             email,
+            company: comp,
             message,
-            subject: `[Takjug Systems] Inquiry from ${name}`,
+            subject: `[Takjug Systems] Inquiry from ${fullName} (${comp})`,
             to_email: "dev@takjug.com",
           }),
         });

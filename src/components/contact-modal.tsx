@@ -20,8 +20,10 @@ export function ContactModal({
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
   const [formData, setFormData] = React.useState({
-    name: "",
+    firstName: "",
+    lastName: "",
     email: "",
+    company: "",
     message: "",
   });
 
@@ -64,7 +66,7 @@ export function ContactModal({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.email || !formData.message) return;
+    if (!formData.firstName || !formData.lastName || !formData.email || !formData.message) return;
 
     setIsSubmitting(true);
     setErrorMessage(null);
@@ -212,7 +214,7 @@ export function ContactModal({
             </Button>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="space-y-3.5">
+          <form onSubmit={handleSubmit} className="space-y-3">
             {errorMessage && (
               <div className="flex items-center gap-2 p-2.5 rounded-lg border border-red-500/20 bg-red-50/50 dark:bg-red-950/20 text-red-700 dark:text-red-400 text-xs font-mono">
                 <AlertCircle className="w-4 h-4 shrink-0" />
@@ -220,27 +222,57 @@ export function ContactModal({
               </div>
             )}
 
-            <div>
-              <input
-                type="text"
-                disabled={isSubmitting}
-                placeholder="Your Name or Organization"
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full text-xs font-mono px-3.5 py-2.5 rounded-lg border border-neutral-300 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/50 text-neutral-900 dark:text-white placeholder:text-neutral-400 focus:outline-hidden focus:border-neutral-950 dark:focus:border-white transition-colors disabled:opacity-50"
-              />
+            {/* First & Last Name (Required by Zoho Webform) */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              <div>
+                <input
+                  type="text"
+                  required
+                  disabled={isSubmitting}
+                  placeholder="First Name *"
+                  value={formData.firstName}
+                  onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                  className="w-full text-xs font-mono px-3.5 py-2.5 rounded-lg border border-neutral-300 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/50 text-neutral-900 dark:text-white placeholder:text-neutral-400 focus:outline-hidden focus:border-neutral-950 dark:focus:border-white transition-colors disabled:opacity-50"
+                />
+              </div>
+
+              <div>
+                <input
+                  type="text"
+                  required
+                  disabled={isSubmitting}
+                  placeholder="Last Name *"
+                  value={formData.lastName}
+                  onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                  className="w-full text-xs font-mono px-3.5 py-2.5 rounded-lg border border-neutral-300 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/50 text-neutral-900 dark:text-white placeholder:text-neutral-400 focus:outline-hidden focus:border-neutral-950 dark:focus:border-white transition-colors disabled:opacity-50"
+                />
+              </div>
             </div>
 
-            <div>
-              <input
-                type="email"
-                required
-                disabled={isSubmitting}
-                placeholder="your.email@domain.com *"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full text-xs font-mono px-3.5 py-2.5 rounded-lg border border-neutral-300 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/50 text-neutral-900 dark:text-white placeholder:text-neutral-400 focus:outline-hidden focus:border-neutral-950 dark:focus:border-white transition-colors disabled:opacity-50"
-              />
+            {/* Email & Company */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              <div>
+                <input
+                  type="email"
+                  required
+                  disabled={isSubmitting}
+                  placeholder="your.email@domain.com *"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  className="w-full text-xs font-mono px-3.5 py-2.5 rounded-lg border border-neutral-300 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/50 text-neutral-900 dark:text-white placeholder:text-neutral-400 focus:outline-hidden focus:border-neutral-950 dark:focus:border-white transition-colors disabled:opacity-50"
+                />
+              </div>
+
+              <div>
+                <input
+                  type="text"
+                  disabled={isSubmitting}
+                  placeholder="Company / Organization"
+                  value={formData.company}
+                  onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                  className="w-full text-xs font-mono px-3.5 py-2.5 rounded-lg border border-neutral-300 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/50 text-neutral-900 dark:text-white placeholder:text-neutral-400 focus:outline-hidden focus:border-neutral-950 dark:focus:border-white transition-colors disabled:opacity-50"
+                />
+              </div>
             </div>
 
             <div>
