@@ -4,9 +4,11 @@
 import * as React from "react";
 import * as THREE from "three";
 
+export type ArtVariant = "orb" | "knot" | "matrix" | "ribbon";
+
 interface CreativeCanvasProps {
   theme?: "dark" | "light";
-  variant?: "orb" | "knot";
+  variant?: ArtVariant;
 }
 
 export default function CreativeCanvas({
@@ -15,24 +17,36 @@ export default function CreativeCanvas({
 }: CreativeCanvasProps) {
   const mountRef = React.useRef<HTMLDivElement>(null);
 
-  // References to materials & groups for instant smooth transitions
+  // References to groups and materials for seamless real-time switching
   const stateRef = React.useRef<{
     knotGroup: THREE.Group;
     orbGroup: THREE.Group;
-    knotWireframeMat: THREE.LineBasicMaterial;
-    knotPointsMat: THREE.PointsMaterial;
-    orbWireframeMat: THREE.MeshBasicMaterial;
-    orbPointsMat: THREE.PointsMaterial;
-    orbCoreMat: THREE.MeshBasicMaterial;
-    orbRingMat: THREE.MeshBasicMaterial;
-    gyroRing1Mat: THREE.MeshBasicMaterial;
-    gyroRing2Mat: THREE.MeshBasicMaterial;
-    particleMat: THREE.PointsMaterial;
+    matrixGroup: THREE.Group;
+    ribbonGroup: THREE.Group;
+    // Materials to recolor on theme change
+    materials: THREE.Material[];
     pointLight: THREE.PointLight;
+    particleMat: THREE.PointsMaterial;
     darkParticleTexture: THREE.CanvasTexture;
     lightParticleTexture: THREE.CanvasTexture;
+    // Morph geometries & initial buffers
     orbGeo: THREE.IcosahedronGeometry;
     initialOrbPositions: Float32Array;
+    ribbonGeo: THREE.TorusGeometry;
+    initialRibbonPositions: Float32Array;
+    // Sub-objects for animation
+    matrixOuterMesh: THREE.Mesh;
+    matrixMidMesh: THREE.Mesh;
+    matrixCoreMesh: THREE.Mesh;
+    matrixRing1: THREE.Mesh;
+    matrixRing2: THREE.Mesh;
+    matrixRing3: THREE.Mesh;
+    orbCoreMesh: THREE.Mesh;
+    orbRing: THREE.Mesh;
+    gyroRing1: THREE.Mesh;
+    gyroRing2: THREE.Mesh;
+    ribbonMesh: THREE.Mesh;
+    ribbonHalo: THREE.Mesh;
   } | null>(null);
 
   React.useEffect(() => {
@@ -86,6 +100,17 @@ export default function CreativeCanvas({
     };
     updateGroupPosition(width);
 
+    const isDark = theme === "dark";
+    const baseColor = isDark ? 0xffffff : 0x18181b;
+    const blending = isDark ? THREE.AdditiveBlending : THREE.NormalBlending;
+    const trackedMaterials: THREE.Material[] = [];
+
+    // Helper to register materials for theme updates
+    const registerMat = <T extends THREE.Material>(mat: T): T => {
+      trackedMaterials.push(mat);
+      return mat;
+    };
+
     // =========================================================================
     // SCULPTURE 01: Architectural Torus Knot
     // =========================================================================
@@ -94,43 +119,51 @@ export default function CreativeCanvas({
 
     const knotGeo = new THREE.TorusKnotGeometry(1.25, 0.34, 160, 26, 2, 3);
     const wireframeGeo = new THREE.WireframeGeometry(knotGeo);
-    const knotWireframeMat = new THREE.LineBasicMaterial({
-      color: theme === "dark" ? 0xffffff : 0x18181b,
-      transparent: true,
-      opacity: theme === "dark" ? 0.24 : 0.22,
-    });
+    const knotWireframeMat = registerMat(
+      new THREE.LineBasicMaterial({
+        color: baseColor,
+        transparent: true,
+        opacity: isDark ? 0.24 : 0.22,
+      })
+    );
     const wireframeMesh = new THREE.LineSegments(wireframeGeo, knotWireframeMat);
     knotGroup.add(wireframeMesh);
 
-    const knotPointsMat = new THREE.PointsMaterial({
-      color: theme === "dark" ? 0xffffff : 0x09090b,
-      size: 0.026,
-      transparent: true,
-      opacity: 0.75,
-      blending: theme === "dark" ? THREE.AdditiveBlending : THREE.NormalBlending,
-    });
+    const knotPointsMat = registerMat(
+      new THREE.PointsMaterial({
+        color: baseColor,
+        size: 0.026,
+        transparent: true,
+        opacity: 0.75,
+        blending,
+      })
+    );
     const knotPoints = new THREE.Points(knotGeo, knotPointsMat);
     knotGroup.add(knotPoints);
 
-    // Gyro Rings for Torus Knot
+    // Gyro Rings for Knot
     const ringGeo1 = new THREE.RingGeometry(2.4, 2.415, 120);
-    const gyroRing1Mat = new THREE.MeshBasicMaterial({
-      color: theme === "dark" ? 0xffffff : 0x18181b,
-      side: THREE.DoubleSide,
-      transparent: true,
-      opacity: theme === "dark" ? 0.14 : 0.15,
-    });
+    const gyroRing1Mat = registerMat(
+      new THREE.MeshBasicMaterial({
+        color: baseColor,
+        side: THREE.DoubleSide,
+        transparent: true,
+        opacity: isDark ? 0.14 : 0.15,
+      })
+    );
     const gyroRing1 = new THREE.Mesh(ringGeo1, gyroRing1Mat);
     gyroRing1.rotation.x = Math.PI / 2.5;
     knotGroup.add(gyroRing1);
 
     const ringGeo2 = new THREE.RingGeometry(2.9, 2.912, 120);
-    const gyroRing2Mat = new THREE.MeshBasicMaterial({
-      color: theme === "dark" ? 0xffffff : 0x27272a,
-      side: THREE.DoubleSide,
-      transparent: true,
-      opacity: theme === "dark" ? 0.08 : 0.09,
-    });
+    const gyroRing2Mat = registerMat(
+      new THREE.MeshBasicMaterial({
+        color: isDark ? 0xffffff : 0x27272a,
+        side: THREE.DoubleSide,
+        transparent: true,
+        opacity: isDark ? 0.08 : 0.09,
+      })
+    );
     const gyroRing2 = new THREE.Mesh(ringGeo2, gyroRing2Mat);
     gyroRing2.rotation.y = Math.PI / 3;
     gyroRing2.rotation.z = Math.PI / 6;
@@ -142,55 +175,179 @@ export default function CreativeCanvas({
     const orbGroup = new THREE.Group();
     masterGroup.add(orbGroup);
 
-    // Geodesic Sphere with detail 3 (~642 vertices)
     const orbGeo = new THREE.IcosahedronGeometry(1.35, 3);
     const initialOrbPositions = new Float32Array(orbGeo.attributes.position.array);
 
-    const orbWireframeMat = new THREE.MeshBasicMaterial({
-      wireframe: true,
-      color: theme === "dark" ? 0xffffff : 0x18181b,
-      transparent: true,
-      opacity: theme === "dark" ? 0.24 : 0.22,
-    });
+    const orbWireframeMat = registerMat(
+      new THREE.MeshBasicMaterial({
+        wireframe: true,
+        color: baseColor,
+        transparent: true,
+        opacity: isDark ? 0.24 : 0.22,
+      })
+    );
     const orbMesh = new THREE.Mesh(orbGeo, orbWireframeMat);
     orbGroup.add(orbMesh);
 
-    const orbPointsMat = new THREE.PointsMaterial({
-      color: theme === "dark" ? 0xffffff : 0x09090b,
-      size: 0.03,
-      transparent: true,
-      opacity: 0.8,
-      blending: theme === "dark" ? THREE.AdditiveBlending : THREE.NormalBlending,
-    });
+    const orbPointsMat = registerMat(
+      new THREE.PointsMaterial({
+        color: baseColor,
+        size: 0.03,
+        transparent: true,
+        opacity: 0.8,
+        blending,
+      })
+    );
     const orbPoints = new THREE.Points(orbGeo, orbPointsMat);
     orbGroup.add(orbPoints);
 
-    // Inner Counter-Rotating Crystalline Octahedron Core
     const coreGeo = new THREE.OctahedronGeometry(0.68, 0);
-    const orbCoreMat = new THREE.MeshBasicMaterial({
-      wireframe: true,
-      color: theme === "dark" ? 0xffffff : 0x18181b,
-      transparent: true,
-      opacity: theme === "dark" ? 0.38 : 0.32,
-    });
-    const coreMesh = new THREE.Mesh(coreGeo, orbCoreMat);
-    orbGroup.add(coreMesh);
+    const orbCoreMat = registerMat(
+      new THREE.MeshBasicMaterial({
+        wireframe: true,
+        color: baseColor,
+        transparent: true,
+        opacity: isDark ? 0.38 : 0.32,
+      })
+    );
+    const orbCoreMesh = new THREE.Mesh(coreGeo, orbCoreMat);
+    orbGroup.add(orbCoreMesh);
 
-    // Outer Celestial Radar Ring
     const orbRingGeo = new THREE.RingGeometry(1.9, 1.916, 120);
-    const orbRingMat = new THREE.MeshBasicMaterial({
-      color: theme === "dark" ? 0xffffff : 0x18181b,
-      side: THREE.DoubleSide,
-      transparent: true,
-      opacity: theme === "dark" ? 0.16 : 0.14,
-    });
+    const orbRingMat = registerMat(
+      new THREE.MeshBasicMaterial({
+        color: baseColor,
+        side: THREE.DoubleSide,
+        transparent: true,
+        opacity: isDark ? 0.16 : 0.14,
+      })
+    );
     const orbRing = new THREE.Mesh(orbRingGeo, orbRingMat);
     orbRing.rotation.x = Math.PI / 3;
     orbGroup.add(orbRing);
 
-    // Set initial visibility
-    orbGroup.visible = variant === "orb";
+    // =========================================================================
+    // SCULPTURE 03: Quantum Matrix (Dual Crystalline Prism & 3D Radar)
+    // =========================================================================
+    const matrixGroup = new THREE.Group();
+    masterGroup.add(matrixGroup);
+
+    // Outer Dodecahedron
+    const matrixOuterGeo = new THREE.DodecahedronGeometry(1.4, 0);
+    const matrixOuterMat = registerMat(
+      new THREE.MeshBasicMaterial({
+        wireframe: true,
+        color: baseColor,
+        transparent: true,
+        opacity: isDark ? 0.24 : 0.22,
+      })
+    );
+    const matrixOuterMesh = new THREE.Mesh(matrixOuterGeo, matrixOuterMat);
+    matrixGroup.add(matrixOuterMesh);
+
+    const matrixPointsMat = registerMat(
+      new THREE.PointsMaterial({
+        size: 0.035,
+        color: baseColor,
+        transparent: true,
+        opacity: 0.85,
+        blending,
+      })
+    );
+    const matrixPoints = new THREE.Points(matrixOuterGeo, matrixPointsMat);
+    matrixGroup.add(matrixPoints);
+
+    // Middle Nested Icosahedron (counter-rotating)
+    const matrixMidGeo = new THREE.IcosahedronGeometry(1.05, 0);
+    const matrixMidMat = registerMat(
+      new THREE.MeshBasicMaterial({
+        wireframe: true,
+        color: baseColor,
+        transparent: true,
+        opacity: isDark ? 0.32 : 0.28,
+      })
+    );
+    const matrixMidMesh = new THREE.Mesh(matrixMidGeo, matrixMidMat);
+    matrixGroup.add(matrixMidMesh);
+
+    // Inner Glowing Octahedron Core
+    const matrixCoreGeo = new THREE.OctahedronGeometry(0.62, 0);
+    const matrixCoreMat = registerMat(
+      new THREE.MeshBasicMaterial({
+        wireframe: true,
+        color: baseColor,
+        transparent: true,
+        opacity: isDark ? 0.5 : 0.42,
+      })
+    );
+    const matrixCoreMesh = new THREE.Mesh(matrixCoreGeo, matrixCoreMat);
+    matrixGroup.add(matrixCoreMesh);
+
+    // 3 Orthogonal Quantum Orbital Rings (X/Y, Y/Z, X/Z)
+    const mRingGeo = new THREE.RingGeometry(1.85, 1.865, 90);
+    const matrixRing1 = new THREE.Mesh(mRingGeo, gyroRing1Mat);
+    matrixRing1.rotation.x = Math.PI / 2;
+    matrixGroup.add(matrixRing1);
+
+    const matrixRing2 = new THREE.Mesh(mRingGeo, gyroRing1Mat);
+    matrixRing2.rotation.y = Math.PI / 2;
+    matrixGroup.add(matrixRing2);
+
+    const matrixRing3 = new THREE.Mesh(mRingGeo, gyroRing1Mat);
+    matrixGroup.add(matrixRing3);
+
+    // =========================================================================
+    // SCULPTURE 04: Helical Wave Ribbon (Topological Mobius Flow)
+    // =========================================================================
+    const ribbonGroup = new THREE.Group();
+    masterGroup.add(ribbonGroup);
+
+    const ribbonGeo = new THREE.TorusGeometry(1.35, 0.4, 32, 110);
+    const initialRibbonPositions = new Float32Array(ribbonGeo.attributes.position.array);
+
+    const ribbonWireMat = registerMat(
+      new THREE.MeshBasicMaterial({
+        wireframe: true,
+        color: baseColor,
+        transparent: true,
+        opacity: isDark ? 0.24 : 0.22,
+      })
+    );
+    const ribbonMesh = new THREE.Mesh(ribbonGeo, ribbonWireMat);
+    ribbonGroup.add(ribbonMesh);
+
+    const ribbonPointsMat = registerMat(
+      new THREE.PointsMaterial({
+        size: 0.026,
+        color: baseColor,
+        transparent: true,
+        opacity: 0.75,
+        blending,
+      })
+    );
+    const ribbonPoints = new THREE.Points(ribbonGeo, ribbonPointsMat);
+    ribbonGroup.add(ribbonPoints);
+
+    // Angled Halo Ring
+    const ribbonHaloGeo = new THREE.RingGeometry(2.35, 2.37, 100);
+    const ribbonHaloMat = registerMat(
+      new THREE.MeshBasicMaterial({
+        color: baseColor,
+        side: THREE.DoubleSide,
+        transparent: true,
+        opacity: isDark ? 0.15 : 0.14,
+      })
+    );
+    const ribbonHalo = new THREE.Mesh(ribbonHaloGeo, ribbonHaloMat);
+    ribbonHalo.rotation.x = Math.PI / 2.3;
+    ribbonHalo.rotation.y = Math.PI / 5;
+    ribbonGroup.add(ribbonHalo);
+
+    // Initial visibility state
     knotGroup.visible = variant === "knot";
+    orbGroup.visible = variant === "orb";
+    matrixGroup.visible = variant === "matrix";
+    ribbonGroup.visible = variant === "ribbon";
 
     // =========================================================================
     // SHARED: 2,600 Fibonacci Cosmic Particle Atmosphere
@@ -224,14 +381,14 @@ export default function CreativeCanvas({
 
     particleGeo.setAttribute("position", new THREE.BufferAttribute(particlePositions, 3));
 
-    const createParticleTexture = (isDark: boolean) => {
+    const createParticleTexture = (dark: boolean) => {
       const canvas = document.createElement("canvas");
       canvas.width = 32;
       canvas.height = 32;
       const ctx = canvas.getContext("2d");
       if (ctx) {
         const grad = ctx.createRadialGradient(16, 16, 0, 16, 16, 16);
-        if (isDark) {
+        if (dark) {
           grad.addColorStop(0, "rgba(255,255,255,1)");
           grad.addColorStop(0.25, "rgba(240,240,245,0.75)");
           grad.addColorStop(0.7, "rgba(200,200,210,0.18)");
@@ -251,49 +408,60 @@ export default function CreativeCanvas({
     const darkParticleTexture = createParticleTexture(true);
     const lightParticleTexture = createParticleTexture(false);
 
-    const particleMat = new THREE.PointsMaterial({
-      size: 0.032,
-      map: theme === "dark" ? darkParticleTexture : lightParticleTexture,
-      color: theme === "dark" ? 0xffffff : 0x18181b,
-      transparent: true,
-      opacity: theme === "dark" ? 0.6 : 0.48,
-      blending: theme === "dark" ? THREE.AdditiveBlending : THREE.NormalBlending,
-      depthWrite: false,
-    });
+    const particleMat = registerMat(
+      new THREE.PointsMaterial({
+        size: 0.032,
+        map: isDark ? darkParticleTexture : lightParticleTexture,
+        color: baseColor,
+        transparent: true,
+        opacity: isDark ? 0.6 : 0.48,
+        blending,
+        depthWrite: false,
+      })
+    );
 
     const particles = new THREE.Points(particleGeo, particleMat);
     masterGroup.add(particles);
 
     // Specular Lighting
     const pointLight = new THREE.PointLight(
-      theme === "dark" ? 0xffffff : 0x52525b,
-      theme === "dark" ? 2.8 : 1.8,
+      isDark ? 0xffffff : 0x52525b,
+      isDark ? 2.8 : 1.8,
       14
     );
     pointLight.position.set(3, 2, 4);
     scene.add(pointLight);
 
-    // Store state in ref
+    // Save state
     stateRef.current = {
       knotGroup,
       orbGroup,
-      knotWireframeMat,
-      knotPointsMat,
-      orbWireframeMat,
-      orbPointsMat,
-      orbCoreMat,
-      orbRingMat,
-      gyroRing1Mat,
-      gyroRing2Mat,
-      particleMat,
+      matrixGroup,
+      ribbonGroup,
+      materials: trackedMaterials,
       pointLight,
+      particleMat,
       darkParticleTexture,
       lightParticleTexture,
       orbGeo,
       initialOrbPositions,
+      ribbonGeo,
+      initialRibbonPositions,
+      matrixOuterMesh,
+      matrixMidMesh,
+      matrixCoreMesh,
+      matrixRing1,
+      matrixRing2,
+      matrixRing3,
+      orbCoreMesh,
+      orbRing,
+      gyroRing1,
+      gyroRing2,
+      ribbonMesh,
+      ribbonHalo,
     };
 
-    // Mouse Tracking & Inertia
+    // Cursor tracking & Inertia
     let mouseX = 0;
     let mouseY = 0;
     let targetX = 0;
@@ -403,14 +571,16 @@ export default function CreativeCanvas({
       masterGroup.rotation.y += targetX * 0.012;
       masterGroup.rotation.x = Math.sin(elapsed * 0.15) * 0.1 - targetY * 0.18;
 
-      // Animate Knot specific rings
-      gyroRing1.rotation.z = elapsed * 0.08;
-      gyroRing2.rotation.x = elapsed * 0.05;
+      // 1. Knot Animation
+      if (knotGroup.visible) {
+        gyroRing1.rotation.z = elapsed * 0.08;
+        gyroRing2.rotation.x = elapsed * 0.05;
+      }
 
-      // Animate Orb specific harmonic wave breathing
+      // 2. Orb Animation (harmonic breathing waves)
       if (orbGroup.visible) {
-        coreMesh.rotation.y = -elapsed * 0.25;
-        coreMesh.rotation.x = elapsed * 0.18;
+        orbCoreMesh.rotation.y = -elapsed * 0.25;
+        orbCoreMesh.rotation.x = elapsed * 0.18;
         orbRing.rotation.z = elapsed * 0.1;
 
         const posAttr = orbGeo.attributes.position;
@@ -435,11 +605,52 @@ export default function CreativeCanvas({
         posAttr.needsUpdate = true;
       }
 
-      // Light orbit
+      // 3. Quantum Matrix Animation (multi-axis counter rotations)
+      if (matrixGroup.visible) {
+        matrixOuterMesh.rotation.y = elapsed * 0.08;
+        matrixOuterMesh.rotation.x = elapsed * 0.04;
+
+        matrixMidMesh.rotation.y = -elapsed * 0.16;
+        matrixMidMesh.rotation.z = elapsed * 0.12;
+
+        const coreScale = 1 + Math.sin(elapsed * 2.2) * 0.08;
+        matrixCoreMesh.scale.set(coreScale, coreScale, coreScale);
+        matrixCoreMesh.rotation.x = elapsed * 0.25;
+        matrixCoreMesh.rotation.y = -elapsed * 0.22;
+
+        matrixRing1.rotation.z = elapsed * 0.12;
+        matrixRing2.rotation.x = -elapsed * 0.10;
+        matrixRing3.rotation.y = elapsed * 0.08;
+      }
+
+      // 4. Helical Wave Ribbon Animation (Mobius wave propagation)
+      if (ribbonGroup.visible) {
+        const rPosAttr = ribbonGeo.attributes.position;
+        const rCount = rPosAttr.count;
+        for (let i = 0; i < rCount; i++) {
+          const ix = i * 3;
+          const ox = initialRibbonPositions[ix];
+          const oy = initialRibbonPositions[ix + 1];
+          const oz = initialRibbonPositions[ix + 2];
+
+          const angle = Math.atan2(oy, ox);
+          const wave = Math.sin(angle * 4 + elapsed * 2.2) * 0.14;
+          const twist = Math.cos(angle * 3 + elapsed * 1.6) * 0.12;
+
+          rPosAttr.setXYZ(i, ox * (1 + wave * 0.4), oy * (1 + wave * 0.4), oz + twist);
+        }
+        rPosAttr.needsUpdate = true;
+
+        ribbonMesh.rotation.x = Math.PI / 4 + Math.sin(elapsed * 0.2) * 0.1;
+        ribbonMesh.rotation.y = elapsed * 0.12;
+        ribbonHalo.rotation.z = -elapsed * 0.08;
+      }
+
+      // Orbiting light
       pointLight.position.x = Math.sin(elapsed * 0.4) * 3 + targetX * 2;
       pointLight.position.y = Math.cos(elapsed * 0.4) * 3 + targetY * 2;
 
-      // Organic particle atmosphere oscillation
+      // Particle atmosphere breathing
       const particlePosAttr = particleGeo.attributes.position as THREE.BufferAttribute;
       const posArray = particlePosAttr.array as Float32Array;
 
@@ -471,52 +682,48 @@ export default function CreativeCanvas({
         container.removeChild(renderer.domElement);
       }
 
+      // Cleanup
       knotGeo.dispose();
       wireframeGeo.dispose();
-      knotWireframeMat.dispose();
-      knotPointsMat.dispose();
       ringGeo1.dispose();
-      gyroRing1Mat.dispose();
       ringGeo2.dispose();
-      gyroRing2Mat.dispose();
 
       orbGeo.dispose();
-      orbWireframeMat.dispose();
-      orbPointsMat.dispose();
       coreGeo.dispose();
-      orbCoreMat.dispose();
       orbRingGeo.dispose();
-      orbRingMat.dispose();
 
+      matrixOuterGeo.dispose();
+      matrixMidGeo.dispose();
+      matrixCoreGeo.dispose();
+      mRingGeo.dispose();
+
+      ribbonGeo.dispose();
+      ribbonHaloGeo.dispose();
+
+      trackedMaterials.forEach((m) => m.dispose());
       particleGeo.dispose();
-      particleMat.dispose();
       darkParticleTexture.dispose();
       lightParticleTexture.dispose();
       renderer.dispose();
     };
   }, []);
 
-  // Variant change: instant toggle between Orb & Knot without re-instantiating WebGL
+  // Instant visibility toggle across all 4 sculptures
   React.useEffect(() => {
     if (!stateRef.current) return;
-    const { knotGroup, orbGroup } = stateRef.current;
-    orbGroup.visible = variant === "orb";
+    const { knotGroup, orbGroup, matrixGroup, ribbonGroup } = stateRef.current;
     knotGroup.visible = variant === "knot";
+    orbGroup.visible = variant === "orb";
+    matrixGroup.visible = variant === "matrix";
+    ribbonGroup.visible = variant === "ribbon";
   }, [variant]);
 
-  // Theme change: instant color and shader update
+  // Real-time theme palette update
   React.useEffect(() => {
     if (!stateRef.current) return;
     const isDark = theme === "dark";
     const {
-      knotWireframeMat,
-      knotPointsMat,
-      orbWireframeMat,
-      orbPointsMat,
-      orbCoreMat,
-      orbRingMat,
-      gyroRing1Mat,
-      gyroRing2Mat,
+      materials,
       particleMat,
       pointLight,
       darkParticleTexture,
@@ -528,38 +735,24 @@ export default function CreativeCanvas({
     const activeColor = isDark ? darkHex : lightHex;
     const blending = isDark ? THREE.AdditiveBlending : THREE.NormalBlending;
 
-    knotWireframeMat.color.setHex(activeColor);
-    knotWireframeMat.opacity = isDark ? 0.24 : 0.22;
-    knotPointsMat.color.setHex(activeColor);
-    knotPointsMat.blending = blending;
-
-    orbWireframeMat.color.setHex(activeColor);
-    orbWireframeMat.opacity = isDark ? 0.24 : 0.22;
-    orbPointsMat.color.setHex(activeColor);
-    orbPointsMat.blending = blending;
-    orbCoreMat.color.setHex(activeColor);
-    orbRingMat.color.setHex(activeColor);
-
-    gyroRing1Mat.color.setHex(activeColor);
-    gyroRing2Mat.color.setHex(isDark ? 0xffffff : 0x27272a);
+    materials.forEach((m) => {
+      if ("color" in m) {
+        (m as any).color.setHex(activeColor);
+      }
+      if ("blending" in m && m !== particleMat) {
+        (m as any).blending = blending;
+      }
+      m.needsUpdate = true;
+    });
 
     particleMat.color.setHex(activeColor);
     particleMat.map = isDark ? darkParticleTexture : lightParticleTexture;
     particleMat.opacity = isDark ? 0.6 : 0.48;
     particleMat.blending = blending;
+    particleMat.needsUpdate = true;
 
     pointLight.color.setHex(isDark ? 0xffffff : 0x52525b);
     pointLight.intensity = isDark ? 2.8 : 1.8;
-
-    knotWireframeMat.needsUpdate = true;
-    knotPointsMat.needsUpdate = true;
-    orbWireframeMat.needsUpdate = true;
-    orbPointsMat.needsUpdate = true;
-    orbCoreMat.needsUpdate = true;
-    orbRingMat.needsUpdate = true;
-    gyroRing1Mat.needsUpdate = true;
-    gyroRing2Mat.needsUpdate = true;
-    particleMat.needsUpdate = true;
   }, [theme]);
 
   return (

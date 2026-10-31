@@ -22,7 +22,7 @@ const CreativeCanvas = dynamic(() => import("@/components/creative-canvas"), {
 
 export default function Home() {
   const { resolvedTheme } = useTheme();
-  const [artVariant, setArtVariant] = React.useState<"orb" | "knot">("orb");
+  const [artVariant, setArtVariant] = React.useState<"matrix" | "ribbon" | "orb" | "knot">("matrix");
   const [activePhotoPreset, setActivePhotoPreset] = React.useState<"icao" | "us">("icao");
   const [isPlayingAudio, setIsPlayingAudio] = React.useState(false);
 
@@ -128,29 +128,28 @@ export default function Home() {
             <ArrowDown className="w-4 h-4 animate-bounce" />
           </a>
 
-          <div className="pointer-events-auto flex items-center gap-1 p-1 rounded-full border border-neutral-300/80 dark:border-neutral-800 bg-white/80 dark:bg-neutral-900/70 backdrop-blur-md shadow-sm">
-            <button
-              type="button"
-              onClick={() => setArtVariant("orb")}
-              className={`px-3 py-1 rounded-full text-[11px] font-mono transition-colors cursor-pointer ${
-                artVariant === "orb"
-                  ? "bg-neutral-950 text-white dark:bg-white dark:text-black font-semibold shadow-xs"
-                  : "text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white"
-              }`}
-            >
-              Neural Orb
-            </button>
-            <button
-              type="button"
-              onClick={() => setArtVariant("knot")}
-              className={`px-3 py-1 rounded-full text-[11px] font-mono transition-colors cursor-pointer ${
-                artVariant === "knot"
-                  ? "bg-neutral-950 text-white dark:bg-white dark:text-black font-semibold shadow-xs"
-                  : "text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white"
-              }`}
-            >
-              Torus Knot
-            </button>
+          <div className="pointer-events-auto flex items-center gap-1 p-1 rounded-full border border-neutral-300/80 dark:border-neutral-800 bg-white/80 dark:bg-neutral-900/70 backdrop-blur-md shadow-sm overflow-x-auto max-w-full">
+            {(
+              [
+                { id: "matrix", label: "Quantum Matrix" },
+                { id: "ribbon", label: "Wave Ribbon" },
+                { id: "orb", label: "Neural Orb" },
+                { id: "knot", label: "Torus Knot" },
+              ] as const
+            ).map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => setArtVariant(item.id)}
+                className={`px-2.5 sm:px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-mono whitespace-nowrap transition-colors cursor-pointer ${
+                  artVariant === item.id
+                    ? "bg-neutral-950 text-white dark:bg-white dark:text-black font-semibold shadow-xs"
+                    : "text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white"
+                }`}
+              >
+                {item.label}
+              </button>
+            ))}
           </div>
         </div>
       </section>
