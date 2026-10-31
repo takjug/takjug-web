@@ -1,0 +1,4 @@
+# Google AdMob Authorized Digital Sellers (app-ads.txt) for Takjug Technologies
+# PortaSnap (com.takjug.portasnap)
+google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0
+
