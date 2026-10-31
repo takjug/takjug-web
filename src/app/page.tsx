@@ -273,7 +273,7 @@ export default function Home() {
                       Request APK Access <ArrowUpRight className="w-3.5 h-3.5 ml-1" />
                     </Button>
                     <Link
-                      href="/privacy"
+                      href="/privacy/portasnap"
                       className="text-neutral-500 hover:text-black dark:text-neutral-400 dark:hover:text-white transition-colors underline"
                     >
                       Privacy Policy →
