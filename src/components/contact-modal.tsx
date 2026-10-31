@@ -27,10 +27,36 @@ export function ContactModal({
     message: "",
   });
 
+  const resetForm = React.useCallback(() => {
+    setFormSent(false);
+    setIsSubmitting(false);
+    setErrorMessage(null);
+    setFormData({
+      firstName: "",
+      lastName: "",
+      email: "",
+      company: "",
+      message: "",
+    });
+  }, []);
+
+  const handleClose = React.useCallback(() => {
+    onClose();
+    // Delay slightly for exit animation before resetting
+    setTimeout(resetForm, 250);
+  }, [onClose, resetForm]);
+
+  // Reset form whenever modal closes
+  React.useEffect(() => {
+    if (!isOpen) {
+      resetForm();
+    }
+  }, [isOpen, resetForm]);
+
   // Handle escape key to dismiss
   React.useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") handleClose();
     };
     if (isOpen) {
       window.addEventListener("keydown", handleKeyDown);
@@ -40,7 +66,7 @@ export function ContactModal({
       window.removeEventListener("keydown", handleKeyDown);
       document.body.style.overflow = "unset";
     };
-  }, [isOpen, onClose]);
+  }, [isOpen, handleClose]);
 
   if (!isOpen) return null;
 
@@ -97,7 +123,7 @@ export function ContactModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
       {/* Blurred Backdrop */}
       <div
-        onClick={onClose}
+        onClick={handleClose}
         className="fixed inset-0 bg-neutral-950/60 dark:bg-black/80 backdrop-blur-md transition-opacity animate-in fade-in duration-200"
       />
 
@@ -110,7 +136,7 @@ export function ContactModal({
             <span className="font-bold text-neutral-950 dark:text-white">Communication Protocol</span>
           </div>
           <button
-            onClick={onClose}
+            onClick={handleClose}
             aria-label="Close dialog"
             className="p-1 rounded-md text-neutral-400 hover:text-black dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors cursor-pointer"
           >
@@ -204,14 +230,25 @@ export function ContactModal({
             <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-sm mx-auto">
               Thank you. Your message has been received by the Takjug engineering desk. We will review and reply within 24 hours.
             </p>
-            <Button
-              type="button"
-              size="sm"
-              onClick={onClose}
-              className="mt-3 text-xs font-mono rounded-full bg-neutral-950 text-white dark:bg-white dark:text-black h-8 px-4"
-            >
-              Close Window
-            </Button>
+            <div className="flex items-center justify-center gap-2 pt-2">
+              <Button
+                type="button"
+                size="sm"
+                onClick={resetForm}
+                variant="outline"
+                className="text-xs font-mono rounded-full border-neutral-300 dark:border-neutral-700 h-8 px-3.5 hover:bg-neutral-100 dark:hover:bg-neutral-800"
+              >
+                Send Another Brief
+              </Button>
+              <Button
+                type="button"
+                size="sm"
+                onClick={handleClose}
+                className="text-xs font-mono rounded-full bg-neutral-950 text-white dark:bg-white dark:text-black hover:bg-neutral-800 dark:hover:bg-neutral-200 h-8 px-4"
+              >
+                Close Window
+              </Button>
+            </div>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-3">
