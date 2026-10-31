@@ -42,6 +42,13 @@ declare module "lucide-react" {
   export const Server: LucideIcon;
   export const Users: LucideIcon;
   export const Video: LucideIcon;
+  export const Play: LucideIcon;
+  export const Volume2: LucideIcon;
+  export const Mic: LucideIcon;
+  export const Headphones: LucideIcon;
+  export const MessageSquare: LucideIcon;
+  export const ArrowDown: LucideIcon;
+  export const ExternalLink: LucideIcon;
 
   const icon: LucideIcon;
   export default icon;

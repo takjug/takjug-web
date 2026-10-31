@@ -23,16 +23,13 @@ export default function Navbar() {
 
         {/* Navigation Links */}
         <nav className="hidden md:flex items-center gap-8 text-sm text-neutral-400 font-medium">
-          <a href="#portasnap" className="hover:text-white transition-colors">
-            PortaSnap
-          </a>
-          <a href="#partner" className="hover:text-white transition-colors">
-            Client Partnership
+          <a href="#work" className="hover:text-white transition-colors">
+            Selected Work
           </a>
           <a href="#capabilities" className="hover:text-white transition-colors">
             Capabilities
           </a>
-          <a href="#mandate" className="hover:text-white transition-colors">
+          <a href="#philosophy" className="hover:text-white transition-colors">
             Philosophy
           </a>
           <Link href="/privacy" className="hover:text-white transition-colors">
@@ -49,7 +46,7 @@ export default function Navbar() {
           </Button>
 
           <Button asChild variant="solar" size="sm">
-            <a href="#contact">Get in Touch</a>
+            <a href="#contact">Let&apos;s Talk</a>
           </Button>
         </div>
       </div>
