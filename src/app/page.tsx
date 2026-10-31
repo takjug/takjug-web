@@ -120,7 +120,7 @@ export default function Home() {
 
         {/* Minimalist Floating Navigation */}
         <header className="relative z-20 w-full">
-          <div className="max-w-7xl mx-auto px-6 sm:px-10 h-24 flex items-center justify-between">
+          <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 h-24 flex items-center justify-between">
             <Link href="/" className="group flex items-center gap-3">
               <div className="w-8 h-8 rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white/90 dark:bg-neutral-900/80 backdrop-blur flex items-center justify-center text-black dark:text-white font-mono font-bold text-sm group-hover:border-neutral-400 dark:group-hover:border-neutral-500 transition-colors shadow-sm">
                 T
@@ -160,7 +160,7 @@ export default function Home() {
         </header>
 
         {/* Floating Hero Typography & Proposition (Refined, Editorial Proportion) */}
-        <div className="relative z-20 max-w-7xl mx-auto px-6 sm:px-10 w-full my-auto pointer-events-none">
+        <div className="relative z-20 max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 w-full my-auto pointer-events-none">
           <div className="max-w-xl">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-neutral-950 dark:text-white leading-[1.08] mb-4">
               Engineering ease.
@@ -189,7 +189,7 @@ export default function Home() {
         </div>
 
         {/* Minimalist Floating Footer: Editorial Scroll Indicator (Zero Button Clutter) */}
-        <div className="relative z-20 pb-8 px-6 sm:px-10 max-w-7xl mx-auto w-full flex items-center justify-center pointer-events-none">
+        <div className="relative z-20 pb-8 px-6 sm:px-10 lg:px-16 max-w-6xl mx-auto w-full flex items-center justify-center pointer-events-none">
           <a
             href="#deployments"
             aria-label="Scroll to deployments"
@@ -205,7 +205,7 @@ export default function Home() {
         MAIN BODY: Swiss Engineering Index, The Mandate & Collaboration
         ========================================================================
       */}
-      <main className="max-w-6xl mx-auto px-6">
+      <main className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
         {/* Systems Index (Direction 1: Swiss Engineering Grid) */}
         <section id="deployments" className="py-24 border-b border-neutral-200 dark:border-neutral-800/60">
           {/* Header Bar */}
@@ -540,7 +540,7 @@ export default function Home() {
 
       {/* Understated Minimalist Footer */}
       <footer className="border-t border-neutral-200 dark:border-neutral-800/60 py-8 text-xs text-neutral-500 font-mono">
-        <div className="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <span>© {new Date().getFullYear()} Takjug Technologies.</span>
             <span className="text-neutral-300 dark:text-neutral-700">•</span>
