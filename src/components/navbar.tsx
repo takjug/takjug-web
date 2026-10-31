@@ -1,9 +1,10 @@
 import Link from "next/link";
-import { ArrowUpRight, Cpu } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function Navbar() {
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-neutral-950/70 border-b border-neutral-800/60">
+    <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-neutral-950/80 border-b border-neutral-800/70">
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
         {/* Brand Logo */}
         <Link href="/" className="flex items-center gap-3 group">
@@ -25,28 +26,33 @@ export default function Navbar() {
           <a href="#ventures" className="hover:text-white transition-colors">
             Ventures
           </a>
+          <a href="#portfolio" className="hover:text-white transition-colors">
+            Portfolio
+          </a>
           <a href="#mandate" className="hover:text-white transition-colors">
             Philosophy
+          </a>
+          <a href="#faq" className="hover:text-white transition-colors">
+            Specs & FAQ
           </a>
           <Link href="/privacy" className="hover:text-white transition-colors">
             Privacy
           </Link>
-          <a href="#contact" className="hover:text-white transition-colors">
-            Contact
-          </a>
         </nav>
 
-        {/* Action Button */}
+        {/* Action Button via shadcn Button */}
         <div className="flex items-center gap-3">
-          <a
-            href="mailto:dev@takjug.com"
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-neutral-900 border border-neutral-800 hover:border-amber-500/40 text-neutral-200 hover:text-white text-xs font-semibold transition-all"
-          >
-            dev@takjug.com <ArrowUpRight className="w-3.5 h-3.5 text-amber-400" />
-          </a>
+          <Button asChild variant="outline" size="sm" className="hidden sm:inline-flex">
+            <a href="mailto:dev@takjug.com">
+              dev@takjug.com <ArrowUpRight className="w-3.5 h-3.5 text-amber-400" />
+            </a>
+          </Button>
+
+          <Button asChild variant="solar" size="sm">
+            <a href="#contact">Get in Touch</a>
+          </Button>
         </div>
       </div>
     </header>
   );
 }
-
