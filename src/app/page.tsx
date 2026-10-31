@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import {
   ArrowUpRight,
   ArrowDown,
@@ -11,7 +12,12 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import CreativeCanvas from "@/components/creative-canvas";
+
+// Dynamically import Three.js creative canvas with SSR disabled for optimal hydration
+const CreativeCanvas = dynamic(() => import("@/components/creative-canvas"), {
+  ssr: false,
+  loading: () => <div className="absolute inset-0 bg-[#070A0F]" />,
+});
 
 export default function Home() {
   const [activePhotoPreset, setActivePhotoPreset] = React.useState<"icao" | "us">("icao");
@@ -23,100 +29,134 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-[#070A0F] text-neutral-100 selection:bg-neutral-800 selection:text-white font-sans antialiased">
-      {/* Monochromatic Minimalist Navigation */}
-      <header className="sticky top-0 z-50 backdrop-blur-md bg-[#070A0F]/85 border-b border-neutral-800/60">
-        <div className="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
-          <Link href="/" className="group flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg border border-neutral-700 bg-neutral-900 flex items-center justify-center text-white font-mono font-bold text-sm group-hover:border-neutral-500 transition-colors">
-              T
-            </div>
-            <div className="flex flex-col">
-              <span className="font-bold text-sm tracking-wider text-white">
-                TAKJUG
-              </span>
-              <span className="text-neutral-500 text-[10px] font-mono tracking-widest -mt-0.5">
-                TECHNOLOGIES
-              </span>
-            </div>
-          </Link>
+    <div className="min-h-screen bg-[#070A0F] text-neutral-100 selection:bg-neutral-800 selection:text-white font-sans antialiased overflow-x-hidden">
+      {/* 
+        ========================================================================
+        HERO SECTION: 100vh Full Viewport Three.js Canvas (Platxform & MetaLab Style)
+        ========================================================================
+      */}
+      <section className="relative w-full h-screen min-h-[700px] flex flex-col justify-between overflow-hidden border-b border-neutral-800/60">
+        {/* Full-Screen WebGL Canvas Backdrop */}
+        <div className="absolute inset-0 w-full h-full z-0">
+          <CreativeCanvas />
+          {/* Subtle gradient vignettes for seamless contrast */}
+          <div className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-[#070A0F] via-[#070A0F]/60 to-transparent pointer-events-none" />
+          <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-[#070A0F]/80 to-transparent pointer-events-none" />
+        </div>
 
-          <nav className="hidden md:flex items-center gap-8 text-xs font-mono uppercase tracking-wider text-neutral-400">
-            <a href="#deployments" className="hover:text-white transition-colors">
-              Deployments
-            </a>
-            <a href="#mandate" className="hover:text-white transition-colors">
-              The Mandate
-            </a>
-            <Link href="/privacy" className="hover:text-white transition-colors">
-              Privacy
+        {/* Minimalist Floating Navigation */}
+        <header className="relative z-20 w-full">
+          <div className="max-w-7xl mx-auto px-6 sm:px-10 h-24 flex items-center justify-between">
+            <Link href="/" className="group flex items-center gap-3">
+              <div className="w-8 h-8 rounded-lg border border-neutral-700 bg-neutral-900/80 backdrop-blur flex items-center justify-center text-white font-mono font-bold text-sm group-hover:border-neutral-500 transition-colors">
+                T
+              </div>
+              <div className="flex flex-col">
+                <span className="font-bold text-sm tracking-wider text-white">
+                  TAKJUG
+                </span>
+                <span className="text-neutral-500 text-[10px] font-mono tracking-widest -mt-0.5">
+                  TECHNOLOGIES
+                </span>
+              </div>
             </Link>
-          </nav>
 
-          <div>
-            <a
-              href="mailto:dev@takjug.com"
-              className="text-xs font-mono text-neutral-300 hover:text-white transition-colors flex items-center gap-1.5 px-4 py-2 rounded-full border border-neutral-800 bg-neutral-900/60 hover:bg-neutral-800"
-            >
-              dev@takjug.com <ArrowUpRight className="w-3.5 h-3.5 text-neutral-400" />
-            </a>
+            <nav className="hidden md:flex items-center gap-8 text-xs font-mono uppercase tracking-wider text-neutral-400">
+              <a href="#deployments" className="hover:text-white transition-colors">
+                Deployments
+              </a>
+              <a href="#mandate" className="hover:text-white transition-colors">
+                The Mandate
+              </a>
+              <Link href="/privacy" className="hover:text-white transition-colors">
+                Privacy
+              </Link>
+            </nav>
+
+            <div>
+              <a
+                href="mailto:dev@takjug.com"
+                className="text-xs font-mono text-neutral-300 hover:text-white transition-colors flex items-center gap-1.5 px-4 py-2 rounded-full border border-neutral-800 bg-neutral-900/70 backdrop-blur hover:bg-neutral-800"
+              >
+                dev@takjug.com <ArrowUpRight className="w-3.5 h-3.5 text-neutral-400" />
+              </a>
+            </div>
+          </div>
+        </header>
+
+        {/* Floating Hero Typography & Proposition */}
+        <div className="relative z-20 max-w-7xl mx-auto px-6 sm:px-10 w-full my-auto pointer-events-none">
+          <div className="max-w-2xl sm:max-w-3xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-neutral-800 bg-neutral-950/70 backdrop-blur-sm mb-6">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+              <span className="text-[11px] font-mono uppercase tracking-widest text-neutral-400">
+                Frontier Technology &amp; Applied AI
+              </span>
+            </div>
+
+            <h1 className="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tight text-white leading-[1.02] mb-6">
+              Engineering precision with a{" "}
+              <span className="bg-clip-text text-transparent bg-gradient-to-b from-white via-neutral-200 to-neutral-500">
+                human soul.
+              </span>
+            </h1>
+
+            <p className="text-base sm:text-lg text-neutral-400 leading-relaxed font-normal mb-8 max-w-xl">
+              Conceived in Africa. Built for the globe. We channel engineering into on-device intelligence and resilient systems designed to bring genuine ease to daily living.
+            </p>
+
+            <div className="flex flex-wrap items-center gap-4 pointer-events-auto">
+              <a
+                href="#deployments"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-black font-semibold text-xs tracking-wider uppercase hover:bg-neutral-200 transition-colors"
+              >
+                Explore Deployments <ArrowDown className="w-3.5 h-3.5" />
+              </a>
+              <a
+                href="mailto:dev@takjug.com"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-neutral-800 bg-neutral-900/60 backdrop-blur hover:bg-neutral-800 text-neutral-300 hover:text-white text-xs tracking-wider uppercase transition-colors"
+              >
+                Initiate Dialogue <ArrowUpRight className="w-3.5 h-3.5" />
+              </a>
+            </div>
           </div>
         </div>
-      </header>
 
-      {/* Main Content */}
-      <main className="max-w-6xl mx-auto px-6">
-        {/* Hero Section: Three.js Kinetic Art & Thesis */}
-        <section className="py-12 sm:py-20 border-b border-neutral-800/60">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            {/* Left: Headline & Purpose */}
-            <div className="lg:col-span-6">
-              <p className="text-xs font-mono uppercase tracking-widest text-neutral-500 mb-6">
-                Frontier Technology
-              </p>
-
-              <h1 className="text-4xl sm:text-6xl font-black tracking-tight text-white leading-[1.08] mb-6">
-                Engineering precision with a{" "}
-                <span className="bg-clip-text text-transparent bg-gradient-to-b from-white via-neutral-200 to-neutral-400">
-                  human soul.
-                </span>
-              </h1>
-
-              <p className="text-base sm:text-lg text-neutral-400 leading-relaxed font-normal mb-8 max-w-xl">
-                Conceived in Africa. Built for the globe. We channel engineering into on-device intelligence and resilient systems designed to bring genuine ease to daily living.
-              </p>
-
-              <div className="flex flex-wrap items-center gap-4">
-                <a
-                  href="#deployments"
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-black font-semibold text-xs tracking-wider uppercase hover:bg-neutral-200 transition-colors"
-                >
-                  Deployments <ArrowDown className="w-3.5 h-3.5" />
-                </a>
-                <a
-                  href="mailto:dev@takjug.com"
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-neutral-800 bg-neutral-900/40 hover:bg-neutral-800 text-neutral-300 hover:text-white text-xs tracking-wider uppercase transition-colors"
-                >
-                  Contact <ArrowUpRight className="w-3.5 h-3.5" />
-                </a>
-              </div>
+        {/* Bottom HUD / Status Bar */}
+        <div className="relative z-20 w-full border-t border-neutral-800/40 bg-neutral-950/40 backdrop-blur-sm">
+          <div className="max-w-7xl mx-auto px-6 sm:px-10 py-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-mono text-neutral-500">
+            <div className="flex items-center gap-4">
+              <span className="flex items-center gap-1.5 text-neutral-400">
+                <span className="w-2 h-2 rounded-full bg-neutral-500 animate-pulse" />
+                02 Active Deployments
+              </span>
+              <span className="hidden md:inline text-neutral-700">•</span>
+              <span className="hidden md:inline">Lagos • Abuja • Global</span>
             </div>
 
-            {/* Right: Interactive Three.js Kinetic Sculpture */}
-            <div className="lg:col-span-6">
-              <div className="rounded-3xl border border-neutral-800/80 bg-neutral-950/60 overflow-hidden relative shadow-2xl">
-                <div className="absolute top-4 left-5 z-10 flex items-center gap-2 text-xs font-mono uppercase text-neutral-400 tracking-wider">
-                  <span className="w-2 h-2 rounded-full border border-neutral-500 bg-neutral-900" />
-                  Kinetic Lattice
-                </div>
+            <a
+              href="#deployments"
+              className="flex items-center gap-2 text-neutral-400 hover:text-white transition-colors cursor-pointer group"
+            >
+              <span>Scroll to explore</span>
+              <ArrowDown className="w-3.5 h-3.5 group-hover:translate-y-0.5 transition-transform" />
+            </a>
 
-                <CreativeCanvas />
-              </div>
+            <div className="hidden lg:flex items-center gap-2 text-neutral-500 text-[11px]">
+              <span>Drag canvas to inspect geometry</span>
+              <span className="font-sans">↺</span>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Selected Deployments (Strictly Real Systems, Minimalist & Focused) */}
+      {/* 
+        ========================================================================
+        MAIN BODY: Minimalist Deployments, The Mandate & Collaboration
+        ========================================================================
+      */}
+      <main className="max-w-6xl mx-auto px-6">
+        {/* Selected Deployments (PortaSnap & Àkọ́nilẹ́kọ̀ọ́ Yorùbá) */}
         <section id="deployments" className="py-24 border-b border-neutral-800/60">
           <div className="flex items-center justify-between mb-16">
             <span className="text-xs font-mono uppercase tracking-widest text-neutral-500">
@@ -297,7 +337,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Understated Contact Section */}
+        {/* Understated Collaboration Section */}
         <section className="py-24 sm:py-32">
           <div className="max-w-2xl">
             <span className="text-xs font-mono uppercase tracking-widest text-neutral-500 font-semibold mb-3 block">

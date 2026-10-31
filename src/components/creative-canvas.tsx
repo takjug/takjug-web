@@ -11,70 +11,90 @@ export default function CreativeCanvas() {
     if (!mountRef.current) return;
 
     const container = mountRef.current;
-    let width = container.clientWidth;
-    let height = container.clientHeight;
+    let width = container.clientWidth || window.innerWidth;
+    let height = container.clientHeight || window.innerHeight;
 
-    // Scene & Camera
+    // Scene & Perspective Camera
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(50, width / height, 0.1, 1000);
-    camera.position.z = 4.2;
+    camera.position.z = 4.8;
 
-    // High performance WebGL renderer with anti-aliasing
+    // High performance WebGL Renderer with Alpha transparency
     const renderer = new THREE.WebGLRenderer({
       alpha: true,
       antialias: true,
       powerPreference: "high-performance",
     });
     renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.domElement.style.width = "100%";
+    renderer.domElement.style.height = "100%";
+    renderer.domElement.style.display = "block";
     container.appendChild(renderer.domElement);
 
-    // Master group for interactive inertia
-    const sculptureGroup = new THREE.Group();
-    scene.add(sculptureGroup);
+    // Master Group for 3D Sculpture
+    const masterGroup = new THREE.Group();
+    scene.add(masterGroup);
 
-    // 1. Monochromatic Icosahedron Wireframe Structure (Architectural Precision)
-    const icoGeo = new THREE.IcosahedronGeometry(1.4, 2);
-    const wireframeGeo = new THREE.WireframeGeometry(icoGeo);
+    // Position group offset on desktop to frame the text nicely, centered on mobile
+    const updateGroupPosition = (w: number) => {
+      if (w >= 1280) {
+        masterGroup.position.x = 1.35;
+        masterGroup.position.y = 0;
+        masterGroup.scale.set(1.15, 1.15, 1.15);
+      } else if (w >= 1024) {
+        masterGroup.position.x = 1.05;
+        masterGroup.position.y = 0;
+        masterGroup.scale.set(1.0, 1.0, 1.0);
+      } else if (w >= 768) {
+        masterGroup.position.x = 0;
+        masterGroup.position.y = -0.3;
+        masterGroup.scale.set(0.85, 0.85, 0.85);
+      } else {
+        masterGroup.position.x = 0;
+        masterGroup.position.y = -0.35;
+        masterGroup.scale.set(0.68, 0.68, 0.68);
+      }
+    };
+    updateGroupPosition(width);
+
+    // 1. Full-Screen Architectural Torus Knot (Platxform / MetaLab style)
+    const knotGeo = new THREE.TorusKnotGeometry(1.25, 0.34, 160, 26, 2, 3);
+
+    // Wireframe Mesh (Crisp Silver Hairlines)
+    const wireframeGeo = new THREE.WireframeGeometry(knotGeo);
     const wireframeMat = new THREE.LineBasicMaterial({
       color: 0xffffff,
       transparent: true,
-      opacity: 0.18,
-      linewidth: 1,
+      opacity: 0.24,
     });
     const wireframeMesh = new THREE.LineSegments(wireframeGeo, wireframeMat);
-    sculptureGroup.add(wireframeMesh);
+    masterGroup.add(wireframeMesh);
 
-    // 2. Inner Nested Torus Kinetic Knot (Continuity & Fluidity)
-    const torusGeo = new THREE.TorusGeometry(1.0, 0.015, 16, 120);
-    const torusMat = new THREE.MeshBasicMaterial({
-      color: 0xe2e8f0,
+    // 2. Vertex Points on Knot (Gleaming Pearl Nodes)
+    const knotPointsMat = new THREE.PointsMaterial({
+      color: 0xffffff,
+      size: 0.026,
       transparent: true,
-      opacity: 0.45,
+      opacity: 0.75,
+      blending: THREE.AdditiveBlending,
     });
-    const torusRing1 = new THREE.Mesh(torusGeo, torusMat);
-    torusRing1.rotation.x = Math.PI / 3;
-    sculptureGroup.add(torusRing1);
+    const knotPoints = new THREE.Points(knotGeo, knotPointsMat);
+    masterGroup.add(knotPoints);
 
-    const torusRing2 = new THREE.Mesh(torusGeo, torusMat);
-    torusRing2.rotation.y = Math.PI / 3;
-    torusRing2.rotation.x = -Math.PI / 4;
-    sculptureGroup.add(torusRing2);
-
-    // 3. Monochromatic Particle Stardust (1,200 points)
-    const particleCount = 1200;
+    // 3. Wide Fibonacci Cosmic Particle Atmosphere (2,600 Particles)
+    const particleCount = 2600;
     const particleGeo = new THREE.BufferGeometry();
     const particlePositions = new Float32Array(particleCount * 3);
     const initialPositions = new Float32Array(particleCount * 3);
 
     for (let i = 0; i < particleCount; i++) {
       const idx = i * 3;
-      // Spherical distribution
       const u = Math.random();
       const v = Math.random();
       const theta = u * 2.0 * Math.PI;
       const phi = Math.acos(2.0 * v - 1.0);
-      const r = Math.cbrt(Math.random()) * 1.35;
+      const r = 1.7 + Math.cbrt(Math.random()) * 2.8;
 
       const sinPhi = Math.sin(phi);
       const x = r * sinPhi * Math.cos(theta);
@@ -92,122 +112,154 @@ export default function CreativeCanvas() {
 
     particleGeo.setAttribute("position", new THREE.BufferAttribute(particlePositions, 3));
 
-    // Custom circle texture for soft round particles
-    const createCircleTexture = () => {
+    // Custom circular soft glow texture for particles
+    const createParticleTexture = () => {
       const canvas = document.createElement("canvas");
       canvas.width = 32;
       canvas.height = 32;
       const ctx = canvas.getContext("2d");
       if (ctx) {
-        const gradient = ctx.createRadialGradient(16, 16, 0, 16, 16, 16);
-        gradient.addColorStop(0, "rgba(255,255,255,1)");
-        gradient.addColorStop(0.4, "rgba(255,255,255,0.7)");
-        gradient.addColorStop(0.8, "rgba(200,200,200,0.2)");
-        gradient.addColorStop(1, "rgba(0,0,0,0)");
-        ctx.fillStyle = gradient;
+        const grad = ctx.createRadialGradient(16, 16, 0, 16, 16, 16);
+        grad.addColorStop(0, "rgba(255,255,255,1)");
+        grad.addColorStop(0.25, "rgba(240,240,245,0.75)");
+        grad.addColorStop(0.7, "rgba(200,200,210,0.18)");
+        grad.addColorStop(1, "rgba(0,0,0,0)");
+        ctx.fillStyle = grad;
         ctx.fillRect(0, 0, 32, 32);
       }
       return new THREE.CanvasTexture(canvas);
     };
 
+    const particleTexture = createParticleTexture();
+
     const particleMat = new THREE.PointsMaterial({
       size: 0.032,
-      map: createCircleTexture(),
+      map: particleTexture,
       transparent: true,
-      opacity: 0.75,
+      opacity: 0.6,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
     });
 
     const particles = new THREE.Points(particleGeo, particleMat);
-    sculptureGroup.add(particles);
+    masterGroup.add(particles);
 
-    // 4. Subtle Core Point Light (pure white/soft pearl)
-    const coreLight = new THREE.PointLight(0xffffff, 2, 8);
-    sculptureGroup.add(coreLight);
+    // 4. Kinetic Concentric Orbital Rings
+    const ringGeo1 = new THREE.RingGeometry(2.4, 2.415, 120);
+    const ringMat1 = new THREE.MeshBasicMaterial({
+      color: 0xffffff,
+      side: THREE.DoubleSide,
+      transparent: true,
+      opacity: 0.14,
+    });
+    const gyroRing1 = new THREE.Mesh(ringGeo1, ringMat1);
+    gyroRing1.rotation.x = Math.PI / 2.5;
+    masterGroup.add(gyroRing1);
 
-    // Interaction variables: Mouse drag + cursor follow
-    let isDragging = false;
-    let prevMouseX = 0;
-    let prevMouseY = 0;
-    let targetRotationX = 0;
-    let targetRotationY = 0;
-    let autoRotateSpeed = 0.003;
+    const ringGeo2 = new THREE.RingGeometry(2.9, 2.912, 120);
+    const ringMat2 = new THREE.MeshBasicMaterial({
+      color: 0xffffff,
+      side: THREE.DoubleSide,
+      transparent: true,
+      opacity: 0.08,
+    });
+    const gyroRing2 = new THREE.Mesh(ringGeo2, ringMat2);
+    gyroRing2.rotation.y = Math.PI / 3;
+    gyroRing2.rotation.z = Math.PI / 6;
+    masterGroup.add(gyroRing2);
 
-    // Mouse movement parallax
+    // 5. Specular Lighting
+    const pointLight = new THREE.PointLight(0xffffff, 2.8, 14);
+    pointLight.position.set(3, 2, 4);
+    scene.add(pointLight);
+
+    // Mouse & Inertia Tracking
     let mouseX = 0;
     let mouseY = 0;
+    let targetX = 0;
+    let targetY = 0;
 
-    const handlePointerMove = (e: MouseEvent) => {
-      const rect = container.getBoundingClientRect();
-      const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-      const y = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
-      mouseX = x;
-      mouseY = y;
+    let isDragging = false;
+    let prevPointerX = 0;
+    let prevPointerY = 0;
+    let dragVelocityX = 0;
+    let dragVelocityY = 0;
+
+    const onPointerMove = (e: MouseEvent) => {
+      mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+      mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
 
       if (isDragging) {
-        const deltaX = e.clientX - prevMouseX;
-        const deltaY = e.clientY - prevMouseY;
-        targetRotationY += deltaX * 0.008;
-        targetRotationX += deltaY * 0.008;
-        prevMouseX = e.clientX;
-        prevMouseY = e.clientY;
+        const deltaX = e.clientX - prevPointerX;
+        const deltaY = e.clientY - prevPointerY;
+        dragVelocityX = deltaX * 0.005;
+        dragVelocityY = deltaY * 0.005;
+        masterGroup.rotation.y += dragVelocityX;
+        masterGroup.rotation.x += dragVelocityY;
+        prevPointerX = e.clientX;
+        prevPointerY = e.clientY;
       }
     };
 
-    const handlePointerDown = (e: MouseEvent) => {
+    const onPointerDown = (e: MouseEvent) => {
       isDragging = true;
-      prevMouseX = e.clientX;
-      prevMouseY = e.clientY;
+      prevPointerX = e.clientX;
+      prevPointerY = e.clientY;
     };
 
-    const handlePointerUp = () => {
+    const onPointerUp = () => {
       isDragging = false;
     };
 
-    container.addEventListener("mousemove", handlePointerMove);
-    container.addEventListener("mousedown", handlePointerDown);
-    window.addEventListener("mouseup", handlePointerUp);
+    window.addEventListener("mousemove", onPointerMove);
+    window.addEventListener("mousedown", onPointerDown);
+    window.addEventListener("mouseup", onPointerUp);
 
-    // Touch support for mobile
-    const handleTouchMove = (e: TouchEvent) => {
+    // Touch support for mobile devices
+    const onTouchMove = (e: TouchEvent) => {
       if (e.touches.length === 1) {
         const touch = e.touches[0];
+        mouseX = (touch.clientX / window.innerWidth) * 2 - 1;
+        mouseY = -(touch.clientY / window.innerHeight) * 2 + 1;
+
         if (isDragging) {
-          const deltaX = touch.clientX - prevMouseX;
-          const deltaY = touch.clientY - prevMouseY;
-          targetRotationY += deltaX * 0.01;
-          targetRotationX += deltaY * 0.01;
-          prevMouseX = touch.clientX;
-          prevMouseY = touch.clientY;
+          const deltaX = touch.clientX - prevPointerX;
+          const deltaY = touch.clientY - prevPointerY;
+          dragVelocityX = deltaX * 0.007;
+          dragVelocityY = deltaY * 0.007;
+          masterGroup.rotation.y += dragVelocityX;
+          masterGroup.rotation.x += dragVelocityY;
+          prevPointerX = touch.clientX;
+          prevPointerY = touch.clientY;
         }
       }
     };
 
-    const handleTouchStart = (e: TouchEvent) => {
+    const onTouchStart = (e: TouchEvent) => {
       if (e.touches.length === 1) {
         isDragging = true;
-        prevMouseX = e.touches[0].clientX;
-        prevMouseY = e.touches[0].clientY;
+        prevPointerX = e.touches[0].clientX;
+        prevPointerY = e.touches[0].clientY;
       }
     };
 
-    container.addEventListener("touchmove", handleTouchMove, { passive: true });
-    container.addEventListener("touchstart", handleTouchStart, { passive: true });
-    window.addEventListener("touchend", handlePointerUp);
+    window.addEventListener("touchmove", onTouchMove, { passive: true });
+    window.addEventListener("touchstart", onTouchStart, { passive: true });
+    window.addEventListener("touchend", onPointerUp);
 
     // Resize Handler
-    const handleResize = () => {
+    const onResize = () => {
       if (!mountRef.current) return;
-      width = mountRef.current.clientWidth;
-      height = mountRef.current.clientHeight;
-      camera.aspect = width / height;
+      const w = mountRef.current.clientWidth || window.innerWidth;
+      const h = mountRef.current.clientHeight || window.innerHeight;
+      camera.aspect = w / h;
       camera.updateProjectionMatrix();
-      renderer.setSize(width, height);
+      renderer.setSize(w, h);
+      updateGroupPosition(w);
     };
-    window.addEventListener("resize", handleResize);
+    window.addEventListener("resize", onResize);
 
-    // Animation Loop
+    // Animation Loop with Living Pulse & Inertia
     let animId: number;
     const clock = new THREE.Clock();
 
@@ -215,26 +267,40 @@ export default function CreativeCanvas() {
       animId = requestAnimationFrame(animate);
       const elapsed = clock.getElapsedTime();
 
-      // Continuous slow baseline rotation + mouse inertia
-      targetRotationY += autoRotateSpeed;
+      // Smooth cursor parallax
+      targetX += (mouseX - targetX) * 0.035;
+      targetY += (mouseY - targetY) * 0.035;
 
-      sculptureGroup.rotation.y += (targetRotationY + mouseX * 0.3 - sculptureGroup.rotation.y) * 0.05;
-      sculptureGroup.rotation.x += (targetRotationX - mouseY * 0.3 - sculptureGroup.rotation.x) * 0.05;
+      // Continuous baseline rotation + user drag decay
+      if (!isDragging) {
+        dragVelocityX *= 0.94;
+        dragVelocityY *= 0.94;
+        masterGroup.rotation.y += 0.0022 + dragVelocityX;
+        masterGroup.rotation.x += dragVelocityY;
+      }
 
-      // Independent kinetic counter-rotation of internal rings
-      torusRing1.rotation.z = elapsed * 0.25;
-      torusRing2.rotation.z = -elapsed * 0.2;
+      // Parallax tilt
+      masterGroup.rotation.y += targetX * 0.012;
+      masterGroup.rotation.x = Math.sin(elapsed * 0.15) * 0.1 - targetY * 0.18;
 
-      // Subtle breathing harmonic wave on particle cloud
+      // Internal rings counter-rotation
+      gyroRing1.rotation.z = elapsed * 0.08;
+      gyroRing2.rotation.x = elapsed * 0.05;
+
+      // Light orbit
+      pointLight.position.x = Math.sin(elapsed * 0.4) * 3 + targetX * 2;
+      pointLight.position.y = Math.cos(elapsed * 0.4) * 3 + targetY * 2;
+
+      // Gentle organic particle breathing
       const posAttr = particleGeo.attributes.position as THREE.BufferAttribute;
-      const positions = posAttr.array as Float32Array;
+      const posArray = posAttr.array as Float32Array;
 
       for (let i = 0; i < particleCount; i++) {
         const idx = i * 3;
-        const wave = 1 + Math.sin(elapsed * 1.8 + initialPositions[idx] * 2.5) * 0.035;
-        positions[idx] = initialPositions[idx] * wave;
-        positions[idx + 1] = initialPositions[idx + 1] * wave;
-        positions[idx + 2] = initialPositions[idx + 2] * wave;
+        const wave = 1 + Math.sin(elapsed * 1.3 + initialPositions[idx] * 2) * 0.024;
+        posArray[idx] = initialPositions[idx] * wave;
+        posArray[idx + 1] = initialPositions[idx + 1] * wave;
+        posArray[idx + 2] = initialPositions[idx + 2] * wave;
       }
       posAttr.needsUpdate = true;
 
@@ -245,25 +311,29 @@ export default function CreativeCanvas() {
 
     return () => {
       cancelAnimationFrame(animId);
-      container.removeEventListener("mousemove", handlePointerMove);
-      container.removeEventListener("mousedown", handlePointerDown);
-      window.removeEventListener("mouseup", handlePointerUp);
-      container.removeEventListener("touchmove", handleTouchMove);
-      container.removeEventListener("touchstart", handleTouchStart);
-      window.removeEventListener("touchend", handlePointerUp);
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("mousemove", onPointerMove);
+      window.removeEventListener("mousedown", onPointerDown);
+      window.removeEventListener("mouseup", onPointerUp);
+      window.removeEventListener("touchmove", onTouchMove);
+      window.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("touchend", onPointerUp);
+      window.removeEventListener("resize", onResize);
 
       if (container && renderer.domElement && container.contains(renderer.domElement)) {
         container.removeChild(renderer.domElement);
       }
 
-      icoGeo.dispose();
+      knotGeo.dispose();
       wireframeGeo.dispose();
       wireframeMat.dispose();
-      torusGeo.dispose();
-      torusMat.dispose();
+      knotPointsMat.dispose();
       particleGeo.dispose();
       particleMat.dispose();
+      particleTexture.dispose();
+      ringGeo1.dispose();
+      ringMat1.dispose();
+      ringGeo2.dispose();
+      ringMat2.dispose();
       renderer.dispose();
     };
   }, []);
@@ -271,12 +341,7 @@ export default function CreativeCanvas() {
   return (
     <div
       ref={mountRef}
-      className="w-full h-full min-h-[380px] sm:min-h-[460px] relative cursor-grab active:cursor-grabbing flex items-center justify-center select-none"
-    >
-      <div className="absolute bottom-3 right-4 text-[10px] font-mono uppercase tracking-widest text-neutral-500 pointer-events-none">
-        Three.js Kinetic Core • Drag to Rotate
-      </div>
-    </div>
+      className="absolute inset-0 w-full h-full pointer-events-auto cursor-grab active:cursor-grabbing select-none"
+    />
   );
 }
-
