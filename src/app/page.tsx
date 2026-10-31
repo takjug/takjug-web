@@ -339,7 +339,10 @@ export default function Home() {
               </span>
 
               <blockquote className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-neutral-950 dark:text-white tracking-tight leading-snug mb-6">
-                “The measure of technology is human ease. If an invention does not tangibly lower the friction of survival and living, it is not progress.”
+                “The measure of technology is human ease.<br className="hidden sm:inline" />
+                {" "}If an invention does not tangibly lower the<br className="hidden sm:inline" />
+                {" "}friction of survival and living, it is not<br className="hidden sm:inline" />
+                {" "}progress.”
               </blockquote>
 
               <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-400 leading-relaxed font-normal">
@@ -348,7 +351,7 @@ export default function Home() {
             </div>
 
             {/* Right: The Pure Typographic Reflection (No Card Container) */}
-            <div className="lg:col-span-6">
+            <div className="lg:col-span-6 max-w-xl">
               <MandateReflection />
             </div>
           </div>
