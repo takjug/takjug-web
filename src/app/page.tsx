@@ -16,19 +16,20 @@ import {
   HeartHandshake,
   CheckCircle2,
   Lock,
-  Radio,
-  Gamepad2,
-  Droplet,
-  Flame,
   Terminal,
   Activity,
   Award,
+  BookOpen,
+  GraduationCap,
+  Server,
+  Video,
+  Code2,
+  Users,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import {
   Accordion,
   AccordionItem,
@@ -50,7 +51,7 @@ export default function Home() {
 
         <div className="relative z-10 max-w-5xl mx-auto px-6 text-center py-20">
           <Badge variant="solar" className="mb-6 px-4 py-1.5 text-xs">
-            <Sparkles className="w-3.5 h-3.5 mr-1.5" /> Frontier Deep Tech & Digital Venture Studio
+            <Sparkles className="w-3.5 h-3.5 mr-1.5" /> Frontier Systems Engineering &amp; On-Device AI Studio
           </Badge>
 
           <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white mb-6 leading-tight">
@@ -61,19 +62,19 @@ export default function Home() {
           </h1>
 
           <p className="max-w-2xl mx-auto text-base sm:text-lg text-neutral-400 mb-10 leading-relaxed font-normal">
-            Takjug Technologies is an enterprise innovation studio and venture laboratory. Conceived in Africa and built for the world, we engineer on-device artificial intelligence, biometric verification, and digital tools designed to bring genuine ease to daily living.
+            Takjug Technologies is an enterprise innovation studio and digital product engineering venture. Conceived in Africa and built for the global market, we craft sovereign on-device artificial intelligence, biometric computer vision, and resilient cloud architectures.
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-4 mb-16">
             <Button asChild variant="solar" size="lg">
-              <a href="#ventures">Explore Our Ventures</a>
+              <a href="#portasnap">Explore PortaSnap</a>
             </Button>
             <Button asChild variant="outline" size="lg">
-              <a href="#mandate">Our Philosophy</a>
+              <a href="#partner">View Client Partnership</a>
             </Button>
           </div>
 
-          {/* Telemetry Metrics Grid using shadcn Cards */}
+          {/* Grounded Telemetry Metrics Grid using shadcn Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl mx-auto text-left">
             <Card className="border-neutral-800/80 bg-neutral-900/40 backdrop-blur-sm hover:border-amber-500/40 transition-all">
               <CardContent className="p-5 flex items-start gap-4">
@@ -97,7 +98,7 @@ export default function Home() {
                 <div>
                   <div className="text-xl font-bold font-mono text-white">ICAO Doc 9303</div>
                   <div className="text-xs text-neutral-400 mt-0.5">
-                    Certified immigration & NIS Step 2 facial standards compliance.
+                    Sub-pixel facial geometry verified against NIS Step 2 &amp; global standards.
                   </div>
                 </div>
               </CardContent>
@@ -106,12 +107,12 @@ export default function Home() {
             <Card className="border-neutral-800/80 bg-neutral-900/40 backdrop-blur-sm hover:border-emerald-500/40 transition-all">
               <CardContent className="p-5 flex items-start gap-4">
                 <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0">
-                  <Cpu className="w-5 h-5" />
+                  <Server className="w-5 h-5" />
                 </div>
                 <div>
-                  <div className="text-xl font-bold font-mono text-white">3 Active Labs</div>
+                  <div className="text-xl font-bold font-mono text-white">Bespoke Scale</div>
                   <div className="text-xs text-neutral-400 mt-0.5">
-                    Biometric vision, anti-feed mesh tech & Rust simulation runtime.
+                    Production FastAPI, GCP Cloud Run, WebRTC &amp; Flutter architecture.
                   </div>
                 </div>
               </CardContent>
@@ -121,18 +122,18 @@ export default function Home() {
       </section>
 
       {/* Flagship Venture Spotlight: PortaSnap */}
-      <section id="ventures" className="max-w-6xl mx-auto px-6 py-24">
+      <section id="portasnap" className="max-w-6xl mx-auto px-6 py-24">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
           <div>
             <Badge variant="solar" className="mb-2">
-              <Camera className="w-3.5 h-3.5 mr-1" /> Flagship Consumer Venture
+              <Camera className="w-3.5 h-3.5 mr-1" /> Flagship Product • In Launch Pipeline
             </Badge>
             <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
               PortaSnap
             </h2>
           </div>
           <p className="text-neutral-400 text-sm max-w-md mt-3 md:mt-0 leading-relaxed">
-            AI-powered biometric passport & visa photo generator engineered for 100% on-device privacy and instant government immigration compliance.
+            AI-powered biometric passport &amp; visa photo studio engineered for 100% on-device privacy and instant government immigration compliance.
           </p>
         </div>
 
@@ -143,7 +144,7 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
           <Card className="border-neutral-800/80 bg-[#141922]/60 hover:border-amber-500/30 transition-all">
             <CardHeader className="pb-2">
-              <Badge variant="solar" className="w-fit mb-2">Biometrics</Badge>
+              <Badge variant="solar" className="w-fit mb-2">On-Device Vision</Badge>
               <CardTitle className="text-lg text-white">Sub-Pixel Facial Geometry</CardTitle>
             </CardHeader>
             <CardContent className="text-xs text-neutral-400 leading-relaxed">
@@ -153,7 +154,7 @@ export default function Home() {
 
           <Card className="border-neutral-800/80 bg-[#141922]/60 hover:border-cyan-500/30 transition-all">
             <CardHeader className="pb-2">
-              <Badge variant="cyber" className="w-fit mb-2">Computer Vision</Badge>
+              <Badge variant="cyber" className="w-fit mb-2">Lighting Analyzer</Badge>
               <CardTitle className="text-lg text-white">Bilateral Shadow Analysis</CardTitle>
             </CardHeader>
             <CardContent className="text-xs text-neutral-400 leading-relaxed">
@@ -163,8 +164,8 @@ export default function Home() {
 
           <Card className="border-neutral-800/80 bg-[#141922]/60 hover:border-emerald-500/30 transition-all">
             <CardHeader className="pb-2">
-              <Badge variant="emerald" className="w-fit mb-2">Print Ready</Badge>
-              <CardTitle className="text-lg text-white">Lossless 300+ DPI Export</CardTitle>
+              <Badge variant="emerald" className="w-fit mb-2">Lossless Export</Badge>
+              <CardTitle className="text-lg text-white">Lossless 300+ DPI Print Sheets</CardTitle>
             </CardHeader>
             <CardContent className="text-xs text-neutral-400 leading-relaxed">
               Instant generation of standard printable 4×6 inch tiled multi-photo grids (2×2 inch or 35×45 mm) ready for commercial photo printing.
@@ -187,210 +188,166 @@ export default function Home() {
             </Button>
             <Button asChild variant="solar" size="sm">
               <a href="mailto:dev@takjug.com?subject=PortaSnap%20Early%20Access%20Inquiry">
-                Request APK Access
+                Request Early APK Access
               </a>
             </Button>
           </div>
         </div>
       </section>
 
-      {/* Portfolio Showcase via Shadcn Tabs */}
-      <section id="portfolio" className="max-w-6xl mx-auto px-6 py-20 border-t border-neutral-800/80">
-        <div className="text-center max-w-3xl mx-auto mb-14">
-          <Badge variant="solar" className="mb-3">
-            <Layers className="w-3.5 h-3.5 mr-1" /> Complete Venture Portfolio
-          </Badge>
-          <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight mb-4">
-            The Takjug Innovation Spectrum
-          </h2>
-          <p className="text-neutral-400 text-sm sm:text-base leading-relaxed">
-            From consumer edge AI to low-level systems programming and community physical utilities. Explore our internal ventures and commercial platform divisions.
+      {/* Featured Strategic Client Partnership: Akonilede Yoruba */}
+      <section id="partner" className="max-w-6xl mx-auto px-6 py-20 border-t border-neutral-800/80">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
+          <div>
+            <Badge variant="cyan" className="mb-2 border-cyan-500/30 bg-cyan-500/10 text-cyan-400 font-semibold uppercase tracking-wider text-[11px]">
+              <Users className="w-3.5 h-3.5 mr-1" /> Strategic Client Partnership
+            </Badge>
+            <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
+              Àkọ́nilẹ́kọ̀ọ́ Yorùbá
+            </h2>
+          </div>
+          <p className="text-neutral-400 text-sm max-w-md mt-3 md:mt-0 leading-relaxed">
+            Architecting end-to-end digital infrastructure for indigenous language education, real-time virtual classrooms, and interactive cultural preservation.
           </p>
         </div>
 
-        <Tabs defaultValue="labs" className="w-full">
-          <div className="flex justify-center mb-8">
-            <TabsList className="grid grid-cols-3 max-w-xl w-full">
-              <TabsTrigger value="labs">Internal R&D Labs</TabsTrigger>
-              <TabsTrigger value="studio">Platform Studio</TabsTrigger>
-              <TabsTrigger value="impact">Allied Impact</TabsTrigger>
-            </TabsList>
-          </div>
+        {/* Detailed Case Study Card */}
+        <Card className="border-neutral-800 bg-gradient-to-br from-[#141922] via-[#0E131A] to-[#0B0F14] overflow-hidden shadow-2xl">
+          <CardHeader className="border-b border-neutral-800/80 p-6 sm:p-8">
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
+                  <GraduationCap className="w-6 h-6" />
+                </div>
+                <div>
+                  <CardTitle className="text-2xl text-white font-bold">
+                    Indigenous Language &amp; Cultural Platform
+                  </CardTitle>
+                  <CardDescription className="text-xs text-neutral-400 mt-1">
+                    Client &amp; Partner Organization • Complete Systems Architecture &amp; Engineering by Takjug
+                  </CardDescription>
+                </div>
+              </div>
 
-          {/* Tab 1: Internal R&D Labs */}
-          <TabsContent value="labs" className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Proxima Card */}
-              <Card className="border-neutral-800 bg-gradient-to-br from-[#141922] via-[#0E131A] to-[#0B0F14] hover:border-amber-500/40 transition-all">
-                <CardHeader>
-                  <div className="flex items-center justify-between mb-2">
-                    <Badge variant="solar">Social Tech &amp; Mesh Network</Badge>
-                    <span className="text-[11px] font-mono text-neutral-500">Stage: Incubating</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
-                      <Radio className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <CardTitle className="text-xl text-white">Proxima</CardTitle>
-                      <CardDescription>Anti-Feed Offline Coordination &amp; Physical Presence</CardDescription>
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-4 text-xs text-neutral-400 leading-relaxed">
-                  <p>
-                    Proxima inverts the attention-harvesting mechanics of modern social algorithms. Built around a novel <strong>Time Spent Offline (TSO)</strong> metric, Proxima utilizes peer-to-peer Bluetooth LE and local mesh coordination to bring people together in physical space without feeds, likes, or cloud telemetry.
-                  </p>
-                  <div className="p-3 rounded-xl border border-neutral-800 bg-neutral-900/60 font-mono text-[11px] space-y-1">
-                    <div className="text-amber-400 font-semibold">Core Philosophy:</div>
-                    <div className="text-neutral-400">• Metric: High TSO (Time Spent Offline)</div>
-                    <div className="text-neutral-400">• Protocol: Decentralized P2P Mesh</div>
-                    <div className="text-neutral-400">• Zero algorithmic feed manipulation</div>
-                  </div>
-                </CardContent>
-                <CardFooter className="pt-0">
-                  <Badge variant="outline" className="text-[10px]">
-                    Internal Patent Pending • Edge Coordination
-                  </Badge>
-                </CardFooter>
-              </Card>
-
-              {/* Uscellar Card */}
-              <Card className="border-neutral-800 bg-gradient-to-br from-[#141922] via-[#0E131A] to-[#0B0F14] hover:border-cyan-500/40 transition-all">
-                <CardHeader>
-                  <div className="flex items-center justify-between mb-2">
-                    <Badge variant="cyber">Systems Architecture</Badge>
-                    <span className="text-[11px] font-mono text-neutral-500">Stage: In Development</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
-                      <Gamepad2 className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <CardTitle className="text-xl text-white">Uscellar</CardTitle>
-                      <CardDescription>High-Throughput Rust Game Engine &amp; Creative Engine</CardDescription>
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-4 text-xs text-neutral-400 leading-relaxed">
-                  <p>
-                    A low-latency, deterministic simulation engine built entirely in Rust. Powered by the proprietary <strong>Takjug Brain</strong> copilot, Uscellar empowers creators to build complex spatial logic, procedural landscapes, and real-time multiplayer worlds with zero garbage-collection pauses.
-                  </p>
-                  <div className="p-3 rounded-xl border border-neutral-800 bg-neutral-900/60 font-mono text-[11px] space-y-1">
-                    <div className="text-cyan-400 font-semibold">Technical Highlights:</div>
-                    <div className="text-neutral-400">• Core Language: 100% Memory-Safe Rust</div>
-                    <div className="text-neutral-400">• Engine: Vulkan / Metal / DirectX 12 backend</div>
-                    <div className="text-neutral-400">• Local AI copilot: On-device inference</div>
-                  </div>
-                </CardContent>
-                <CardFooter className="pt-0">
-                  <Badge variant="outline" className="text-[10px]">
-                    Rust Engine • Takjug Brain Integrated
-                  </Badge>
-                </CardFooter>
-              </Card>
+              <div className="flex items-center gap-2">
+                <Badge variant="outline" className="font-mono text-[10px]">
+                  Production Stage
+                </Badge>
+                <Badge variant="emerald" className="text-[10px]">
+                  GCP Enterprise
+                </Badge>
+              </div>
             </div>
-          </TabsContent>
+          </CardHeader>
 
-          {/* Tab 2: Commercial Platform Studio */}
-          <TabsContent value="studio">
-            <Card className="border-neutral-800 bg-gradient-to-br from-[#141922] via-[#0E131A] to-[#0B0F14]">
-              <CardHeader>
-                <div className="flex items-center justify-between mb-2">
-                  <Badge variant="solar">Commercial Engine</Badge>
-                  <span className="text-[11px] font-mono text-neutral-500">Enterprise Services</span>
-                </div>
-                <CardTitle className="text-2xl text-white">Platform Engineering &amp; Venture Architecture</CardTitle>
-                <CardDescription>
-                  Enterprise-grade system design, high-frequency backend engineering, and mission-critical software.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-2">
-                  <div className="p-5 rounded-2xl border border-neutral-800 bg-neutral-900/50">
-                    <div className="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 mb-3">
-                      <Terminal className="w-4 h-4" />
-                    </div>
-                    <h4 className="text-white font-bold text-sm mb-1.5">Systems Re-Engineering</h4>
-                    <p className="text-neutral-400 text-xs leading-relaxed">
-                      Transforming monolithic bottlenecks into deterministic, fault-tolerant micro-architectures with microsecond SLAs.
-                    </p>
-                  </div>
+          <CardContent className="p-6 sm:p-8 space-y-8">
+            {/* Mission Statement */}
+            <div className="p-5 rounded-2xl border border-cyan-500/20 bg-cyan-950/20 text-neutral-300 text-xs sm:text-sm leading-relaxed">
+              <p>
+                <strong>Àkọ́nilẹ́kọ̀ọ́ Yorùbá</strong> is a pioneering educational platform dedicated to teaching, preserving, and scaling the Yorùbá language and cultural heritage across the global diaspora. Takjug Technologies serves as the core technical partner, responsible for designing the cloud architecture, micro-modular API backend, real-time video classroom systems, and multi-platform mobile application.
+              </p>
+            </div>
 
-                  <div className="p-5 rounded-2xl border border-neutral-800 bg-neutral-900/50">
-                    <div className="w-8 h-8 rounded-lg bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 mb-3">
-                      <Cpu className="w-4 h-4" />
-                    </div>
-                    <h4 className="text-white font-bold text-sm mb-1.5">Edge AI &amp; Vision Pipelines</h4>
-                    <p className="text-neutral-400 text-xs leading-relaxed">
-                      Deploying optimized ML models directly on customer devices to eliminate server costs and ensure absolute regulatory data privacy.
-                    </p>
-                  </div>
-
-                  <div className="p-5 rounded-2xl border border-neutral-800 bg-neutral-900/50">
-                    <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 mb-3">
-                      <Activity className="w-4 h-4" />
-                    </div>
-                    <h4 className="text-white font-bold text-sm mb-1.5">Mission-Critical Availability</h4>
-                    <p className="text-neutral-400 text-xs leading-relaxed">
-                      Comprehensive observability, geo-distributed failovers, and resilient cloud architectures tailored for financial and immigration scale.
-                    </p>
-                  </div>
+            {/* Architecture Highlights Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="p-5 rounded-2xl border border-neutral-800/80 bg-neutral-900/50 space-y-2">
+                <div className="w-8 h-8 rounded-lg bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 mb-3">
+                  <Server className="w-4 h-4" />
                 </div>
-              </CardContent>
-              <CardFooter className="flex items-center justify-between border-t border-neutral-800/80 pt-5">
-                <span className="text-xs text-neutral-400">
-                  Ready to architect your enterprise infrastructure?
-                </span>
-                <Button asChild variant="solar" size="sm">
-                  <a href="#contact">Engage Our Studio</a>
-                </Button>
-              </CardFooter>
-            </Card>
-          </TabsContent>
-
-          {/* Tab 3: Allied Impact */}
-          <TabsContent value="impact">
-            <Card className="border-neutral-800 bg-gradient-to-br from-[#141922] via-[#0E131A] to-[#0B0F14]">
-              <CardHeader>
-                <div className="flex items-center justify-between mb-2">
-                  <Badge variant="emerald">Physical Utility • Social Initiative</Badge>
-                  <span className="text-[11px] font-mono text-neutral-500">Live Pilot</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
-                    <Droplet className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <CardTitle className="text-2xl text-white">Charlix Clean Water &amp; Essentials</CardTitle>
-                    <CardDescription>
-                      Affordable drinking water micro-factories &amp; community consumable relief
-                    </CardDescription>
-                  </div>
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-4 text-xs text-neutral-400 leading-relaxed">
-                <p>
-                  Deep tech is hollow without tangible human relief. Charlix is Takjug’s allied physical infrastructure venture, engineered to directly counter the harsh cost-of-living inflation in developing urban communities.
+                <h4 className="text-white font-bold text-sm">GCP Serverless Core</h4>
+                <p className="text-neutral-400 text-xs leading-relaxed">
+                  Micro-modular monolith built with FastAPI on Google Cloud Run, backed by Cloud SQL (PostgreSQL) and Memorystore Redis for high-throughput event routing.
                 </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="p-4 rounded-xl border border-neutral-800 bg-neutral-900/40 space-y-1">
-                    <div className="text-emerald-400 font-semibold text-sm">IoT Purity Assurance</div>
-                    <p className="text-neutral-400 text-xs">
-                      Equipped with automated reverse-osmosis telemetry and continuous mineral testing sensors to guarantee certified potable water.
-                    </p>
-                  </div>
-                  <div className="p-4 rounded-xl border border-neutral-800 bg-neutral-900/40 space-y-1">
-                    <div className="text-cyan-400 font-semibold text-sm">Community Distribution</div>
-                    <p className="text-neutral-400 text-xs">
-                      Decentralized micro-refill hubs bringing essential consumables within walking distance at a fraction of inflated supermarket pricing.
-                    </p>
-                  </div>
+              </div>
+
+              <div className="p-5 rounded-2xl border border-neutral-800/80 bg-neutral-900/50 space-y-2">
+                <div className="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 mb-3">
+                  <Video className="w-4 h-4" />
                 </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
+                <h4 className="text-white font-bold text-sm">Real-Time WebRTC Classrooms</h4>
+                <p className="text-neutral-400 text-xs leading-relaxed">
+                  Low-latency live video instructional infrastructure powered by self-hosted LiveKit, enabling seamless teacher-student audio, video, and whiteboard interaction.
+                </p>
+              </div>
+
+              <div className="p-5 rounded-2xl border border-neutral-800/80 bg-neutral-900/50 space-y-2">
+                <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 mb-3">
+                  <Code2 className="w-4 h-4" />
+                </div>
+                <h4 className="text-white font-bold text-sm">Cross-Platform Flutter Client</h4>
+                <p className="text-neutral-400 text-xs leading-relaxed">
+                  High-fidelity mobile and web learning portals featuring audio pronunciation drills, interactive quizzes, automated booking schedules, and Gemini AI tutoring.
+                </p>
+              </div>
+            </div>
+
+            {/* Architecture Stack Badges */}
+            <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-neutral-800/80">
+              <span className="text-xs text-neutral-400 font-medium">Integrated Production Stack:</span>
+              <div className="flex flex-wrap items-center gap-2">
+                <Badge variant="outline" className="font-mono text-[10px]">Google Cloud Run</Badge>
+                <Badge variant="outline" className="font-mono text-[10px]">FastAPI</Badge>
+                <Badge variant="outline" className="font-mono text-[10px]">LiveKit WebRTC</Badge>
+                <Badge variant="outline" className="font-mono text-[10px]">PostgreSQL</Badge>
+                <Badge variant="outline" className="font-mono text-[10px]">Flutter</Badge>
+                <Badge variant="outline" className="font-mono text-[10px]">Vertex AI / Gemini</Badge>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </section>
+
+      {/* Studio Capabilities: What We Do */}
+      <section id="capabilities" className="max-w-6xl mx-auto px-6 py-20 border-t border-neutral-800/80">
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <Badge variant="solar" className="mb-3">
+            <Layers className="w-3.5 h-3.5 mr-1" /> Core Engineering Capabilities
+          </Badge>
+          <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight mb-4">
+            How We Partner &amp; Build
+          </h2>
+          <p className="text-neutral-400 text-sm sm:text-base leading-relaxed">
+            We focus strictly on deep technical problems where execution quality, privacy, and architectural reliability are paramount.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <Card className="border-neutral-800/80 bg-neutral-900/30 hover:border-amber-500/40 transition-all">
+            <CardHeader>
+              <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 mb-2">
+                <Cpu className="w-5 h-5" />
+              </div>
+              <CardTitle className="text-lg text-white">On-Device AI &amp; Vision</CardTitle>
+            </CardHeader>
+            <CardContent className="text-xs text-neutral-400 leading-relaxed">
+              We engineer zero-cloud biometric validation, sub-pixel edge computer vision, and local neural processing that runs entirely on end-user hardware, eliminating server latency and data breach liability.
+            </CardContent>
+          </Card>
+
+          <Card className="border-neutral-800/80 bg-neutral-900/30 hover:border-cyan-500/40 transition-all">
+            <CardHeader>
+              <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 mb-2">
+                <Server className="w-5 h-5" />
+              </div>
+              <CardTitle className="text-lg text-white">Scalable Platform Engineering</CardTitle>
+            </CardHeader>
+            <CardContent className="text-xs text-neutral-400 leading-relaxed">
+              From Google Cloud serverless backends and WebRTC live media streaming to Redis caching hubs, we build clean micro-modular systems designed for fault tolerance and predictable cost scaling.
+            </CardContent>
+          </Card>
+
+          <Card className="border-neutral-800/80 bg-neutral-900/30 hover:border-emerald-500/40 transition-all">
+            <CardHeader>
+              <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 mb-2">
+                <Code2 className="w-5 h-5" />
+              </div>
+              <CardTitle className="text-lg text-white">Cross-Platform Craft</CardTitle>
+            </CardHeader>
+            <CardContent className="text-xs text-neutral-400 leading-relaxed">
+              High-performance Flutter mobile apps and responsive Next.js web applications built with mathematical typography, smooth 60fps animations, and uncompromising human ergonomics.
+            </CardContent>
+          </Card>
+        </div>
       </section>
 
       {/* The Core Mandate / Philosophy */}
@@ -403,7 +360,7 @@ export default function Home() {
             Technology Serving Human Flourishing
           </h2>
           <p className="text-neutral-400 text-sm sm:text-base leading-relaxed">
-            We reject the idea that technology must be cold, sterile, or extractive. Takjug exists to channel world-class engineering into tools that reduce anxiety, restore community, and make everyday living easier.
+            We reject the idea that technology must be cold, sterile, or extractive. Takjug exists to channel world-class engineering into tools that reduce anxiety, restore dignity, and make everyday living easier.
           </p>
         </div>
 
@@ -411,12 +368,12 @@ export default function Home() {
           <Card className="border-neutral-800/80 bg-neutral-900/30 hover:border-amber-500/40 transition-all">
             <CardHeader>
               <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 mb-2">
-                <Cpu className="w-5 h-5" />
+                <Terminal className="w-5 h-5" />
               </div>
               <CardTitle className="text-lg text-white">Industrial Precision</CardTitle>
             </CardHeader>
             <CardContent className="text-xs text-neutral-400 leading-relaxed">
-              Mathematical rigor, deep systems programming, and high-performance algorithms that operate reliably across mobile, cloud, and edge hardware without fragile bloat.
+              Mathematical rigor, deep systems programming, and deterministic algorithms that operate reliably across mobile, cloud, and edge hardware without fragile bloat.
             </CardContent>
           </Card>
 
@@ -428,7 +385,7 @@ export default function Home() {
               <CardTitle className="text-lg text-white">Ease of Living</CardTitle>
             </CardHeader>
             <CardContent className="text-xs text-neutral-400 leading-relaxed">
-              Every venture we incubate must lift a measurable weight off human shoulders—whether simplifying legal biometric compliance or streamlining personal resources.
+              Every system we build must lift a measurable weight off human shoulders—whether eliminating passport photo rejection anxiety or making cultural education accessible globally.
             </CardContent>
           </Card>
 
@@ -440,7 +397,7 @@ export default function Home() {
               <CardTitle className="text-lg text-white">Uncompromising Privacy</CardTitle>
             </CardHeader>
             <CardContent className="text-xs text-neutral-400 leading-relaxed">
-              We pioneer edge intelligence that processes sensitive user information directly on the user&apos;s device. We respect user sovereignty and comply strictly with global data regulations.
+              We practice architectural edge privacy by design. Sensitive biometric and personal data stays on the user&apos;s physical device. We respect user sovereignty and comply strictly with global data regulations.
             </CardContent>
           </Card>
         </div>
@@ -456,7 +413,7 @@ export default function Home() {
             Frequently Asked Questions &amp; Architecture
           </h2>
           <p className="text-neutral-400 text-xs sm:text-sm">
-            Everything you need to know about our biometric compliance, privacy engineering, and venture model.
+            Everything you need to know about our biometric compliance, partner engineering model, and privacy architecture.
           </p>
         </div>
 
@@ -481,23 +438,14 @@ export default function Home() {
 
           <AccordionItem value="item-3">
             <AccordionTrigger>
-              What is the Takjug Venture Studio engagement model?
+              How does Takjug collaborate with client organizations like Àkọ́nilẹ́kọ̀ọ́ Yorùbá?
             </AccordionTrigger>
             <AccordionContent>
-              Takjug Technologies operates both an internal incubator (creating proprietary products like PortaSnap, Proxima, and Uscellar) and a platform engineering consultancy. We partner with select enterprises, fintechs, and government bodies to solve mission-critical systems challenges, rebuild legacy microservices, and deploy sovereign on-device AI.
+              We function as an embedded engineering and architecture partner. For Àkọ́nilẹ́kọ̀ọ́ Yorùbá, we designed the entire cloud topology on Google Cloud Platform, engineered the real-time WebRTC LiveKit classroom infrastructure, built the FastAPI backend, and crafted the multi-platform Flutter learning applications from ground up.
             </AccordionContent>
           </AccordionItem>
 
           <AccordionItem value="item-4">
-            <AccordionTrigger>
-              How does Proxima&apos;s &quot;Time Spent Offline&quot; (TSO) metric work?
-            </AccordionTrigger>
-            <AccordionContent>
-              Traditional social platforms optimize for Time Spent In-App to maximize ad impressions. Proxima tracks validated face-to-face peer encounters via encrypted, localized peer-to-peer Bluetooth Low Energy beacons, rewarding genuine physical human presence and real-world collaboration while keeping user feeds completely algorithm-free.
-            </AccordionContent>
-          </AccordionItem>
-
-          <AccordionItem value="item-5">
             <AccordionTrigger>
               How does Takjug comply with NDPR and GDPR regulations?
             </AccordionTrigger>
@@ -522,7 +470,7 @@ export default function Home() {
               <span className="text-white font-bold text-base tracking-tight">Takjug Technologies</span>
             </div>
             <p className="leading-relaxed text-neutral-400 mb-4 max-w-sm">
-              An incorporated technology enterprise and venture studio in Nigeria, building resilient consumer software and deep tech solutions for the global market.
+              An incorporated technology enterprise and digital venture studio in Nigeria, building resilient consumer software and deep tech solutions for the global market.
             </p>
             <p className="text-neutral-500">
               © {new Date().getFullYear()} Takjug Technologies. All rights reserved.

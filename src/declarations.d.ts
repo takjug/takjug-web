@@ -36,11 +36,16 @@ declare module "lucide-react" {
   export const Award: LucideIcon;
   export const RefreshCw: LucideIcon;
   export const AlertCircle: LucideIcon;
+  export const BookOpen: LucideIcon;
+  export const GraduationCap: LucideIcon;
+  export const Code2: LucideIcon;
+  export const Server: LucideIcon;
+  export const Users: LucideIcon;
+  export const Video: LucideIcon;
 
   const icon: LucideIcon;
   export default icon;
 }
-
 
 declare module "tailwind-merge" {
   export function twMerge(...classLists: any[]): string;

@@ -23,17 +23,17 @@ export default function Navbar() {
 
         {/* Navigation Links */}
         <nav className="hidden md:flex items-center gap-8 text-sm text-neutral-400 font-medium">
-          <a href="#ventures" className="hover:text-white transition-colors">
-            Ventures
+          <a href="#portasnap" className="hover:text-white transition-colors">
+            PortaSnap
           </a>
-          <a href="#portfolio" className="hover:text-white transition-colors">
-            Portfolio
+          <a href="#partner" className="hover:text-white transition-colors">
+            Client Partnership
+          </a>
+          <a href="#capabilities" className="hover:text-white transition-colors">
+            Capabilities
           </a>
           <a href="#mandate" className="hover:text-white transition-colors">
             Philosophy
-          </a>
-          <a href="#faq" className="hover:text-white transition-colors">
-            Specs & FAQ
           </a>
           <Link href="/privacy" className="hover:text-white transition-colors">
             Privacy
