@@ -5,13 +5,10 @@ import Link from "next/link";
 import {
   ArrowUpRight,
   ArrowDown,
-  Cpu,
-  Server,
-  HeartHandshake,
-  CheckCircle2,
   Camera,
   Volume2,
   Users,
+  CheckCircle2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import CreativeCanvas from "@/components/creative-canvas";
@@ -27,7 +24,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-[#070A0F] text-neutral-100 selection:bg-neutral-800 selection:text-white font-sans antialiased">
-      {/* Monochromatic Architectural Navigation */}
+      {/* Monochromatic Minimalist Navigation */}
       <header className="sticky top-0 z-50 backdrop-blur-md bg-[#070A0F]/85 border-b border-neutral-800/60">
         <div className="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
           <Link href="/" className="group flex items-center gap-3">
@@ -52,36 +49,31 @@ export default function Home() {
               The Mandate
             </a>
             <Link href="/privacy" className="hover:text-white transition-colors">
-              Governance
+              Privacy
             </Link>
           </nav>
 
-          <div className="flex items-center gap-3">
-            <Button
-              asChild
-              variant="outline"
-              size="sm"
-              className="rounded-full border-neutral-800 bg-neutral-900/60 hover:bg-neutral-800 text-neutral-300 hover:text-white text-xs font-mono h-8"
+          <div>
+            <a
+              href="mailto:dev@takjug.com"
+              className="text-xs font-mono text-neutral-300 hover:text-white transition-colors flex items-center gap-1.5 px-4 py-2 rounded-full border border-neutral-800 bg-neutral-900/60 hover:bg-neutral-800"
             >
-              <a href="mailto:dev@takjug.com" className="flex items-center gap-1.5">
-                dev@takjug.com <ArrowUpRight className="w-3.5 h-3.5 text-neutral-400" />
-              </a>
-            </Button>
+              dev@takjug.com <ArrowUpRight className="w-3.5 h-3.5 text-neutral-400" />
+            </a>
           </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="max-w-6xl mx-auto px-6 py-8">
-        {/* Hero Section: Asymmetric Bento with Interactive Three.js Creative Art */}
-        <section className="py-12 sm:py-16 border-b border-neutral-800/60">
+      <main className="max-w-6xl mx-auto px-6">
+        {/* Hero Section: Three.js Kinetic Art & Thesis */}
+        <section className="py-12 sm:py-20 border-b border-neutral-800/60">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            {/* Left Column: Thesis & Authority */}
+            {/* Left: Headline & Purpose */}
             <div className="lg:col-span-6">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-neutral-800 bg-neutral-900/40 text-neutral-400 text-xs font-mono mb-6">
-                <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-                Frontier Technology &amp; Venture Foundry
-              </div>
+              <p className="text-xs font-mono uppercase tracking-widest text-neutral-500 mb-6">
+                Frontier Technology
+              </p>
 
               <h1 className="text-4xl sm:text-6xl font-black tracking-tight text-white leading-[1.08] mb-6">
                 Engineering precision with a{" "}
@@ -91,7 +83,7 @@ export default function Home() {
               </h1>
 
               <p className="text-base sm:text-lg text-neutral-400 leading-relaxed font-normal mb-8 max-w-xl">
-                Conceived in Africa and built for the globe. We channel human brilliance into frontier technologies, on-device intelligence, and resilient systems engineered to bring genuine ease to daily living.
+                Conceived in Africa. Built for the globe. We channel engineering into on-device intelligence and resilient systems designed to bring genuine ease to daily living.
               </p>
 
               <div className="flex flex-wrap items-center gap-4">
@@ -99,45 +91,39 @@ export default function Home() {
                   href="#deployments"
                   className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-black font-semibold text-xs tracking-wider uppercase hover:bg-neutral-200 transition-colors"
                 >
-                  Active Deployments <ArrowDown className="w-3.5 h-3.5" />
+                  Deployments <ArrowDown className="w-3.5 h-3.5" />
                 </a>
                 <a
                   href="mailto:dev@takjug.com"
                   className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-neutral-800 bg-neutral-900/40 hover:bg-neutral-800 text-neutral-300 hover:text-white text-xs tracking-wider uppercase transition-colors"
                 >
-                  Initiate Inquiry <ArrowUpRight className="w-3.5 h-3.5" />
+                  Contact <ArrowUpRight className="w-3.5 h-3.5" />
                 </a>
               </div>
             </div>
 
-            {/* Right Column: Three.js Interactive Creative Sculpture */}
+            {/* Right: Interactive Three.js Kinetic Sculpture */}
             <div className="lg:col-span-6">
               <div className="rounded-3xl border border-neutral-800/80 bg-neutral-950/60 overflow-hidden relative shadow-2xl">
                 <div className="absolute top-4 left-5 z-10 flex items-center gap-2 text-xs font-mono uppercase text-neutral-400 tracking-wider">
                   <span className="w-2 h-2 rounded-full border border-neutral-500 bg-neutral-900" />
-                  Kinetic Sculpture • Mathematical Lattice
+                  Kinetic Lattice
                 </div>
 
-                {/* Creative Three.js Canvas */}
                 <CreativeCanvas />
               </div>
             </div>
           </div>
         </section>
 
-        {/* Selected Deployments (Monochromatic Bento Cards) */}
+        {/* Selected Deployments (Strictly Real Systems, Minimalist & Focused) */}
         <section id="deployments" className="py-24 border-b border-neutral-800/60">
           <div className="flex items-center justify-between mb-16">
-            <div>
-              <span className="text-xs font-mono uppercase tracking-widest text-neutral-500 font-semibold mb-2 block">
-                Active Deployments
-              </span>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-                Engineering in Action
-              </h2>
-            </div>
-            <span className="text-xs font-mono text-neutral-500 hidden sm:inline">
-              02 Implementations
+            <span className="text-xs font-mono uppercase tracking-widest text-neutral-500">
+              Active Deployments
+            </span>
+            <span className="text-xs font-mono text-neutral-500">
+              02 Systems
             </span>
           </div>
 
@@ -145,39 +131,18 @@ export default function Home() {
             {/* Deployment 01: PortaSnap */}
             <div className="p-8 sm:p-10 rounded-3xl border border-neutral-800/80 bg-neutral-950/40 hover:border-neutral-700 transition-all shadow-xl">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                {/* Left: Product Information */}
                 <div className="lg:col-span-7">
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className="text-xs font-mono text-neutral-400 font-bold">
-                      01 / PROPRIETARY VENTURE
-                    </span>
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded-full border border-neutral-800 bg-neutral-900 text-neutral-400">
-                      Google Play Pipeline
-                    </span>
-                  </div>
+                  <span className="text-xs font-mono text-neutral-500 uppercase tracking-wider block mb-2">
+                    Flagship Venture
+                  </span>
 
-                  <h3 className="text-3xl font-extrabold text-white tracking-tight mb-3">
+                  <h2 className="text-3xl font-extrabold text-white tracking-tight mb-3">
                     PortaSnap
-                  </h3>
+                  </h2>
 
                   <p className="text-sm sm:text-base text-neutral-400 leading-relaxed mb-6 max-w-xl">
-                    An AI-powered biometric passport and visa studio running entirely on local smartphone silicon. Engineered with sub-pixel facial geometry, bilateral luminance analysis, and certified ICAO Doc 9303 compliance. Zero cloud dependency—protecting user biometric sovereignty with zero external data transmission.
+                    The on-device biometric passport and visa studio. Verified for international ICAO Doc 9303 compliance with sub-pixel face alignment. All processing runs locally on device hardware—zero photos or biometric vectors ever leave your phone.
                   </p>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
-                    <div className="p-3 rounded-xl border border-neutral-800/80 bg-neutral-900/30">
-                      <div className="text-[10px] font-mono text-neutral-500 uppercase">Architecture</div>
-                      <div className="text-xs font-bold text-white mt-0.5">100% On-Device AI</div>
-                    </div>
-                    <div className="p-3 rounded-xl border border-neutral-800/80 bg-neutral-900/30">
-                      <div className="text-[10px] font-mono text-neutral-500 uppercase">Immigration</div>
-                      <div className="text-xs font-bold text-white mt-0.5">ICAO Doc 9303 / NIS</div>
-                    </div>
-                    <div className="p-3 rounded-xl border border-neutral-800/80 bg-neutral-900/30">
-                      <div className="text-[10px] font-mono text-neutral-500 uppercase">Export</div>
-                      <div className="text-xs font-bold text-white mt-0.5">Lossless 300+ DPI</div>
-                    </div>
-                  </div>
 
                   <div className="flex flex-wrap items-center gap-4 text-xs font-mono">
                     <Button
@@ -193,15 +158,15 @@ export default function Home() {
                       href="/privacy"
                       className="text-neutral-400 hover:text-white transition-colors underline"
                     >
-                      Biometric Governance &amp; NDPR
+                      Privacy Policy
                     </Link>
                   </div>
                 </div>
 
-                {/* Right: Monochromatic Reticle Viewfinder */}
+                {/* Reticle Viewfinder Visual */}
                 <div className="lg:col-span-5">
-                  <div className="p-5 rounded-2xl border border-neutral-800 bg-neutral-900/30 relative">
-                    <div className="flex items-center justify-between mb-4">
+                  <div className="p-5 rounded-2xl border border-neutral-800 bg-neutral-900/30">
+                    <div className="flex items-center justify-between mb-3">
                       <div className="flex items-center gap-2">
                         <Camera className="w-4 h-4 text-neutral-300" />
                         <span className="text-xs font-mono text-white font-bold">Biometric Reticle</span>
@@ -230,12 +195,8 @@ export default function Home() {
                       </div>
                     </div>
 
-                    {/* Viewfinder Graphic (Minimal Monochromatic Hairlines) */}
-                    <div className="h-44 rounded-xl border border-neutral-800 bg-neutral-950 flex items-center justify-center relative overflow-hidden">
-                      {/* Horizontal eye alignment guide */}
+                    <div className="h-40 rounded-xl border border-neutral-800 bg-neutral-950 flex items-center justify-center relative overflow-hidden">
                       <div className="absolute inset-x-6 top-1/2 border-t border-dashed border-neutral-700 -translate-y-4" />
-                      
-                      {/* Oval face guide */}
                       <div className="w-24 h-32 rounded-full border border-neutral-600 flex items-center justify-center relative">
                         <div className="w-1.5 h-1.5 rounded-full bg-white absolute" />
                         <span className="text-[10px] font-mono text-neutral-400">
@@ -244,16 +205,11 @@ export default function Home() {
                       </div>
 
                       <div className="absolute bottom-2 left-3 text-[10px] font-mono text-neutral-400 flex items-center gap-1">
-                        <CheckCircle2 className="w-3 h-3 text-white" /> Geometry Verified
+                        <CheckCircle2 className="w-3 h-3 text-white" /> Geometry Validated
                       </div>
                       <div className="absolute bottom-2 right-3 text-[10px] font-mono text-neutral-500">
-                        Zero Cloud Upload
+                        100% On-Device
                       </div>
-                    </div>
-
-                    <div className="mt-3 flex items-center justify-between text-[10px] font-mono text-neutral-500">
-                      <span>Inference: Mobile Neural Silicon</span>
-                      <span>Latency: &lt;16ms</span>
                     </div>
                   </div>
                 </div>
@@ -263,52 +219,31 @@ export default function Home() {
             {/* Deployment 02: Àkọ́nilẹ́kọ̀ọ́ Yorùbá */}
             <div className="p-8 sm:p-10 rounded-3xl border border-neutral-800/80 bg-neutral-950/40 hover:border-neutral-700 transition-all shadow-xl">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                {/* Left: Overview */}
                 <div className="lg:col-span-7">
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className="text-xs font-mono text-neutral-400 font-bold">
-                      02 / STRATEGIC PARTNERSHIP
-                    </span>
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded-full border border-neutral-800 bg-neutral-900 text-neutral-400">
-                      Production Infrastructure
-                    </span>
-                  </div>
+                  <span className="text-xs font-mono text-neutral-500 uppercase tracking-wider block mb-2">
+                    Client Partnership
+                  </span>
 
-                  <h3 className="text-3xl font-extrabold text-white tracking-tight mb-3">
+                  <h2 className="text-3xl font-extrabold text-white tracking-tight mb-3">
                     Àkọ́nilẹ́kọ̀ọ́ Yorùbá
-                  </h3>
+                  </h2>
 
                   <p className="text-sm sm:text-base text-neutral-400 leading-relaxed mb-6 max-w-xl">
-                    End-to-end technological infrastructure engineered for indigenous language education and cultural preservation across the global diaspora. Combines ultra-low-latency WebRTC interactive classroom routing, micro-modular backend systems on Google Cloud Run, and Gemini AI multimodal dialect tutoring.
+                    End-to-end digital infrastructure for indigenous language education and cultural preservation. Real-time WebRTC virtual classrooms paired with intelligent Gemini AI dialect tutoring. Systems architecture and multiplatform client engineered by Takjug.
                   </p>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
-                    <div className="p-3 rounded-xl border border-neutral-800/80 bg-neutral-900/30">
-                      <div className="text-[10px] font-mono text-neutral-500 uppercase">Cloud Core</div>
-                      <div className="text-xs font-bold text-white mt-0.5">FastAPI &amp; Cloud Run</div>
-                    </div>
-                    <div className="p-3 rounded-xl border border-neutral-800/80 bg-neutral-900/30">
-                      <div className="text-[10px] font-mono text-neutral-500 uppercase">Live Media</div>
-                      <div className="text-xs font-bold text-white mt-0.5">LiveKit WebRTC</div>
-                    </div>
-                    <div className="p-3 rounded-xl border border-neutral-800/80 bg-neutral-900/30">
-                      <div className="text-[10px] font-mono text-neutral-500 uppercase">Multiplatform</div>
-                      <div className="text-xs font-bold text-white mt-0.5">Flutter &amp; Web</div>
-                    </div>
-                  </div>
-
                   <div className="text-xs font-mono text-neutral-500">
-                    Full-lifecycle systems engineering &amp; managed platform partnership by Takjug Technologies.
+                    Full-lifecycle systems engineering &amp; managed platform partnership.
                   </div>
                 </div>
 
-                {/* Right: Monochromatic Waveform Deck */}
+                {/* Phonation Audio Visual */}
                 <div className="lg:col-span-5">
                   <div className="p-5 rounded-2xl border border-neutral-800 bg-neutral-900/30">
-                    <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center justify-between mb-3">
                       <div className="flex items-center gap-2">
                         <Users className="w-4 h-4 text-neutral-300" />
-                        <span className="text-xs font-mono text-white font-bold">Phonation Audio Engine</span>
+                        <span className="text-xs font-mono text-white font-bold">Phonation Audio</span>
                       </div>
                       <span className="text-[10px] font-mono text-neutral-400 flex items-center gap-1">
                         <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" /> Live Stream
@@ -323,12 +258,11 @@ export default function Home() {
                           size="sm"
                           className="h-7 text-[10px] font-mono bg-white hover:bg-neutral-200 text-black font-bold gap-1 cursor-pointer"
                         >
-                          <Volume2 className="w-3 h-3" /> {isPlayingAudio ? "Simulating..." : "Test Drill"}
+                          <Volume2 className="w-3 h-3" /> {isPlayingAudio ? "Playing..." : "Test Drill"}
                         </Button>
                       </div>
                       <div className="text-[11px] font-mono text-neutral-400 mb-3">Tone: Mid - Low - High - Mid</div>
 
-                      {/* Monochromatic Waveform Equalizer */}
                       <div className="flex items-end gap-1 h-6">
                         {[40, 75, 55, 90, 60, 85, 45, 95, 70, 50, 80, 65, 90, 40].map((h, i) => (
                           <div
@@ -341,11 +275,6 @@ export default function Home() {
                         ))}
                       </div>
                     </div>
-
-                    <div className="mt-3 flex items-center justify-between text-[10px] font-mono text-neutral-500">
-                      <span>Topology: GCP Serverless Monolith</span>
-                      <span>Latency: 18ms</span>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -353,113 +282,53 @@ export default function Home() {
           </div>
         </section>
 
-        {/* The Mandate (3-Column Monochromatic Bento) */}
+        {/* The Mandate: Pure, Philosophical, High-Impact */}
         <section id="mandate" className="py-24 border-b border-neutral-800/60">
-          <div className="max-w-3xl mb-16">
-            <span className="text-xs font-mono uppercase tracking-widest text-neutral-500 font-semibold mb-2 block">
-              The Takjug Mandate
+          <div className="max-w-3xl">
+            <span className="text-xs font-mono uppercase tracking-widest text-neutral-500 font-semibold mb-4 block">
+              The Mandate
             </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-4">
-              The measure of technology is human ease.
-            </h2>
+            <blockquote className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight leading-snug mb-6">
+              “The measure of technology is human ease. If an invention does not tangibly lower the friction of survival and living, it is not progress.”
+            </blockquote>
             <p className="text-sm sm:text-base text-neutral-400 leading-relaxed font-normal">
-              If an invention does not tangibly ease the burden of living, lower the friction of survival, or bring peace into human homes, it is not progress. Takjug exists to channel world-class engineering into systems that reduce anxiety, restore community, and elevate human thriving.
+              Takjug exists to channel engineering brilliance into systems that reduce anxiety, restore community, and respect user sovereignty by design.
             </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Bento Card 1 */}
-            <div className="p-8 rounded-3xl border border-neutral-800/80 bg-neutral-950/40 hover:border-neutral-700 transition-all">
-              <div className="w-10 h-10 rounded-xl border border-neutral-700 bg-neutral-900 flex items-center justify-center text-white mb-6">
-                <Cpu className="w-5 h-5" />
-              </div>
-              <span className="text-xs font-mono text-neutral-500 font-bold block mb-2">01 / EDGE COMPUTING</span>
-              <h3 className="text-lg font-bold text-white mb-2">On-Device AI &amp; Silicon Privacy</h3>
-              <p className="text-xs sm:text-sm text-neutral-400 leading-relaxed">
-                We deploy neural networks and computer vision directly on edge silicon. Processing data physically on the user&apos;s device eliminates server latency, removes network fragility, and enforces absolute biometric privacy by design.
-              </p>
-            </div>
-
-            {/* Bento Card 2 */}
-            <div className="p-8 rounded-3xl border border-neutral-800/80 bg-neutral-950/40 hover:border-neutral-700 transition-all">
-              <div className="w-10 h-10 rounded-xl border border-neutral-700 bg-neutral-900 flex items-center justify-center text-white mb-6">
-                <Server className="w-5 h-5" />
-              </div>
-              <span className="text-xs font-mono text-neutral-500 font-bold block mb-2">02 / PLATFORM ARCHITECTURE</span>
-              <h3 className="text-lg font-bold text-white mb-2">Mission-Critical Real-Time Infrastructure</h3>
-              <p className="text-xs sm:text-sm text-neutral-400 leading-relaxed">
-                We architect high-concurrency cloud topologies, real-time WebRTC media pipelines, and fault-tolerant event buses designed to perform reliably across bandwidth-constrained and globally distributed environments.
-              </p>
-            </div>
-
-            {/* Bento Card 3 */}
-            <div className="p-8 rounded-3xl border border-neutral-800/80 bg-neutral-950/40 hover:border-neutral-700 transition-all">
-              <div className="w-10 h-10 rounded-xl border border-neutral-700 bg-neutral-900 flex items-center justify-center text-white mb-6">
-                <HeartHandshake className="w-5 h-5" />
-              </div>
-              <span className="text-xs font-mono text-neutral-500 font-bold block mb-2">03 / CIVILIZATIONAL ELEVATION</span>
-              <h3 className="text-lg font-bold text-white mb-2">Human Ease &amp; Sovereign Production</h3>
-              <p className="text-xs sm:text-sm text-neutral-400 leading-relaxed">
-                We reject speculative technology that breeds isolation. Every system we engineer bridges deep industrial precision with moral warmth—building tools that strengthen real-world community, preserve cultural heritage, and elevate daily living.
-              </p>
-            </div>
           </div>
         </section>
 
-        {/* Institutional Inquiries Bento Card */}
-        <section className="py-24">
-          <div className="p-10 sm:p-14 rounded-3xl border border-neutral-800/80 bg-neutral-950/60 relative overflow-hidden shadow-2xl">
-            <div className="max-w-2xl">
-              <span className="text-xs font-mono uppercase tracking-widest text-neutral-500 font-semibold mb-3 block">
-                Initiate Collaboration
-              </span>
-              <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight mb-6">
-                Have an ambitious challenge?<br />
-                Let&apos;s build together.
-              </h2>
-              <p className="text-sm text-neutral-400 mb-8 leading-relaxed">
-                We partner with institutions, enterprises, and founders requiring deep technical rigor, sovereign on-device AI, and mission-critical systems engineering.
-              </p>
-
-              <div className="mb-10">
-                <a
-                  href="mailto:dev@takjug.com"
-                  className="text-2xl sm:text-4xl font-mono text-white hover:text-neutral-300 transition-colors inline-flex items-center gap-2 group"
-                >
-                  dev@takjug.com
-                  <ArrowUpRight className="w-6 h-6 sm:w-8 sm:h-8 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                </a>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-8 border-t border-neutral-800/80 text-xs text-neutral-500 font-mono">
-              <div>
-                <span className="text-neutral-400 block mb-1">Corporate Entity</span>
-                Takjug Technologies Limited<br />
-                CAC Registered Enterprise (Nigeria)
-              </div>
-              <div>
-                <span className="text-neutral-400 block mb-1">Official Contacts</span>
-                dev@takjug.com<br />
-                support@takjug.com
-              </div>
-              <div>
-                <span className="text-neutral-400 block mb-1">Governance</span>
-                D-U-N-S Verified Entity<br />
-                <Link href="/privacy" className="text-neutral-400 hover:text-white transition-colors underline">
-                  Privacy Policy (NDPR/GDPR)
-                </Link>
-              </div>
+        {/* Understated Contact Section */}
+        <section className="py-24 sm:py-32">
+          <div className="max-w-2xl">
+            <span className="text-xs font-mono uppercase tracking-widest text-neutral-500 font-semibold mb-3 block">
+              Collaboration
+            </span>
+            <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight mb-6">
+              Let&apos;s build.
+            </h2>
+            <div className="mb-4">
+              <a
+                href="mailto:dev@takjug.com"
+                className="text-2xl sm:text-4xl font-mono text-white hover:text-neutral-400 transition-colors inline-flex items-center gap-2 group"
+              >
+                dev@takjug.com
+                <ArrowUpRight className="w-6 h-6 sm:w-8 sm:h-8 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+              </a>
             </div>
           </div>
         </section>
       </main>
 
-      {/* Understated Minimalist Monochromatic Footer */}
-      <footer className="border-t border-neutral-800/60 py-8 text-xs text-neutral-600 font-mono">
+      {/* Understated Minimalist Footer */}
+      <footer className="border-t border-neutral-800/60 py-8 text-xs text-neutral-500 font-mono">
         <div className="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <span>© {new Date().getFullYear()} Takjug Technologies Limited. All rights reserved.</span>
-          <span>Conceived in Africa · Built for the World · takjug.com</span>
+          <span>© {new Date().getFullYear()} Takjug Technologies.</span>
+          <div className="flex items-center gap-6">
+            <Link href="/privacy" className="hover:text-white transition-colors">
+              Privacy Policy
+            </Link>
+            <span>Lagos, Nigeria</span>
+          </div>
         </div>
       </footer>
     </div>
