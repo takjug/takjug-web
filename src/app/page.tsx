@@ -16,17 +16,38 @@ import {
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/components/theme-provider";
 import { MandateReflection } from "@/components/mandate-reflection";
+import type { ArtVariant } from "@/components/creative-canvas";
 
-// Dynamically import Three.js Unified Master Canvas with SSR disabled
+// Dynamically import Three.js Canvas with SSR disabled
 const CreativeCanvas = dynamic(() => import("@/components/creative-canvas"), {
   ssr: false,
   loading: () => <div className="absolute inset-0 bg-[#FAFAFA] dark:bg-[#070A0F]" />,
 });
 
+const ART_VARIANTS: ArtVariant[] = ["knot", "matrix", "ribbon", "orb"];
+
 export default function Home() {
   const { resolvedTheme } = useTheme();
+  const [artVariant, setArtVariant] = React.useState<ArtVariant>("knot");
   const [activePhotoPreset, setActivePhotoPreset] = React.useState<"icao" | "us">("icao");
   const [isPlayingAudio, setIsPlayingAudio] = React.useState(false);
+
+  // Dynamic 3D art piece selection on page reload (cycles through the 4 distinct sculptures)
+  React.useEffect(() => {
+    try {
+      const stored = sessionStorage.getItem("takjug_art_variant") as ArtVariant | null;
+      const currentIndex = stored ? ART_VARIANTS.indexOf(stored) : -1;
+      const nextIndex =
+        currentIndex >= 0
+          ? (currentIndex + 1) % ART_VARIANTS.length
+          : Math.floor(Math.random() * ART_VARIANTS.length);
+      const chosen = ART_VARIANTS[nextIndex];
+      sessionStorage.setItem("takjug_art_variant", chosen);
+      setArtVariant(chosen);
+    } catch {
+      setArtVariant(ART_VARIANTS[Math.floor(Math.random() * ART_VARIANTS.length)]);
+    }
+  }, []);
 
   // Synthesize authentic Yoruba tonal phonation using Web Audio API
   const handleAudioPreview = () => {
@@ -74,7 +95,7 @@ export default function Home() {
       <section className="relative w-full h-screen min-h-[700px] flex flex-col justify-between overflow-hidden border-b border-neutral-200/80 dark:border-neutral-800/60">
         {/* Full-Screen WebGL Canvas Backdrop */}
         <div className="absolute inset-0 w-full h-full z-0">
-          <CreativeCanvas theme={resolvedTheme} />
+          <CreativeCanvas theme={resolvedTheme} variant={artVariant} />
           {/* Subtle gradient vignettes for seamless contrast against background */}
           <div className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-[#FAFAFA] dark:from-[#070A0F] via-[#FAFAFA]/70 dark:via-[#070A0F]/60 to-transparent pointer-events-none" />
           <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-[#FAFAFA]/90 dark:from-[#070A0F]/80 to-transparent pointer-events-none" />
@@ -155,7 +176,6 @@ export default function Home() {
             aria-label="Scroll to deployments"
             className="pointer-events-auto flex items-center gap-2 px-4 py-1.5 rounded-full border border-neutral-200 dark:border-neutral-800/80 bg-white/60 dark:bg-neutral-900/50 backdrop-blur text-[11px] font-mono uppercase tracking-widest text-neutral-500 hover:text-neutral-950 dark:hover:text-white transition-colors"
           >
-            <span>Systems Index</span>
             <ArrowDown className="w-3 h-3 animate-bounce" />
           </a>
         </div>
@@ -178,7 +198,7 @@ export default function Home() {
               </h2>
             </div>
             <span className="text-xs font-mono text-neutral-500">
-              02 Active Deployments // 2026 Edition
+              02 Active Deployments
             </span>
           </div>
 
@@ -259,22 +279,20 @@ export default function Home() {
                         <button
                           type="button"
                           onClick={() => setActivePhotoPreset("icao")}
-                          className={`px-2 py-0.5 text-[10px] font-mono rounded transition-colors cursor-pointer ${
-                            activePhotoPreset === "icao"
-                              ? "bg-neutral-950 text-white dark:bg-white dark:text-black font-bold"
-                              : "text-neutral-600 hover:text-black dark:text-neutral-400 dark:hover:text-white"
-                          }`}
+                          className={`px-2 py-0.5 text-[10px] font-mono rounded transition-colors cursor-pointer ${activePhotoPreset === "icao"
+                            ? "bg-neutral-950 text-white dark:bg-white dark:text-black font-bold"
+                            : "text-neutral-600 hover:text-black dark:text-neutral-400 dark:hover:text-white"
+                            }`}
                         >
                           ICAO 35×45mm
                         </button>
                         <button
                           type="button"
                           onClick={() => setActivePhotoPreset("us")}
-                          className={`px-2 py-0.5 text-[10px] font-mono rounded transition-colors cursor-pointer ${
-                            activePhotoPreset === "us"
-                              ? "bg-neutral-950 text-white dark:bg-white dark:text-black font-bold"
-                              : "text-neutral-600 hover:text-black dark:text-neutral-400 dark:hover:text-white"
-                          }`}
+                          className={`px-2 py-0.5 text-[10px] font-mono rounded transition-colors cursor-pointer ${activePhotoPreset === "us"
+                            ? "bg-neutral-950 text-white dark:bg-white dark:text-black font-bold"
+                            : "text-neutral-600 hover:text-black dark:text-neutral-400 dark:hover:text-white"
+                            }`}
                         >
                           US 2×2"
                         </button>
@@ -298,11 +316,10 @@ export default function Home() {
 
                       {/* Biometric Head Oval Guideline */}
                       <div
-                        className={`transition-all duration-500 border border-neutral-500 dark:border-neutral-400 flex items-center justify-center relative ${
-                          activePhotoPreset === "icao"
-                            ? "w-28 h-36 rounded-[50%]"
-                            : "w-32 h-32 rounded-[50%]"
-                        }`}
+                        className={`transition-all duration-500 border border-neutral-500 dark:border-neutral-400 flex items-center justify-center relative ${activePhotoPreset === "icao"
+                          ? "w-28 h-36 rounded-[50%]"
+                          : "w-32 h-32 rounded-[50%]"
+                          }`}
                       >
                         <div className="w-1.5 h-1.5 rounded-full bg-neutral-950 dark:bg-white absolute" />
                         <span className="text-[10px] font-mono text-neutral-700 dark:text-neutral-300 bg-white/90 dark:bg-neutral-950/90 px-1.5 py-0.5 rounded border border-neutral-200 dark:border-neutral-800">
@@ -324,7 +341,7 @@ export default function Home() {
               </div>
             </article>
 
-            {/* System 02: Àkọ́nilẹ́kọ̀ọ́ Yorùbá */}
+            {/* System 02: Àkọ́niledè Yorùbá */}
             <article className="py-16 sm:py-20">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
                 {/* Left: Editorial & Technical Specifications */}
@@ -338,7 +355,7 @@ export default function Home() {
                   </div>
 
                   <h3 className="text-3xl sm:text-4xl font-extrabold text-neutral-950 dark:text-white tracking-tight mb-4">
-                    Àkọ́nilẹ́kọ̀ọ́ Yorùbá
+                    Àkọ́niledè Yorùbá
                   </h3>
 
                   <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-400 leading-relaxed mb-6 max-w-xl">
@@ -418,11 +435,10 @@ export default function Home() {
                           {[35, 70, 50, 90, 60, 85, 40, 95, 65, 50, 80, 60, 90, 45, 75, 55].map((h, i) => (
                             <div
                               key={i}
-                              className={`flex-1 rounded-full transition-all duration-200 ${
-                                isPlayingAudio
-                                  ? "bg-neutral-950 dark:bg-white"
-                                  : "bg-neutral-200 dark:bg-neutral-800"
-                              }`}
+                              className={`flex-1 rounded-full transition-all duration-200 ${isPlayingAudio
+                                ? "bg-neutral-950 dark:bg-white"
+                                : "bg-neutral-200 dark:bg-neutral-800"
+                                }`}
                               style={{
                                 height: isPlayingAudio ? `${h}%` : "22%",
                                 transitionDelay: `${i * 15}ms`,

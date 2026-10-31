@@ -4,26 +4,53 @@
 import * as React from "react";
 import * as THREE from "three";
 
+export type ArtVariant = "knot" | "matrix" | "ribbon" | "orb";
+
 interface CreativeCanvasProps {
   theme?: "dark" | "light";
+  variant?: ArtVariant;
 }
 
 /**
- * CreativeCanvas — The Unified Master Kinetic Sculpture for Takjug Technologies
- * Fuses the mathematical precision of the crystalline Quantum Lattice Core with the
- * fluid topological elegance of the Torus Knot & Helical Wave loop.
+ * CreativeCanvas — Multi-sculpture 3D WebGL hero background for Takjug Technologies.
+ * Supports 4 distinct kinetic art pieces, dynamically selected on page reload:
+ * - "knot": Architectural Torus Knot with gyroscopic rings
+ * - "matrix": Quantum Matrix with nested crystalline polyhedra and radar rings
+ * - "ribbon": Helical Wave Ribbon with parametric Mobius wave flow
+ * - "orb": Neural Wave Orb with harmonic geodesic sphere deformation
  */
 export default function CreativeCanvas({
   theme = "dark",
+  variant = "knot",
 }: CreativeCanvasProps) {
   const mountRef = React.useRef<HTMLDivElement>(null);
 
   const stateRef = React.useRef<{
+    knotGroup: THREE.Group;
+    orbGroup: THREE.Group;
+    matrixGroup: THREE.Group;
+    ribbonGroup: THREE.Group;
     materials: THREE.Material[];
     pointLight: THREE.PointLight;
     particleMat: THREE.PointsMaterial;
     darkParticleTexture: THREE.CanvasTexture;
     lightParticleTexture: THREE.CanvasTexture;
+    orbGeo: THREE.IcosahedronGeometry;
+    initialOrbPositions: Float32Array;
+    ribbonGeo: THREE.TorusGeometry;
+    initialRibbonPositions: Float32Array;
+    matrixOuterMesh: THREE.Mesh;
+    matrixMidMesh: THREE.Mesh;
+    matrixCoreMesh: THREE.Mesh;
+    matrixRing1: THREE.Mesh;
+    matrixRing2: THREE.Mesh;
+    matrixRing3: THREE.Mesh;
+    orbCoreMesh: THREE.Mesh;
+    orbRing: THREE.Mesh;
+    gyroRing1: THREE.Mesh;
+    gyroRing2: THREE.Mesh;
+    ribbonMesh: THREE.Mesh;
+    ribbonHalo: THREE.Mesh;
   } | null>(null);
 
   React.useEffect(() => {
@@ -33,12 +60,10 @@ export default function CreativeCanvas({
     let width = container.clientWidth || window.innerWidth;
     let height = container.clientHeight || window.innerHeight;
 
-    // Scene & Perspective Camera
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(50, width / height, 0.1, 1000);
     camera.position.z = 4.8;
 
-    // WebGL Renderer with Alpha transparency
     const renderer = new THREE.WebGLRenderer({
       alpha: true,
       antialias: true,
@@ -51,11 +76,9 @@ export default function CreativeCanvas({
     renderer.domElement.style.display = "block";
     container.appendChild(renderer.domElement);
 
-    // Master Group for the Unified Kinetic Sculpture
     const masterGroup = new THREE.Group();
     scene.add(masterGroup);
 
-    // Responsive position and scale
     const updateGroupPosition = (w: number) => {
       if (w >= 1280) {
         masterGroup.position.x = 1.35;
@@ -88,113 +111,242 @@ export default function CreativeCanvas({
     };
 
     // =========================================================================
-    // 01. OUTER TOPOLOGICAL BODY: Torus Knot Wave
+    // SCULPTURE 01: Architectural Torus Knot
     // =========================================================================
-    const outerKnotGroup = new THREE.Group();
-    masterGroup.add(outerKnotGroup);
+    const knotGroup = new THREE.Group();
+    masterGroup.add(knotGroup);
 
-    const knotGeo = new THREE.TorusKnotGeometry(1.28, 0.33, 170, 28, 2, 3);
-    const knotWireframeGeo = new THREE.WireframeGeometry(knotGeo);
+    const knotGeo = new THREE.TorusKnotGeometry(1.25, 0.34, 160, 26, 2, 3);
     const knotWireframeMat = registerMat(
       new THREE.LineBasicMaterial({
         color: baseColor,
         transparent: true,
-        opacity: isDark ? 0.22 : 0.20,
+        opacity: isDark ? 0.24 : 0.22,
       })
     );
-    const knotWireframeMesh = new THREE.LineSegments(knotWireframeGeo, knotWireframeMat);
-    outerKnotGroup.add(knotWireframeMesh);
+    const wireframeMesh = new THREE.LineSegments(new THREE.WireframeGeometry(knotGeo), knotWireframeMat);
+    knotGroup.add(wireframeMesh);
 
     const knotPointsMat = registerMat(
       new THREE.PointsMaterial({
         color: baseColor,
-        size: 0.024,
+        size: 0.026,
         transparent: true,
-        opacity: isDark ? 0.70 : 0.65,
+        opacity: isDark ? 0.75 : 0.70,
         blending,
       })
     );
-    const knotPointsMesh = new THREE.Points(knotGeo, knotPointsMat);
-    outerKnotGroup.add(knotPointsMesh);
+    const knotPoints = new THREE.Points(knotGeo, knotPointsMat);
+    knotGroup.add(knotPoints);
 
-    // =========================================================================
-    // 02. INNER NUCLEUS: Crystalline Quantum Lattice Core
-    // =========================================================================
-    const coreGroup = new THREE.Group();
-    masterGroup.add(coreGroup);
-
-    // Outer crystalline shell (Icosahedron)
-    const shellGeo = new THREE.IcosahedronGeometry(0.72, 1);
-    const shellWireGeo = new THREE.WireframeGeometry(shellGeo);
-    const shellWireMat = registerMat(
-      new THREE.LineBasicMaterial({
+    const ringGeo1 = new THREE.RingGeometry(2.4, 2.415, 120);
+    const gyroRing1Mat = registerMat(
+      new THREE.MeshBasicMaterial({
         color: baseColor,
+        side: THREE.DoubleSide,
         transparent: true,
-        opacity: isDark ? 0.45 : 0.40,
+        opacity: isDark ? 0.14 : 0.15,
       })
     );
-    const shellWireMesh = new THREE.LineSegments(shellWireGeo, shellWireMat);
-    coreGroup.add(shellWireMesh);
+    const gyroRing1 = new THREE.Mesh(ringGeo1, gyroRing1Mat);
+    gyroRing1.rotation.x = Math.PI / 2.5;
+    knotGroup.add(gyroRing1);
 
-    const shellPointsMat = registerMat(
+    const ringGeo2 = new THREE.RingGeometry(2.9, 2.912, 120);
+    const gyroRing2Mat = registerMat(
+      new THREE.MeshBasicMaterial({
+        color: baseColor,
+        side: THREE.DoubleSide,
+        transparent: true,
+        opacity: isDark ? 0.08 : 0.09,
+      })
+    );
+    const gyroRing2 = new THREE.Mesh(ringGeo2, gyroRing2Mat);
+    gyroRing2.rotation.y = Math.PI / 3;
+    gyroRing2.rotation.z = Math.PI / 6;
+    knotGroup.add(gyroRing2);
+
+    // =========================================================================
+    // SCULPTURE 02: Neural Wave Orb (Living Harmonic Sphere)
+    // =========================================================================
+    const orbGroup = new THREE.Group();
+    masterGroup.add(orbGroup);
+
+    const orbGeo = new THREE.IcosahedronGeometry(1.35, 3);
+    const initialOrbPositions = new Float32Array(orbGeo.attributes.position.array);
+
+    const orbWireframeMat = registerMat(
+      new THREE.MeshBasicMaterial({
+        wireframe: true,
+        color: baseColor,
+        transparent: true,
+        opacity: isDark ? 0.24 : 0.22,
+      })
+    );
+    const orbMesh = new THREE.Mesh(orbGeo, orbWireframeMat);
+    orbGroup.add(orbMesh);
+
+    const orbPointsMat = registerMat(
       new THREE.PointsMaterial({
         color: baseColor,
-        size: 0.038,
+        size: 0.03,
         transparent: true,
-        opacity: isDark ? 0.90 : 0.85,
+        opacity: isDark ? 0.8 : 0.75,
         blending,
       })
     );
-    const shellPointsMesh = new THREE.Points(shellGeo, shellPointsMat);
-    coreGroup.add(shellPointsMesh);
+    const orbPoints = new THREE.Points(orbGeo, orbPointsMat);
+    orbGroup.add(orbPoints);
 
-    // Inner geometric lattice (Octahedron nucleus)
-    const nucleusGeo = new THREE.OctahedronGeometry(0.44, 0);
-    const nucleusWireGeo = new THREE.WireframeGeometry(nucleusGeo);
-    const nucleusWireMat = registerMat(
-      new THREE.LineBasicMaterial({
+    const coreGeo = new THREE.OctahedronGeometry(0.68, 0);
+    const orbCoreMat = registerMat(
+      new THREE.MeshBasicMaterial({
+        wireframe: true,
         color: baseColor,
         transparent: true,
-        opacity: isDark ? 0.60 : 0.50,
+        opacity: isDark ? 0.38 : 0.32,
       })
     );
-    const nucleusWireMesh = new THREE.LineSegments(nucleusWireGeo, nucleusWireMat);
-    coreGroup.add(nucleusWireMesh);
+    const orbCoreMesh = new THREE.Mesh(coreGeo, orbCoreMat);
+    orbGroup.add(orbCoreMesh);
 
-    // Central pulsing starlight point light
-    const pointLight = new THREE.PointLight(baseColor, isDark ? 2.5 : 1.5, 8);
-    pointLight.position.set(0, 0, 0);
-    coreGroup.add(pointLight);
-
-    // =========================================================================
-    // 03. ORBITAL GYROSCOPIC RADAR RINGS
-    // =========================================================================
-    const radarGroup = new THREE.Group();
-    masterGroup.add(radarGroup);
-
-    const ringMat = registerMat(
-      new THREE.LineBasicMaterial({
+    const orbRingGeo = new THREE.RingGeometry(1.9, 1.916, 120);
+    const orbRingMat = registerMat(
+      new THREE.MeshBasicMaterial({
         color: baseColor,
+        side: THREE.DoubleSide,
         transparent: true,
         opacity: isDark ? 0.16 : 0.14,
       })
     );
-
-    // Equatorial orbital ring
-    const ringGeo1 = new THREE.TorusGeometry(1.88, 0.0035, 16, 120);
-    const ring1 = new THREE.LineSegments(new THREE.WireframeGeometry(ringGeo1), ringMat);
-    radarGroup.add(ring1);
-
-    // Polar inclined ring
-    const ringGeo2 = new THREE.TorusGeometry(1.98, 0.0035, 16, 120);
-    const ring2 = new THREE.LineSegments(new THREE.WireframeGeometry(ringGeo2), ringMat);
-    ring2.rotation.x = Math.PI / 3;
-    ring2.rotation.y = Math.PI / 4;
-    radarGroup.add(ring2);
+    const orbRing = new THREE.Mesh(orbRingGeo, orbRingMat);
+    orbRing.rotation.x = Math.PI / 3;
+    orbGroup.add(orbRing);
 
     // =========================================================================
-    // 04. AMBIENT STARLIGHT PARTICLE FIELD
+    // SCULPTURE 03: Quantum Matrix (Dual Crystalline Prism & 3D Radar)
     // =========================================================================
+    const matrixGroup = new THREE.Group();
+    masterGroup.add(matrixGroup);
+
+    const matrixOuterGeo = new THREE.DodecahedronGeometry(1.4, 0);
+    const matrixOuterMat = registerMat(
+      new THREE.MeshBasicMaterial({
+        wireframe: true,
+        color: baseColor,
+        transparent: true,
+        opacity: isDark ? 0.24 : 0.22,
+      })
+    );
+    const matrixOuterMesh = new THREE.Mesh(matrixOuterGeo, matrixOuterMat);
+    matrixGroup.add(matrixOuterMesh);
+
+    const matrixPointsMat = registerMat(
+      new THREE.PointsMaterial({
+        size: 0.035,
+        color: baseColor,
+        transparent: true,
+        opacity: isDark ? 0.85 : 0.80,
+        blending,
+      })
+    );
+    const matrixPoints = new THREE.Points(matrixOuterGeo, matrixPointsMat);
+    matrixGroup.add(matrixPoints);
+
+    const matrixMidGeo = new THREE.IcosahedronGeometry(1.05, 0);
+    const matrixMidMat = registerMat(
+      new THREE.MeshBasicMaterial({
+        wireframe: true,
+        color: baseColor,
+        transparent: true,
+        opacity: isDark ? 0.32 : 0.28,
+      })
+    );
+    const matrixMidMesh = new THREE.Mesh(matrixMidGeo, matrixMidMat);
+    matrixGroup.add(matrixMidMesh);
+
+    const matrixCoreGeo = new THREE.OctahedronGeometry(0.62, 0);
+    const matrixCoreMat = registerMat(
+      new THREE.MeshBasicMaterial({
+        wireframe: true,
+        color: baseColor,
+        transparent: true,
+        opacity: isDark ? 0.5 : 0.42,
+      })
+    );
+    const matrixCoreMesh = new THREE.Mesh(matrixCoreGeo, matrixCoreMat);
+    matrixGroup.add(matrixCoreMesh);
+
+    const mRingGeo = new THREE.RingGeometry(1.85, 1.865, 90);
+    const matrixRing1 = new THREE.Mesh(mRingGeo, gyroRing1Mat);
+    matrixRing1.rotation.x = Math.PI / 2;
+    matrixGroup.add(matrixRing1);
+
+    const matrixRing2 = new THREE.Mesh(mRingGeo, gyroRing1Mat);
+    matrixRing2.rotation.y = Math.PI / 2;
+    matrixGroup.add(matrixRing2);
+
+    const matrixRing3 = new THREE.Mesh(mRingGeo, gyroRing1Mat);
+    matrixGroup.add(matrixRing3);
+
+    // =========================================================================
+    // SCULPTURE 04: Helical Wave Ribbon (Topological Mobius Flow)
+    // =========================================================================
+    const ribbonGroup = new THREE.Group();
+    masterGroup.add(ribbonGroup);
+
+    const ribbonGeo = new THREE.TorusGeometry(1.35, 0.4, 32, 110);
+    const initialRibbonPositions = new Float32Array(ribbonGeo.attributes.position.array);
+
+    const ribbonWireMat = registerMat(
+      new THREE.MeshBasicMaterial({
+        wireframe: true,
+        color: baseColor,
+        transparent: true,
+        opacity: isDark ? 0.24 : 0.22,
+      })
+    );
+    const ribbonMesh = new THREE.Mesh(ribbonGeo, ribbonWireMat);
+    ribbonGroup.add(ribbonMesh);
+
+    const ribbonPointsMat = registerMat(
+      new THREE.PointsMaterial({
+        size: 0.026,
+        color: baseColor,
+        transparent: true,
+        opacity: isDark ? 0.75 : 0.70,
+        blending,
+      })
+    );
+    const ribbonPoints = new THREE.Points(ribbonGeo, ribbonPointsMat);
+    ribbonGroup.add(ribbonPoints);
+
+    const ribbonHaloGeo = new THREE.RingGeometry(2.35, 2.37, 100);
+    const ribbonHaloMat = registerMat(
+      new THREE.MeshBasicMaterial({
+        color: baseColor,
+        side: THREE.DoubleSide,
+        transparent: true,
+        opacity: isDark ? 0.15 : 0.14,
+      })
+    );
+    const ribbonHalo = new THREE.Mesh(ribbonHaloGeo, ribbonHaloMat);
+    ribbonHalo.rotation.x = Math.PI / 3;
+    ribbonHalo.rotation.y = Math.PI / 6;
+    ribbonGroup.add(ribbonHalo);
+
+    // Initial variant visibility
+    knotGroup.visible = variant === "knot";
+    orbGroup.visible = variant === "orb";
+    matrixGroup.visible = variant === "matrix";
+    ribbonGroup.visible = variant === "ribbon";
+
+    // Central pulsing light
+    const pointLight = new THREE.PointLight(baseColor, isDark ? 2.2 : 1.2, 8);
+    pointLight.position.set(0, 0, 0);
+    scene.add(pointLight);
+
+    // Ambient Starlight Particles
     const particleCount = 280;
     const particleGeo = new THREE.BufferGeometry();
     const particlePos = new Float32Array(particleCount * 3);
@@ -206,7 +358,6 @@ export default function CreativeCanvas({
     }
     particleGeo.setAttribute("position", new THREE.BufferAttribute(particlePos, 3));
 
-    // Particle sprite textures
     const createParticleTexture = (colorStr: string) => {
       const c = document.createElement("canvas");
       c.width = 32;
@@ -240,16 +391,34 @@ export default function CreativeCanvas({
     scene.add(particleSystem);
 
     stateRef.current = {
+      knotGroup,
+      orbGroup,
+      matrixGroup,
+      ribbonGroup,
       materials: trackedMaterials,
       pointLight,
       particleMat,
       darkParticleTexture,
       lightParticleTexture,
+      orbGeo,
+      initialOrbPositions,
+      ribbonGeo,
+      initialRibbonPositions,
+      matrixOuterMesh,
+      matrixMidMesh,
+      matrixCoreMesh,
+      matrixRing1,
+      matrixRing2,
+      matrixRing3,
+      orbCoreMesh,
+      orbRing,
+      gyroRing1,
+      gyroRing2,
+      ribbonMesh,
+      ribbonHalo,
     };
 
-    // =========================================================================
-    // INTERACTION & ANIMATION LOOP
-    // =========================================================================
+    // Pointer Interaction & Animation Loop
     let mouseX = 0;
     let mouseY = 0;
     let targetRotX = 0;
@@ -298,27 +467,73 @@ export default function CreativeCanvas({
       animationFrameId = requestAnimationFrame(animate);
       const elapsedTime = clock.getElapsedTime();
 
-      // Outer Torus Knot harmonic revolution
-      outerKnotGroup.rotation.x += 0.0014;
-      outerKnotGroup.rotation.y += 0.0022;
+      // Animate Knot
+      if (knotGroup.visible) {
+        knotGroup.rotation.x += 0.0016;
+        knotGroup.rotation.y += 0.0024;
+        gyroRing1.rotation.z += 0.0018;
+        gyroRing2.rotation.x -= 0.0012;
+      }
 
-      // Inner Quantum Lattice counter-rotation
-      coreGroup.rotation.y -= 0.0035;
-      coreGroup.rotation.z += 0.0020;
+      // Animate Orb with vertex wave harmonics
+      if (orbGroup.visible) {
+        orbGroup.rotation.y += 0.0018;
+        orbGroup.rotation.x += 0.0008;
+        orbCoreMesh.rotation.y -= 0.004;
+        orbCoreMesh.rotation.z += 0.002;
+        orbRing.rotation.z += 0.002;
 
-      // Gyroscopic radar precession
-      ring1.rotation.z += 0.0010;
-      ring2.rotation.x += 0.0012;
-      ring2.rotation.y -= 0.0008;
+        const positions = orbGeo.attributes.position.array;
+        for (let i = 0; i < positions.length; i += 3) {
+          const ox = initialOrbPositions[i];
+          const oy = initialOrbPositions[i + 1];
+          const oz = initialOrbPositions[i + 2];
+          const wave =
+            Math.sin(ox * 2.2 + elapsedTime * 1.8) *
+            Math.cos(oy * 2.2 + elapsedTime * 1.4) *
+            Math.sin(oz * 2.2 + elapsedTime * 1.6);
+          const factor = 1 + wave * 0.12;
+          positions[i] = ox * factor;
+          positions[i + 1] = oy * factor;
+          positions[i + 2] = oz * factor;
+        }
+        orbGeo.attributes.position.needsUpdate = true;
+      }
 
-      // Central starlight pulse
-      pointLight.intensity = (isDark ? 2.5 : 1.5) + Math.sin(elapsedTime * 2.2) * 0.5;
+      // Animate Quantum Matrix
+      if (matrixGroup.visible) {
+        matrixOuterMesh.rotation.x += 0.0014;
+        matrixOuterMesh.rotation.y += 0.0020;
+        matrixMidMesh.rotation.x -= 0.0025;
+        matrixMidMesh.rotation.y -= 0.0035;
+        matrixCoreMesh.rotation.y += 0.005;
+        matrixCoreMesh.rotation.z -= 0.003;
+        matrixRing1.rotation.z += 0.0022;
+        matrixRing2.rotation.z -= 0.0018;
+        matrixRing3.rotation.z += 0.0014;
+      }
 
-      // Ambient particle slow orbit
-      particleSystem.rotation.y = elapsedTime * 0.015;
-      particleSystem.rotation.x = elapsedTime * 0.008;
+      // Animate Helical Ribbon
+      if (ribbonGroup.visible) {
+        ribbonMesh.rotation.x += 0.0018;
+        ribbonMesh.rotation.y += 0.0028;
+        ribbonHalo.rotation.z += 0.0015;
 
-      // Smooth physics-damped mouse parallax
+        const rPositions = ribbonGeo.attributes.position.array;
+        for (let i = 0; i < rPositions.length; i += 3) {
+          const rx = initialRibbonPositions[i];
+          const ry = initialRibbonPositions[i + 1];
+          const rz = initialRibbonPositions[i + 2];
+          const rWave = Math.sin(rx * 3.0 + elapsedTime * 2.2) * 0.06;
+          rPositions[i + 1] = ry + rWave;
+        }
+        ribbonGeo.attributes.position.needsUpdate = true;
+      }
+
+      pointLight.intensity = (isDark ? 2.2 : 1.2) + Math.sin(elapsedTime * 2.2) * 0.4;
+      particleSystem.rotation.y = elapsedTime * 0.012;
+      particleSystem.rotation.x = elapsedTime * 0.006;
+
       if (!isDragging) {
         masterGroup.rotation.y += (targetRotY - masterGroup.rotation.y) * 0.04;
         masterGroup.rotation.x += (targetRotX - masterGroup.rotation.x) * 0.04;
@@ -355,6 +570,16 @@ export default function CreativeCanvas({
     };
   }, []);
 
+  // Update variant visibility dynamically
+  React.useEffect(() => {
+    if (!stateRef.current) return;
+    const { knotGroup, orbGroup, matrixGroup, ribbonGroup } = stateRef.current;
+    knotGroup.visible = variant === "knot";
+    orbGroup.visible = variant === "orb";
+    matrixGroup.visible = variant === "matrix";
+    ribbonGroup.visible = variant === "ribbon";
+  }, [variant]);
+
   // Sync theme changes with materials
   React.useEffect(() => {
     if (!stateRef.current) return;
@@ -374,7 +599,7 @@ export default function CreativeCanvas({
 
     if (pointLight) {
       pointLight.color = newColor;
-      pointLight.intensity = isDark ? 2.5 : 1.5;
+      pointLight.intensity = isDark ? 2.2 : 1.2;
     }
 
     if (particleMat) {
