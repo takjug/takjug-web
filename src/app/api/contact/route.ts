@@ -50,9 +50,10 @@ export async function POST(req: Request) {
     const zohoCrmFormUrl = process.env.ZOHO_CRM_FORM_URL;
     const web3formsAccessKey = process.env.WEB3FORMS_ACCESS_KEY;
 
-    let dispatched = false;
+    let crmDispatched = false;
+    let emailDispatched = false;
 
-    // Dispatch to Zoho Webhook / Zoho Flow if provided
+    // 1. Dispatch to Zoho Webhook / Zoho Flow if provided
     if (zohoWebhookUrl) {
       try {
         const zohoRes = await fetch(zohoWebhookUrl, {
@@ -69,14 +70,14 @@ export async function POST(req: Request) {
             submitted_at: timestamp,
           }),
         });
-        if (zohoRes.ok) dispatched = true;
+        if (zohoRes.ok) crmDispatched = true;
       } catch (err) {
         console.error("[Contact Protocol] Error posting to Zoho webhook:", err);
       }
     }
 
-    // Dispatch to Zoho CRM Web-to-Lead if form URL and parameters are set
-    if (!dispatched && zohoCrmFormUrl) {
+    // 2. Dispatch to Zoho CRM Web-to-Lead if form URL and parameters are set
+    if (zohoCrmFormUrl) {
       try {
         const formData = new URLSearchParams();
         if (process.env.ZOHO_CRM_XNQSJSDP) formData.append("xnQsjsdp", process.env.ZOHO_CRM_XNQSJSDP);
@@ -101,15 +102,15 @@ export async function POST(req: Request) {
 
         console.log(`[Contact Protocol] Zoho CRM response status: ${crmRes.status}`);
         if (crmRes.ok || crmRes.status === 200 || crmRes.status === 302) {
-          dispatched = true;
+          crmDispatched = true;
         }
       } catch (err) {
         console.error("[Contact Protocol] Error posting to Zoho CRM Web-to-Lead:", err);
       }
     }
 
-    // Dispatch to Web3Forms / Instant Email Forwarding if configured
-    if (!dispatched && web3formsAccessKey) {
+    // 3. Direct Email Notification to dev@takjug.com via Web3Forms (runs concurrently if key is set)
+    if (web3formsAccessKey) {
       try {
         const emailRes = await fetch("https://api.web3forms.com/submit", {
           method: "POST",
@@ -120,15 +121,17 @@ export async function POST(req: Request) {
             email,
             company: comp,
             message,
-            subject: `[Takjug Systems] Inquiry from ${fullName} (${comp})`,
+            subject: `[Takjug Lead] New Inquiry from ${fullName} (${comp})`,
             to_email: "dev@takjug.com",
           }),
         });
-        if (emailRes.ok) dispatched = true;
+        if (emailRes.ok) emailDispatched = true;
       } catch (err) {
         console.error("[Contact Protocol] Error posting to Web3Forms:", err);
       }
     }
+
+    const dispatched = crmDispatched || emailDispatched;
 
     return NextResponse.json({
       success: true,
