@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Copy, Check, X, ArrowUpRight, Mail, Send, CheckCircle2 } from "lucide-react";
+import { Copy, Check, X, ArrowUpRight, Mail, Send, CheckCircle2, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface ContactModalProps {
@@ -17,6 +17,8 @@ export function ContactModal({
 }: ContactModalProps) {
   const [copied, setCopied] = React.useState(false);
   const [formSent, setFormSent] = React.useState(false);
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
   const [formData, setFormData] = React.useState({
     name: "",
     email: "",
@@ -60,10 +62,33 @@ export function ContactModal({
   )}`;
   const mailtoUrl = `mailto:${email}?subject=${encodeURIComponent(defaultSubject)}`;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.email || !formData.message) return;
-    setFormSent(true);
+
+    setIsSubmitting(true);
+    setErrorMessage(null);
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to dispatch transmission.");
+      }
+
+      setFormSent(true);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Network error. Please try direct email.";
+      setErrorMessage(msg);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -188,13 +213,21 @@ export function ContactModal({
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-3.5">
+            {errorMessage && (
+              <div className="flex items-center gap-2 p-2.5 rounded-lg border border-red-500/20 bg-red-50/50 dark:bg-red-950/20 text-red-700 dark:text-red-400 text-xs font-mono">
+                <AlertCircle className="w-4 h-4 shrink-0" />
+                <span>{errorMessage}</span>
+              </div>
+            )}
+
             <div>
               <input
                 type="text"
+                disabled={isSubmitting}
                 placeholder="Your Name or Organization"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full text-xs font-mono px-3.5 py-2.5 rounded-lg border border-neutral-300 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/50 text-neutral-900 dark:text-white placeholder:text-neutral-400 focus:outline-hidden focus:border-neutral-950 dark:focus:border-white transition-colors"
+                className="w-full text-xs font-mono px-3.5 py-2.5 rounded-lg border border-neutral-300 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/50 text-neutral-900 dark:text-white placeholder:text-neutral-400 focus:outline-hidden focus:border-neutral-950 dark:focus:border-white transition-colors disabled:opacity-50"
               />
             </div>
 
@@ -202,10 +235,11 @@ export function ContactModal({
               <input
                 type="email"
                 required
+                disabled={isSubmitting}
                 placeholder="your.email@domain.com *"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full text-xs font-mono px-3.5 py-2.5 rounded-lg border border-neutral-300 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/50 text-neutral-900 dark:text-white placeholder:text-neutral-400 focus:outline-hidden focus:border-neutral-950 dark:focus:border-white transition-colors"
+                className="w-full text-xs font-mono px-3.5 py-2.5 rounded-lg border border-neutral-300 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/50 text-neutral-900 dark:text-white placeholder:text-neutral-400 focus:outline-hidden focus:border-neutral-950 dark:focus:border-white transition-colors disabled:opacity-50"
               />
             </div>
 
@@ -213,18 +247,32 @@ export function ContactModal({
               <textarea
                 required
                 rows={3}
+                disabled={isSubmitting}
                 placeholder="Tell us about your venture, engineering challenge, or partnership scope *"
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                className="w-full text-xs font-mono px-3.5 py-2.5 rounded-lg border border-neutral-300 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/50 text-neutral-900 dark:text-white placeholder:text-neutral-400 focus:outline-hidden focus:border-neutral-950 dark:focus:border-white transition-colors resize-none"
+                className="w-full text-xs font-mono px-3.5 py-2.5 rounded-lg border border-neutral-300 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/50 text-neutral-900 dark:text-white placeholder:text-neutral-400 focus:outline-hidden focus:border-neutral-950 dark:focus:border-white transition-colors resize-none disabled:opacity-50"
               />
             </div>
 
             <Button
               type="submit"
-              className="w-full rounded-lg bg-neutral-950 text-white hover:bg-neutral-800 dark:bg-white dark:text-black dark:hover:bg-neutral-200 font-mono text-xs font-semibold h-9 shadow-sm flex items-center justify-center gap-2 cursor-pointer"
+              disabled={isSubmitting}
+              className="w-full rounded-lg bg-neutral-950 text-white hover:bg-neutral-800 dark:bg-white dark:text-black dark:hover:bg-neutral-200 font-mono text-xs font-semibold h-9 shadow-sm flex items-center justify-center gap-2 cursor-pointer disabled:opacity-70"
             >
-              <Send className="w-3.5 h-3.5" /> Dispatch Inquiry
+              {isSubmitting ? (
+                <>
+                  <svg className="w-3.5 h-3.5 animate-spin" viewBox="0 0 24 24" fill="none">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
+                  </svg>
+                  <span>Dispatching Transmission...</span>
+                </>
+              ) : (
+                <>
+                  <Send className="w-3.5 h-3.5" /> Dispatch Inquiry
+                </>
+              )}
             </Button>
           </form>
         )}
@@ -232,3 +280,4 @@ export function ContactModal({
     </div>
   );
 }
+
