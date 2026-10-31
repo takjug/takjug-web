@@ -22,6 +22,7 @@ const CreativeCanvas = dynamic(() => import("@/components/creative-canvas"), {
 
 export default function Home() {
   const { resolvedTheme } = useTheme();
+  const [artVariant, setArtVariant] = React.useState<"orb" | "knot">("orb");
   const [activePhotoPreset, setActivePhotoPreset] = React.useState<"icao" | "us">("icao");
   const [isPlayingAudio, setIsPlayingAudio] = React.useState(false);
 
@@ -41,7 +42,7 @@ export default function Home() {
       <section className="relative w-full h-screen min-h-[700px] flex flex-col justify-between overflow-hidden border-b border-neutral-200/80 dark:border-neutral-800/60">
         {/* Full-Screen WebGL Canvas Backdrop */}
         <div className="absolute inset-0 w-full h-full z-0">
-          <CreativeCanvas theme={resolvedTheme} />
+          <CreativeCanvas theme={resolvedTheme} variant={artVariant} />
           {/* Subtle gradient vignettes for seamless contrast against background */}
           <div className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-[#FAFAFA] dark:from-[#070A0F] via-[#FAFAFA]/70 dark:via-[#070A0F]/60 to-transparent pointer-events-none" />
           <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-[#FAFAFA]/90 dark:from-[#070A0F]/80 to-transparent pointer-events-none" />
@@ -115,8 +116,10 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Minimal Floating Scroll Indicator */}
-        <div className="relative z-20 pb-8 flex justify-center pointer-events-none">
+        {/* Minimalist Floating Footer: Scroll Indicator & Art Comparison Switcher */}
+        <div className="relative z-20 pb-8 px-6 sm:px-10 max-w-7xl mx-auto w-full flex items-center justify-between pointer-events-none">
+          <div className="w-24 hidden sm:block" />
+
           <a
             href="#deployments"
             aria-label="Scroll to deployments"
@@ -124,6 +127,31 @@ export default function Home() {
           >
             <ArrowDown className="w-4 h-4 animate-bounce" />
           </a>
+
+          <div className="pointer-events-auto flex items-center gap-1 p-1 rounded-full border border-neutral-300/80 dark:border-neutral-800 bg-white/80 dark:bg-neutral-900/70 backdrop-blur-md shadow-sm">
+            <button
+              type="button"
+              onClick={() => setArtVariant("orb")}
+              className={`px-3 py-1 rounded-full text-[11px] font-mono transition-colors cursor-pointer ${
+                artVariant === "orb"
+                  ? "bg-neutral-950 text-white dark:bg-white dark:text-black font-semibold shadow-xs"
+                  : "text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white"
+              }`}
+            >
+              Neural Orb
+            </button>
+            <button
+              type="button"
+              onClick={() => setArtVariant("knot")}
+              className={`px-3 py-1 rounded-full text-[11px] font-mono transition-colors cursor-pointer ${
+                artVariant === "knot"
+                  ? "bg-neutral-950 text-white dark:bg-white dark:text-black font-semibold shadow-xs"
+                  : "text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white"
+              }`}
+            >
+              Torus Knot
+            </button>
+          </div>
         </div>
       </section>
 
