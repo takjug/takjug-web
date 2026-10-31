@@ -87,27 +87,27 @@ export default function Home() {
           </div>
         </header>
 
-        {/* Floating Hero Typography & Proposition (Option 1: Ultra-Minimal & Confident) */}
+        {/* Floating Hero Typography & Proposition (Refined, Editorial Proportion) */}
         <div className="relative z-20 max-w-7xl mx-auto px-6 sm:px-10 w-full my-auto pointer-events-none">
-          <div className="max-w-2xl sm:max-w-3xl">
-            <h1 className="text-6xl sm:text-8xl lg:text-9xl font-black tracking-tight text-neutral-950 dark:text-white leading-[0.98] mb-6">
+          <div className="max-w-xl">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-neutral-950 dark:text-white leading-[1.08] mb-4">
               Engineering ease.
             </h1>
 
-            <p className="text-base sm:text-xl text-neutral-600 dark:text-neutral-400 leading-relaxed font-normal mb-8 max-w-lg">
+            <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-400 leading-relaxed font-normal mb-7 max-w-md">
               Frontier venture studio &amp; applied AI. Conceived in Africa, built for the world.
             </p>
 
-            <div className="flex flex-wrap items-center gap-4 pointer-events-auto">
+            <div className="flex flex-wrap items-center gap-3 pointer-events-auto">
               <a
                 href="#deployments"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-neutral-950 text-white hover:bg-neutral-800 dark:bg-white dark:text-black dark:hover:bg-neutral-200 font-semibold text-xs tracking-wider uppercase transition-colors shadow-sm"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-neutral-950 text-white hover:bg-neutral-800 dark:bg-white dark:text-black dark:hover:bg-neutral-200 font-semibold text-xs tracking-wider uppercase transition-colors shadow-sm"
               >
                 Deployments <ArrowDown className="w-3.5 h-3.5" />
               </a>
               <a
                 href="mailto:dev@takjug.com"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-neutral-300 dark:border-neutral-800 bg-white/80 dark:bg-neutral-900/60 backdrop-blur hover:bg-neutral-100 dark:hover:bg-neutral-800 text-neutral-800 dark:text-neutral-300 hover:text-black dark:hover:text-white text-xs tracking-wider uppercase transition-colors shadow-sm"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-neutral-300 dark:border-neutral-800 bg-white/80 dark:bg-neutral-900/60 backdrop-blur hover:bg-neutral-100 dark:hover:bg-neutral-800 text-neutral-800 dark:text-neutral-300 hover:text-black dark:hover:text-white text-xs tracking-wider uppercase transition-colors shadow-sm"
               >
                 Contact <ArrowUpRight className="w-3.5 h-3.5" />
               </a>
