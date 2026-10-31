@@ -12,10 +12,12 @@ import {
   CheckCircle2,
   Crosshair,
   Activity,
+  Check,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/components/theme-provider";
 import { MandateReflection } from "@/components/mandate-reflection";
+import { ContactModal } from "@/components/contact-modal";
 import type { ArtVariant } from "@/components/creative-canvas";
 
 // Dynamically import Three.js Canvas with SSR disabled
@@ -31,6 +33,21 @@ export default function Home() {
   const [artVariant, setArtVariant] = React.useState<ArtVariant>("knot");
   const [activePhotoPreset, setActivePhotoPreset] = React.useState<"icao" | "us">("icao");
   const [isPlayingAudio, setIsPlayingAudio] = React.useState(false);
+  const [isContactOpen, setIsContactOpen] = React.useState(false);
+  const [contactSubject, setContactSubject] = React.useState("Inquiry: Takjug Technologies");
+  const [toastMessage, setToastMessage] = React.useState<string | null>(null);
+
+  const handleContactTrigger = (subject = "Inquiry: Takjug Technologies") => {
+    try {
+      navigator.clipboard.writeText("dev@takjug.com");
+      setToastMessage("Copied dev@takjug.com to clipboard");
+      setTimeout(() => setToastMessage(null), 3000);
+    } catch {
+      // fallback
+    }
+    setContactSubject(subject);
+    setIsContactOpen(true);
+  };
 
   // Dynamic 3D art piece selection on page reload (cycles through the 4 distinct sculptures)
   React.useEffect(() => {
@@ -131,12 +148,13 @@ export default function Home() {
             </nav>
 
             <div>
-              <a
-                href="mailto:dev@takjug.com"
-                className="text-xs font-mono text-neutral-700 dark:text-neutral-300 hover:text-black dark:hover:text-white transition-colors flex items-center gap-1.5 px-4 py-2 rounded-full border border-neutral-300 dark:border-neutral-800 bg-white/80 dark:bg-neutral-900/70 backdrop-blur hover:bg-neutral-100 dark:hover:bg-neutral-800 shadow-sm"
+              <button
+                type="button"
+                onClick={() => handleContactTrigger("General Inquiry: Takjug Technologies")}
+                className="text-xs font-mono text-neutral-700 dark:text-neutral-300 hover:text-black dark:hover:text-white transition-colors flex items-center gap-1.5 px-4 py-2 rounded-full border border-neutral-300 dark:border-neutral-800 bg-white/80 dark:bg-neutral-900/70 backdrop-blur hover:bg-neutral-100 dark:hover:bg-neutral-800 shadow-sm cursor-pointer"
               >
                 dev@takjug.com <ArrowUpRight className="w-3.5 h-3.5 text-neutral-400" />
-              </a>
+              </button>
             </div>
           </div>
         </header>
@@ -159,12 +177,13 @@ export default function Home() {
               >
                 Deployments <ArrowDown className="w-3.5 h-3.5" />
               </a>
-              <a
-                href="mailto:dev@takjug.com"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-neutral-300 dark:border-neutral-800 bg-white/80 dark:bg-neutral-900/60 backdrop-blur hover:bg-neutral-100 dark:hover:bg-neutral-800 text-neutral-800 dark:text-neutral-300 hover:text-black dark:hover:text-white text-xs tracking-wider uppercase transition-colors shadow-sm"
+              <button
+                type="button"
+                onClick={() => handleContactTrigger("Partnership Inquiry: Takjug Technologies")}
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-neutral-300 dark:border-neutral-800 bg-white/80 dark:bg-neutral-900/60 backdrop-blur hover:bg-neutral-100 dark:hover:bg-neutral-800 text-neutral-800 dark:text-neutral-300 hover:text-black dark:hover:text-white text-xs tracking-wider uppercase transition-colors shadow-sm cursor-pointer"
               >
                 Contact <ArrowUpRight className="w-3.5 h-3.5" />
-              </a>
+              </button>
             </div>
           </div>
         </div>
@@ -246,13 +265,12 @@ export default function Home() {
 
                   <div className="flex flex-wrap items-center gap-4 text-xs font-mono">
                     <Button
-                      asChild
+                      type="button"
                       size="sm"
+                      onClick={() => handleContactTrigger("PortaSnap Early APK Access Request")}
                       className="rounded-full bg-neutral-950 text-white hover:bg-neutral-800 dark:bg-white dark:text-black dark:hover:bg-neutral-200 font-semibold h-8 text-xs px-5 shadow-sm cursor-pointer"
                     >
-                      <a href="mailto:dev@takjug.com?subject=PortaSnap%20Early%20Access%20Request">
-                        Request APK Access <ArrowUpRight className="w-3.5 h-3.5 ml-1" />
-                      </a>
+                      Request APK Access <ArrowUpRight className="w-3.5 h-3.5 ml-1" />
                     </Button>
                     <Link
                       href="/privacy"
@@ -507,13 +525,14 @@ export default function Home() {
               Let&apos;s build.
             </h2>
             <div className="mb-4">
-              <a
-                href="mailto:dev@takjug.com"
-                className="text-2xl sm:text-4xl font-mono text-neutral-950 hover:text-neutral-600 dark:text-white dark:hover:text-neutral-400 transition-colors inline-flex items-center gap-2 group"
+              <button
+                type="button"
+                onClick={() => handleContactTrigger("Collaboration Brief: Takjug Technologies")}
+                className="text-2xl sm:text-4xl font-mono text-neutral-950 hover:text-neutral-600 dark:text-white dark:hover:text-neutral-400 transition-colors inline-flex items-center gap-2 group text-left cursor-pointer"
               >
                 dev@takjug.com
                 <ArrowUpRight className="w-6 h-6 sm:w-8 sm:h-8 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-              </a>
+              </button>
             </div>
           </div>
         </section>
@@ -534,6 +553,21 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+      {/* Communication Protocol Contact Modal */}
+      <ContactModal
+        isOpen={isContactOpen}
+        onClose={() => setIsContactOpen(false)}
+        defaultSubject={contactSubject}
+      />
+
+      {/* Instant Clipboard Micro-Toast Notification */}
+      {toastMessage && (
+        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 px-4 py-2.5 rounded-full bg-neutral-950 text-white dark:bg-white dark:text-black font-mono text-xs shadow-2xl animate-in fade-in slide-in-from-bottom-2 duration-200 border border-neutral-800 dark:border-neutral-200">
+          <Check className="w-3.5 h-3.5 text-emerald-500 dark:text-emerald-600" />
+          <span>{toastMessage}</span>
+        </div>
+      )}
     </div>
   );
 }

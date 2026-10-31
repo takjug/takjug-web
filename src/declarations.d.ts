@@ -56,6 +56,9 @@ declare module "lucide-react" {
   export const Crosshair: LucideIcon;
   export const Sliders: LucideIcon;
   export const Maximize2: LucideIcon;
+  export const Copy: LucideIcon;
+  export const Check: LucideIcon;
+  export const X: LucideIcon;
 
   const icon: LucideIcon;
   export default icon;
