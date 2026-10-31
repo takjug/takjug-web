@@ -6,13 +6,12 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function PrivacyPage() {
   return (
     <div className="min-h-screen bg-[#FAFAFA] dark:bg-[#070A0F] text-neutral-900 dark:text-neutral-200 py-16 px-6 font-sans transition-colors duration-200">
       <div className="max-w-4xl mx-auto">
-        <div className="flex items-center justify-between mb-8">
+        <div className="mb-8">
           <Button
             asChild
             variant="ghost"
@@ -23,8 +22,6 @@ export default function PrivacyPage() {
               <ArrowLeft className="w-4 h-4 mr-2" /> Back to Takjug Technologies
             </Link>
           </Button>
-
-          <ThemeToggle />
         </div>
 
         <Card className="border-neutral-200 dark:border-neutral-800 bg-white dark:bg-[#0D121C] p-4 sm:p-8 shadow-sm dark:shadow-2xl">

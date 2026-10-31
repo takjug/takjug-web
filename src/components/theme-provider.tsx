@@ -2,55 +2,32 @@
 
 import * as React from "react";
 
-type Theme = "dark" | "light" | "system";
-
 interface ThemeContextType {
-  theme: Theme;
   resolvedTheme: "dark" | "light";
-  setTheme: (theme: Theme) => void;
-  toggleTheme: () => void;
-  mounted: boolean;
 }
 
-const ThemeContext = React.createContext<ThemeContextType | undefined>(undefined);
+const ThemeContext = React.createContext<ThemeContextType>({
+  resolvedTheme: "dark",
+});
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = React.useState<Theme>("dark");
   const [resolvedTheme, setResolvedTheme] = React.useState<"dark" | "light">("dark");
-  const [mounted, setMounted] = React.useState(false);
 
   React.useEffect(() => {
-    setMounted(true);
+    // Clear any past manual overrides so device/browser preference takes 100% control
     try {
-      const stored = localStorage.getItem("takjug-theme") as Theme | null;
-      if (stored === "dark" || stored === "light" || stored === "system") {
-        setThemeState(stored);
-      } else {
-        // Default to dark mode for high-craft frontier aesthetic
-        setThemeState("dark");
-      }
-    } catch {
-      setThemeState("dark");
-    }
-  }, []);
-
-  React.useEffect(() => {
-    if (!mounted) return;
+      localStorage.removeItem("takjug-theme");
+    } catch {}
 
     const media = window.matchMedia("(prefers-color-scheme: dark)");
 
-    const applyTheme = () => {
-      let resolved: "dark" | "light" = "dark";
-      if (theme === "system") {
-        resolved = media.matches ? "dark" : "light";
-      } else {
-        resolved = theme;
-      }
-
-      setResolvedTheme(resolved);
+    const updateTheme = () => {
+      const isDark = media.matches;
+      const theme = isDark ? "dark" : "light";
+      setResolvedTheme(theme);
 
       const root = document.documentElement;
-      if (resolved === "dark") {
+      if (isDark) {
         root.classList.add("dark");
         root.classList.remove("light");
         root.style.colorScheme = "dark";
@@ -61,42 +38,19 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       }
     };
 
-    applyTheme();
+    updateTheme();
 
-    const listener = () => {
-      if (theme === "system") {
-        applyTheme();
-      }
-    };
-
-    media.addEventListener("change", listener);
-    return () => media.removeEventListener("change", listener);
-  }, [theme, mounted]);
-
-  const setTheme = (newTheme: Theme) => {
-    setThemeState(newTheme);
-    try {
-      localStorage.setItem("takjug-theme", newTheme);
-    } catch {}
-  };
-
-  const toggleTheme = () => {
-    const next = resolvedTheme === "dark" ? "light" : "dark";
-    setTheme(next);
-  };
+    media.addEventListener("change", updateTheme);
+    return () => media.removeEventListener("change", updateTheme);
+  }, []);
 
   return (
-    <ThemeContext.Provider value={{ theme, resolvedTheme, setTheme, toggleTheme, mounted }}>
+    <ThemeContext.Provider value={{ resolvedTheme }}>
       {children}
     </ThemeContext.Provider>
   );
 }
 
 export function useTheme() {
-  const context = React.useContext(ThemeContext);
-  if (!context) {
-    throw new Error("useTheme must be used within a ThemeProvider");
-  }
-  return context;
+  return React.useContext(ThemeContext);
 }
-

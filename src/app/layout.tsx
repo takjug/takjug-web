@@ -55,10 +55,7 @@ export default function RootLayout({
             __html: `
               (function() {
                 try {
-                  var stored = localStorage.getItem('takjug-theme');
-                  var systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                  var theme = stored ? stored : 'dark';
-                  var isDark = theme === 'dark' || (theme === 'system' && systemDark);
+                  var isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
                   if (isDark) {
                     document.documentElement.classList.add('dark');
                     document.documentElement.classList.remove('light');

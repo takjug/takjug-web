@@ -13,7 +13,6 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/components/theme-provider";
-import { ThemeToggle } from "@/components/theme-toggle";
 
 // Dynamically import Three.js creative canvas with SSR disabled for optimal hydration
 const CreativeCanvas = dynamic(() => import("@/components/creative-canvas"), {
@@ -77,8 +76,7 @@ export default function Home() {
               </Link>
             </nav>
 
-            <div className="flex items-center gap-3">
-              <ThemeToggle />
+            <div>
               <a
                 href="mailto:dev@takjug.com"
                 className="text-xs font-mono text-neutral-700 dark:text-neutral-300 hover:text-black dark:hover:text-white transition-colors flex items-center gap-1.5 px-4 py-2 rounded-full border border-neutral-300 dark:border-neutral-800 bg-white/80 dark:bg-neutral-900/70 backdrop-blur hover:bg-neutral-100 dark:hover:bg-neutral-800 shadow-sm"
@@ -352,7 +350,6 @@ export default function Home() {
             <Link href="/privacy" className="hover:text-black dark:hover:text-white transition-colors">
               Privacy Policy
             </Link>
-            <ThemeToggle />
           </div>
         </div>
       </footer>
