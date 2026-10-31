@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/components/theme-provider";
+import { MandateMirror } from "@/components/mandate-mirror";
 
 // Dynamically import Three.js creative canvas with SSR disabled for optimal hydration
 const CreativeCanvas = dynamic(() => import("@/components/creative-canvas"), {
@@ -328,18 +329,42 @@ export default function Home() {
           </div>
         </section>
 
-        {/* The Mandate: Pure, Philosophical, High-Impact */}
+        {/* The Mandate: Philosophical Statement & Animated Mandate Mirror */}
         <section id="mandate" className="py-24 border-b border-neutral-200 dark:border-neutral-800/60">
-          <div className="max-w-3xl">
-            <span className="text-xs font-mono uppercase tracking-widest text-neutral-500 font-semibold mb-4 block">
-              The Mandate
-            </span>
-            <blockquote className="text-2xl sm:text-4xl font-extrabold text-neutral-950 dark:text-white tracking-tight leading-snug mb-6">
-              “The measure of technology is human ease. If an invention does not tangibly lower the friction of survival and living, it is not progress.”
-            </blockquote>
-            <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-400 leading-relaxed font-normal">
-              Takjug exists to channel engineering brilliance into systems that reduce anxiety, restore community, and respect user sovereignty by design.
-            </p>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+            {/* Left: Core Philosophy */}
+            <div className="lg:col-span-6 max-w-xl">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-neutral-300/80 dark:border-neutral-800 bg-white/70 dark:bg-neutral-900/60 backdrop-blur-sm mb-6 text-xs font-mono shadow-xs">
+                <span className="w-1.5 h-1.5 rounded-full bg-neutral-950 dark:bg-white" />
+                <span className="text-neutral-600 dark:text-neutral-400 uppercase tracking-widest text-[11px]">
+                  The Mandate
+                </span>
+              </div>
+
+              <blockquote className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-neutral-950 dark:text-white tracking-tight leading-[1.2] mb-6">
+                “The measure of technology is human ease. If an invention does not tangibly lower the friction of survival and living, it is not progress.”
+              </blockquote>
+
+              <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-400 leading-relaxed font-normal mb-8">
+                Takjug exists to channel engineering brilliance into systems that reduce anxiety, restore community, and respect user sovereignty by design.
+              </p>
+
+              <div className="flex flex-wrap items-center gap-5 text-xs font-mono text-neutral-500">
+                <div className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                  <span>On-Device Verification</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                  <span>Zero Data Colonization</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Right: The Animated Mirror of the Mandate */}
+            <div className="lg:col-span-6">
+              <MandateMirror />
+            </div>
           </div>
         </section>
 
