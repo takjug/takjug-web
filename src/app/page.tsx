@@ -89,25 +89,15 @@ export default function Home() {
           </div>
         </header>
 
-        {/* Floating Hero Typography & Proposition */}
+        {/* Floating Hero Typography & Proposition (Option 1: Ultra-Minimal & Confident) */}
         <div className="relative z-20 max-w-7xl mx-auto px-6 sm:px-10 w-full my-auto pointer-events-none">
           <div className="max-w-2xl sm:max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-neutral-300/80 dark:border-neutral-800 bg-white/80 dark:bg-neutral-950/70 backdrop-blur-sm mb-6 shadow-sm">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400" />
-              <span className="text-[11px] font-mono uppercase tracking-widest text-neutral-600 dark:text-neutral-400">
-                Frontier Technology &amp; Applied AI
-              </span>
-            </div>
-
-            <h1 className="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tight text-neutral-950 dark:text-white leading-[1.02] mb-6">
-              Engineering precision with a{" "}
-              <span className="bg-clip-text text-transparent bg-gradient-to-b from-neutral-950 via-neutral-800 to-neutral-500 dark:from-white dark:via-neutral-200 dark:to-neutral-500">
-                human soul.
-              </span>
+            <h1 className="text-6xl sm:text-8xl lg:text-9xl font-black tracking-tight text-neutral-950 dark:text-white leading-[0.98] mb-6">
+              Engineering ease.
             </h1>
 
-            <p className="text-base sm:text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed font-normal mb-8 max-w-xl">
-              Conceived in Africa. Built for the globe. We channel engineering into on-device intelligence and resilient systems designed to bring genuine ease to daily living.
+            <p className="text-base sm:text-xl text-neutral-600 dark:text-neutral-400 leading-relaxed font-normal mb-8 max-w-lg">
+              Frontier venture studio &amp; applied AI. Conceived in Africa, built for the world.
             </p>
 
             <div className="flex flex-wrap items-center gap-4 pointer-events-auto">
@@ -115,43 +105,27 @@ export default function Home() {
                 href="#deployments"
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-neutral-950 text-white hover:bg-neutral-800 dark:bg-white dark:text-black dark:hover:bg-neutral-200 font-semibold text-xs tracking-wider uppercase transition-colors shadow-sm"
               >
-                Explore Deployments <ArrowDown className="w-3.5 h-3.5" />
+                Deployments <ArrowDown className="w-3.5 h-3.5" />
               </a>
               <a
                 href="mailto:dev@takjug.com"
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-neutral-300 dark:border-neutral-800 bg-white/80 dark:bg-neutral-900/60 backdrop-blur hover:bg-neutral-100 dark:hover:bg-neutral-800 text-neutral-800 dark:text-neutral-300 hover:text-black dark:hover:text-white text-xs tracking-wider uppercase transition-colors shadow-sm"
               >
-                Initiate Dialogue <ArrowUpRight className="w-3.5 h-3.5" />
+                Contact <ArrowUpRight className="w-3.5 h-3.5" />
               </a>
             </div>
           </div>
         </div>
 
-        {/* Bottom HUD / Status Bar */}
-        <div className="relative z-20 w-full border-t border-neutral-200/80 dark:border-neutral-800/40 bg-white/60 dark:bg-neutral-950/40 backdrop-blur-sm">
-          <div className="max-w-7xl mx-auto px-6 sm:px-10 py-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-mono text-neutral-500 dark:text-neutral-500">
-            <div className="flex items-center gap-4">
-              <span className="flex items-center gap-1.5 text-neutral-700 dark:text-neutral-400">
-                <span className="w-2 h-2 rounded-full bg-neutral-400 dark:bg-neutral-500 animate-pulse" />
-                02 Active Deployments
-              </span>
-              <span className="hidden md:inline text-neutral-300 dark:text-neutral-700">•</span>
-              <span className="hidden md:inline">Lagos • Abuja • Global</span>
-            </div>
-
-            <a
-              href="#deployments"
-              className="flex items-center gap-2 text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-colors cursor-pointer group"
-            >
-              <span>Scroll to explore</span>
-              <ArrowDown className="w-3.5 h-3.5 group-hover:translate-y-0.5 transition-transform" />
-            </a>
-
-            <div className="hidden lg:flex items-center gap-2 text-neutral-500 text-[11px]">
-              <span>Drag canvas to inspect geometry</span>
-              <span className="font-sans">↺</span>
-            </div>
-          </div>
+        {/* Minimal Floating Scroll Indicator */}
+        <div className="relative z-20 pb-8 flex justify-center pointer-events-none">
+          <a
+            href="#deployments"
+            aria-label="Scroll to deployments"
+            className="pointer-events-auto p-2 text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors"
+          >
+            <ArrowDown className="w-4 h-4 animate-bounce" />
+          </a>
         </div>
       </section>
 
