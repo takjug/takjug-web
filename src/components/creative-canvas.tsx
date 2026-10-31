@@ -4,8 +4,24 @@
 import * as React from "react";
 import * as THREE from "three";
 
-export default function CreativeCanvas() {
+interface CreativeCanvasProps {
+  theme?: "dark" | "light";
+}
+
+export default function CreativeCanvas({ theme = "dark" }: CreativeCanvasProps) {
   const mountRef = React.useRef<HTMLDivElement>(null);
+
+  // References to materials for real-time smooth theme transitions
+  const matsRef = React.useRef<{
+    wireframeMat: THREE.LineBasicMaterial;
+    knotPointsMat: THREE.PointsMaterial;
+    particleMat: THREE.PointsMaterial;
+    gyroRing1Mat: THREE.MeshBasicMaterial;
+    gyroRing2Mat: THREE.MeshBasicMaterial;
+    pointLight: THREE.PointLight;
+    darkParticleTexture: THREE.CanvasTexture;
+    lightParticleTexture: THREE.CanvasTexture;
+  } | null>(null);
 
   React.useEffect(() => {
     if (!mountRef.current) return;
@@ -36,7 +52,7 @@ export default function CreativeCanvas() {
     const masterGroup = new THREE.Group();
     scene.add(masterGroup);
 
-    // Position group offset on desktop to frame the text nicely, centered on mobile
+    // Position group offset on desktop to frame typography, centered on mobile
     const updateGroupPosition = (w: number) => {
       if (w >= 1280) {
         masterGroup.position.x = 1.35;
@@ -58,26 +74,26 @@ export default function CreativeCanvas() {
     };
     updateGroupPosition(width);
 
-    // 1. Full-Screen Architectural Torus Knot (Platxform / MetaLab style)
+    // 1. Full-Screen Architectural Torus Knot (Platxform & MetaLab style)
     const knotGeo = new THREE.TorusKnotGeometry(1.25, 0.34, 160, 26, 2, 3);
 
-    // Wireframe Mesh (Crisp Silver Hairlines)
+    // Wireframe Mesh (Crisp hairline strokes)
     const wireframeGeo = new THREE.WireframeGeometry(knotGeo);
     const wireframeMat = new THREE.LineBasicMaterial({
-      color: 0xffffff,
+      color: theme === "dark" ? 0xffffff : 0x18181b,
       transparent: true,
-      opacity: 0.24,
+      opacity: theme === "dark" ? 0.24 : 0.22,
     });
     const wireframeMesh = new THREE.LineSegments(wireframeGeo, wireframeMat);
     masterGroup.add(wireframeMesh);
 
-    // 2. Vertex Points on Knot (Gleaming Pearl Nodes)
+    // 2. Vertex Points on Knot (Gleaming Nodes)
     const knotPointsMat = new THREE.PointsMaterial({
-      color: 0xffffff,
+      color: theme === "dark" ? 0xffffff : 0x09090b,
       size: 0.026,
       transparent: true,
       opacity: 0.75,
-      blending: THREE.AdditiveBlending,
+      blending: theme === "dark" ? THREE.AdditiveBlending : THREE.NormalBlending,
     });
     const knotPoints = new THREE.Points(knotGeo, knotPointsMat);
     masterGroup.add(knotPoints);
@@ -112,32 +128,41 @@ export default function CreativeCanvas() {
 
     particleGeo.setAttribute("position", new THREE.BufferAttribute(particlePositions, 3));
 
-    // Custom circular soft glow texture for particles
-    const createParticleTexture = () => {
+    // Textures for dark mode (luminous white) and light mode (charcoal dust)
+    const createParticleTexture = (isDark: boolean) => {
       const canvas = document.createElement("canvas");
       canvas.width = 32;
       canvas.height = 32;
       const ctx = canvas.getContext("2d");
       if (ctx) {
         const grad = ctx.createRadialGradient(16, 16, 0, 16, 16, 16);
-        grad.addColorStop(0, "rgba(255,255,255,1)");
-        grad.addColorStop(0.25, "rgba(240,240,245,0.75)");
-        grad.addColorStop(0.7, "rgba(200,200,210,0.18)");
-        grad.addColorStop(1, "rgba(0,0,0,0)");
+        if (isDark) {
+          grad.addColorStop(0, "rgba(255,255,255,1)");
+          grad.addColorStop(0.25, "rgba(240,240,245,0.75)");
+          grad.addColorStop(0.7, "rgba(200,200,210,0.18)");
+          grad.addColorStop(1, "rgba(0,0,0,0)");
+        } else {
+          grad.addColorStop(0, "rgba(24,24,27,1)");
+          grad.addColorStop(0.25, "rgba(39,39,42,0.75)");
+          grad.addColorStop(0.7, "rgba(63,63,70,0.18)");
+          grad.addColorStop(1, "rgba(0,0,0,0)");
+        }
         ctx.fillStyle = grad;
         ctx.fillRect(0, 0, 32, 32);
       }
       return new THREE.CanvasTexture(canvas);
     };
 
-    const particleTexture = createParticleTexture();
+    const darkParticleTexture = createParticleTexture(true);
+    const lightParticleTexture = createParticleTexture(false);
 
     const particleMat = new THREE.PointsMaterial({
       size: 0.032,
-      map: particleTexture,
+      map: theme === "dark" ? darkParticleTexture : lightParticleTexture,
+      color: theme === "dark" ? 0xffffff : 0x18181b,
       transparent: true,
-      opacity: 0.6,
-      blending: THREE.AdditiveBlending,
+      opacity: theme === "dark" ? 0.6 : 0.48,
+      blending: theme === "dark" ? THREE.AdditiveBlending : THREE.NormalBlending,
       depthWrite: false,
     });
 
@@ -146,32 +171,48 @@ export default function CreativeCanvas() {
 
     // 4. Kinetic Concentric Orbital Rings
     const ringGeo1 = new THREE.RingGeometry(2.4, 2.415, 120);
-    const ringMat1 = new THREE.MeshBasicMaterial({
-      color: 0xffffff,
+    const gyroRing1Mat = new THREE.MeshBasicMaterial({
+      color: theme === "dark" ? 0xffffff : 0x18181b,
       side: THREE.DoubleSide,
       transparent: true,
-      opacity: 0.14,
+      opacity: theme === "dark" ? 0.14 : 0.15,
     });
-    const gyroRing1 = new THREE.Mesh(ringGeo1, ringMat1);
+    const gyroRing1 = new THREE.Mesh(ringGeo1, gyroRing1Mat);
     gyroRing1.rotation.x = Math.PI / 2.5;
     masterGroup.add(gyroRing1);
 
     const ringGeo2 = new THREE.RingGeometry(2.9, 2.912, 120);
-    const ringMat2 = new THREE.MeshBasicMaterial({
-      color: 0xffffff,
+    const gyroRing2Mat = new THREE.MeshBasicMaterial({
+      color: theme === "dark" ? 0xffffff : 0x27272a,
       side: THREE.DoubleSide,
       transparent: true,
-      opacity: 0.08,
+      opacity: theme === "dark" ? 0.08 : 0.09,
     });
-    const gyroRing2 = new THREE.Mesh(ringGeo2, ringMat2);
+    const gyroRing2 = new THREE.Mesh(ringGeo2, gyroRing2Mat);
     gyroRing2.rotation.y = Math.PI / 3;
     gyroRing2.rotation.z = Math.PI / 6;
     masterGroup.add(gyroRing2);
 
     // 5. Specular Lighting
-    const pointLight = new THREE.PointLight(0xffffff, 2.8, 14);
+    const pointLight = new THREE.PointLight(
+      theme === "dark" ? 0xffffff : 0x52525b,
+      theme === "dark" ? 2.8 : 1.8,
+      14
+    );
     pointLight.position.set(3, 2, 4);
     scene.add(pointLight);
+
+    // Save material refs for dynamic theme switches
+    matsRef.current = {
+      wireframeMat,
+      knotPointsMat,
+      particleMat,
+      gyroRing1Mat,
+      gyroRing2Mat,
+      pointLight,
+      darkParticleTexture,
+      lightParticleTexture,
+    };
 
     // Mouse & Inertia Tracking
     let mouseX = 0;
@@ -329,14 +370,71 @@ export default function CreativeCanvas() {
       knotPointsMat.dispose();
       particleGeo.dispose();
       particleMat.dispose();
-      particleTexture.dispose();
+      darkParticleTexture.dispose();
+      lightParticleTexture.dispose();
       ringGeo1.dispose();
-      ringMat1.dispose();
+      gyroRing1Mat.dispose();
       ringGeo2.dispose();
-      ringMat2.dispose();
+      gyroRing2Mat.dispose();
       renderer.dispose();
     };
   }, []);
+
+  // Update 3D materials smoothly when theme changes without rebuilding scene
+  React.useEffect(() => {
+    if (!matsRef.current) return;
+    const isDark = theme === "dark";
+    const {
+      wireframeMat,
+      knotPointsMat,
+      particleMat,
+      gyroRing1Mat,
+      gyroRing2Mat,
+      pointLight,
+      darkParticleTexture,
+      lightParticleTexture,
+    } = matsRef.current;
+
+    if (isDark) {
+      wireframeMat.color.setHex(0xffffff);
+      wireframeMat.opacity = 0.24;
+      knotPointsMat.color.setHex(0xffffff);
+      knotPointsMat.opacity = 0.75;
+      knotPointsMat.blending = THREE.AdditiveBlending;
+      particleMat.color.setHex(0xffffff);
+      particleMat.map = darkParticleTexture;
+      particleMat.opacity = 0.6;
+      particleMat.blending = THREE.AdditiveBlending;
+      gyroRing1Mat.color.setHex(0xffffff);
+      gyroRing1Mat.opacity = 0.14;
+      gyroRing2Mat.color.setHex(0xffffff);
+      gyroRing2Mat.opacity = 0.08;
+      pointLight.color.setHex(0xffffff);
+      pointLight.intensity = 2.8;
+    } else {
+      wireframeMat.color.setHex(0x18181b);
+      wireframeMat.opacity = 0.22;
+      knotPointsMat.color.setHex(0x09090b);
+      knotPointsMat.opacity = 0.75;
+      knotPointsMat.blending = THREE.NormalBlending;
+      particleMat.color.setHex(0x18181b);
+      particleMat.map = lightParticleTexture;
+      particleMat.opacity = 0.48;
+      particleMat.blending = THREE.NormalBlending;
+      gyroRing1Mat.color.setHex(0x18181b);
+      gyroRing1Mat.opacity = 0.15;
+      gyroRing2Mat.color.setHex(0x27272a);
+      gyroRing2Mat.opacity = 0.09;
+      pointLight.color.setHex(0x52525b);
+      pointLight.intensity = 1.8;
+    }
+
+    wireframeMat.needsUpdate = true;
+    knotPointsMat.needsUpdate = true;
+    particleMat.needsUpdate = true;
+    gyroRing1Mat.needsUpdate = true;
+    gyroRing2Mat.needsUpdate = true;
+  }, [theme]);
 
   return (
     <div
