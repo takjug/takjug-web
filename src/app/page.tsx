@@ -278,6 +278,12 @@ export default function Home() {
                     >
                       Privacy Policy →
                     </Link>
+                    <Link
+                      href="/terms/portasnap"
+                      className="text-neutral-500 hover:text-black dark:text-neutral-400 dark:hover:text-white transition-colors underline"
+                    >
+                      Terms of Service →
+                    </Link>
                   </div>
                 </div>
 
@@ -549,6 +555,9 @@ export default function Home() {
           <div className="flex items-center gap-6">
             <Link href="/privacy" className="hover:text-black dark:hover:text-white transition-colors">
               Privacy Policy
+            </Link>
+            <Link href="/terms/portasnap" className="hover:text-black dark:hover:text-white transition-colors">
+              Terms of Service
             </Link>
           </div>
         </div>

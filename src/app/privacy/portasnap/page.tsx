@@ -29,8 +29,18 @@ export default function PortaSnapPrivacyPage() {
             size="sm"
             className="text-neutral-500 hover:text-black dark:text-neutral-400 dark:hover:text-white text-xs font-mono"
           >
+            <Link href="/terms/portasnap">
+              PortaSnap Terms of Service <ExternalLink className="w-3 h-3 ml-1" />
+            </Link>
+          </Button>
+          <Button
+            asChild
+            variant="ghost"
+            size="sm"
+            className="text-neutral-500 hover:text-black dark:text-neutral-400 dark:hover:text-white text-xs font-mono"
+          >
             <Link href="/privacy">
-              Takjug Corporate Policy <ExternalLink className="w-3 h-3 ml-1" />
+              Corporate Policy <ExternalLink className="w-3 h-3 ml-1" />
             </Link>
           </Button>
         </div>

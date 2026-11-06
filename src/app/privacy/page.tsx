@@ -78,16 +78,28 @@ export default function CorporatePrivacyPage() {
                   Mobile applications like PortaSnap have distinct on-device hardware and app store certified policies.
                 </div>
               </div>
-              <Button
-                asChild
-                variant="outline"
-                size="sm"
-                className="font-mono text-xs rounded-lg shrink-0 border-neutral-300 dark:border-neutral-700"
-              >
-                <Link href="/privacy/portasnap">
-                  PortaSnap App Policy <ArrowUpRight className="w-3 h-3 ml-1" />
-                </Link>
-              </Button>
+              <div className="flex items-center gap-2 shrink-0">
+                <Button
+                  asChild
+                  variant="outline"
+                  size="sm"
+                  className="font-mono text-xs rounded-lg border-neutral-300 dark:border-neutral-700"
+                >
+                  <Link href="/privacy/portasnap">
+                    PortaSnap Privacy <ArrowUpRight className="w-3 h-3 ml-1" />
+                  </Link>
+                </Button>
+                <Button
+                  asChild
+                  variant="outline"
+                  size="sm"
+                  className="font-mono text-xs rounded-lg border-neutral-300 dark:border-neutral-700"
+                >
+                  <Link href="/terms/portasnap">
+                    PortaSnap Terms <ArrowUpRight className="w-3 h-3 ml-1" />
+                  </Link>
+                </Button>
+              </div>
             </div>
 
             <Separator className="bg-neutral-200 dark:bg-neutral-800" />
