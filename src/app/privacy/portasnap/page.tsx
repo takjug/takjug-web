@@ -116,8 +116,22 @@ export default function PortaSnapPrivacyPage() {
 
             <Separator className="bg-neutral-200 dark:bg-neutral-800" />
 
+            <section id="data-deletion">
+              <h2 className="text-lg font-bold text-neutral-950 dark:text-white mb-3">4. Data Deletion &amp; User Control</h2>
+              <p className="text-xs text-neutral-600 dark:text-neutral-300 leading-relaxed mb-3">
+                Because PortaSnap operates on a zero-cloud, 100% on-device architecture, <strong>we do not maintain user accounts or store personal biometric photos on external servers</strong>. 
+              </p>
+              <ul className="space-y-2 text-xs text-neutral-600 dark:text-neutral-300 mb-3 list-disc pl-5">
+                <li><strong>Local Photos:</strong> Any passport or visa photo you export is stored solely in your local device photo library (in the 'PortaSnap' album) and can be deleted at any time directly through your Android gallery or file manager.</li>
+                <li><strong>Biometric Data:</strong> Real-time facial landmark analysis data is transient in memory and automatically destroyed the instant your camera session closes.</li>
+                <li><strong>Support Records:</strong> To request deletion of any support email correspondence, email our engineering desk at <strong>dev@takjug.com</strong> with the subject line &quot;Data Deletion Request&quot;. Requests are processed within 48 business hours.</li>
+              </ul>
+            </section>
+
+            <Separator className="bg-neutral-200 dark:bg-neutral-800" />
+
             <section>
-              <h2 className="text-lg font-bold text-neutral-950 dark:text-white mb-3">4. Contact Information</h2>
+              <h2 className="text-lg font-bold text-neutral-950 dark:text-white mb-3">5. Contact Information</h2>
               <p className="text-xs text-neutral-600 dark:text-neutral-300 leading-relaxed mb-3">
                 If you have questions regarding PortaSnap&apos;s on-device architecture or data protection practices, please contact our engineering desk:
               </p>
