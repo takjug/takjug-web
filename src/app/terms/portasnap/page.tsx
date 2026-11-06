@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeft, FileText, CheckCircle, ExternalLink, Scale } from "lucide-react";
+import { ArrowLeft, CheckCircle, ExternalLink, Shield } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -39,7 +39,7 @@ export default function PortaSnapTermsPage() {
           <CardHeader className="pb-4">
             <div className="flex items-center gap-3 mb-2 flex-wrap">
               <Badge variant="outline" className="font-mono text-[10px] border-neutral-300 dark:border-neutral-700">
-                <FileText className="w-3.5 h-3.5 mr-1 text-emerald-600 dark:text-emerald-400" /> End User Agreement
+                <Shield className="w-3.5 h-3.5 mr-1 text-emerald-600 dark:text-emerald-400" /> End User Agreement
               </Badge>
               <Badge variant="outline" className="font-mono text-[10px] border-neutral-300 dark:border-neutral-700">
                 Google Play Store Certified
@@ -60,7 +60,7 @@ export default function PortaSnapTermsPage() {
             {/* Core Agreement */}
             <div className="p-5 rounded-2xl border border-neutral-300 dark:border-neutral-800 bg-neutral-100/70 dark:bg-neutral-900/50">
               <h3 className="text-neutral-950 dark:text-white font-bold text-base flex items-center gap-2 mb-2">
-                <Scale className="w-5 h-5 text-neutral-800 dark:text-neutral-200" /> 1. Agreement to Terms
+                <Shield className="w-5 h-5 text-neutral-800 dark:text-neutral-200" /> 1. Agreement to Terms
               </h3>
               <p className="text-neutral-600 dark:text-neutral-300 text-xs leading-relaxed">
                 By downloading, accessing, or using <strong>PortaSnap</strong> (&quot;the Application&quot;), you agree to be bound by these Terms of Service between yourself and <strong>TAKJUG TECHNOLOGIES GLOBAL LTD</strong> (&quot;Takjug&quot;, &quot;we&quot;, &quot;us&quot;, or &quot;our&quot;). If you do not agree to these terms, do not install or use the Application.
