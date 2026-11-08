@@ -235,9 +235,16 @@ export default function Home() {
                     <span className="text-emerald-600 dark:text-emerald-400">Verified</span>
                   </div>
 
-                  <h3 className="text-3xl sm:text-4xl font-extrabold text-neutral-950 dark:text-white tracking-tight mb-4">
-                    PortaSnap
-                  </h3>
+                  <div className="flex items-center gap-3.5 mb-4">
+                    <img
+                      src="/brand/portasnap_icon.png"
+                      alt="PortaSnap App Icon"
+                      className="w-11 h-11 rounded-2xl border border-neutral-200 dark:border-neutral-800 shadow-sm shrink-0"
+                    />
+                    <h3 className="text-3xl sm:text-4xl font-extrabold text-neutral-950 dark:text-white tracking-tight">
+                      PortaSnap
+                    </h3>
+                  </div>
 
                   <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-400 leading-relaxed mb-6 max-w-xl">
                     The on-device biometric passport and visa studio. Verified for international ICAO Doc 9303 compliance with sub-pixel face alignment. All processing runs locally on device hardware—zero photos or biometric vectors ever leave your phone.
@@ -264,14 +271,39 @@ export default function Home() {
                   </div>
 
                   <div className="flex flex-wrap items-center gap-4 text-xs font-mono">
-                    <Button
-                      type="button"
-                      size="sm"
-                      onClick={() => handleContactTrigger("PortaSnap Early APK Access Request")}
-                      className="rounded-full bg-neutral-950 text-white hover:bg-neutral-800 dark:bg-white dark:text-black dark:hover:bg-neutral-200 font-semibold h-8 text-xs px-5 shadow-sm cursor-pointer"
+                    <a
+                      href="https://play.google.com/store/apps/details?id=com.takjug.portasnap"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-xl bg-neutral-950 text-white hover:bg-neutral-800 dark:bg-white dark:text-black dark:hover:bg-neutral-200 transition-colors shadow-sm cursor-pointer"
                     >
-                      Request APK Access <ArrowUpRight className="w-3.5 h-3.5 ml-1" />
-                    </Button>
+                      <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none">
+                        <path
+                          d="M3.609 1.813C3.36 2.073 3.2 2.51 3.2 3.093v17.814c0 .583.16 1.02.41 1.28l.067.067L13.68 12.25v-.277L3.676 1.745l-.067.068z"
+                          fill="#00D2FF"
+                        />
+                        <path
+                          d="M17.017 15.59l-3.336-3.34v-.278l3.336-3.34.075.042 3.953 2.247c1.129.641 1.129 1.69 0 2.333l-3.953 2.248-.075.089z"
+                          fill="#FFCE00"
+                        />
+                        <path
+                          d="M13.756 12.113L3.609 22.254c.371.393.985.441 1.68.046l11.728-6.662-3.261-3.525z"
+                          fill="#FF334B"
+                        />
+                        <path
+                          d="M13.756 11.887l3.261-3.525L5.289 1.7c-.695-.395-1.309-.347-1.68.046l10.147 10.14z"
+                          fill="#00F076"
+                        />
+                      </svg>
+                      <div className="flex flex-col text-left leading-none font-sans">
+                        <span className="text-[8px] uppercase tracking-wider font-semibold opacity-70">
+                          GET IT ON
+                        </span>
+                        <span className="text-[11px] font-bold tracking-tight mt-0.5">
+                          Google Play
+                        </span>
+                      </div>
+                    </a>
                     <Link
                       href="/privacy/portasnap"
                       className="text-neutral-500 hover:text-black dark:text-neutral-400 dark:hover:text-white transition-colors underline"
@@ -378,9 +410,18 @@ export default function Home() {
                     <span className="text-neutral-900 dark:text-neutral-200">Active</span>
                   </div>
 
-                  <h3 className="text-3xl sm:text-4xl font-extrabold text-neutral-950 dark:text-white tracking-tight mb-4">
-                    Àkọ́niledè Yorùbá
-                  </h3>
+                  <div className="flex items-center gap-3.5 mb-4">
+                    <div className="w-11 h-11 rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white p-1.5 flex items-center justify-center shadow-sm overflow-hidden shrink-0">
+                      <img
+                        src="/brand/akonilede_logo.svg"
+                        alt="Àkọ́niledè Yorùbá Logo"
+                        className="w-full h-full object-contain"
+                      />
+                    </div>
+                    <h3 className="text-3xl sm:text-4xl font-extrabold text-neutral-950 dark:text-white tracking-tight">
+                      Àkọ́niledè Yorùbá
+                    </h3>
+                  </div>
 
                   <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-400 leading-relaxed mb-6 max-w-xl">
                     End-to-end digital infrastructure for indigenous language education and cultural preservation. Real-time WebRTC virtual classrooms paired with intelligent Gemini AI dialect tutoring. Systems architecture and multiplatform client engineered by Takjug.
@@ -490,6 +531,45 @@ export default function Home() {
                 </div>
               </div>
             </article>
+          </div>
+
+          {/* Ecosystem & Platform Standards */}
+          <div className="pt-16 border-t border-neutral-200 dark:border-neutral-800/80">
+            <div className="flex items-center justify-between pb-6">
+              <span className="text-[11px] font-mono uppercase tracking-widest text-neutral-500 font-semibold">
+                Ecosystem &amp; Technology Standards
+              </span>
+              <span className="text-[11px] font-mono text-neutral-400">
+                Verified Architecture
+              </span>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 text-xs font-mono">
+              <div className="p-3.5 rounded-xl border border-neutral-200 dark:border-neutral-800/80 bg-white/50 dark:bg-neutral-900/40 backdrop-blur flex items-center gap-2.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                <span className="text-neutral-700 dark:text-neutral-300 font-semibold">Google Play</span>
+              </div>
+              <div className="p-3.5 rounded-xl border border-neutral-200 dark:border-neutral-800/80 bg-white/50 dark:bg-neutral-900/40 backdrop-blur flex items-center gap-2.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-neutral-400 dark:bg-neutral-600" />
+                <span className="text-neutral-700 dark:text-neutral-300 font-semibold">Android 16</span>
+              </div>
+              <div className="p-3.5 rounded-xl border border-neutral-200 dark:border-neutral-800/80 bg-white/50 dark:bg-neutral-900/40 backdrop-blur flex items-center gap-2.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-neutral-400 dark:bg-neutral-600" />
+                <span className="text-neutral-700 dark:text-neutral-300 font-semibold">ICAO Doc 9303</span>
+              </div>
+              <div className="p-3.5 rounded-xl border border-neutral-200 dark:border-neutral-800/80 bg-white/50 dark:bg-neutral-900/40 backdrop-blur flex items-center gap-2.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-neutral-400 dark:bg-neutral-600" />
+                <span className="text-neutral-700 dark:text-neutral-300 font-semibold">TFLite GPU</span>
+              </div>
+              <div className="p-3.5 rounded-xl border border-neutral-200 dark:border-neutral-800/80 bg-white/50 dark:bg-neutral-900/40 backdrop-blur flex items-center gap-2.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-neutral-400 dark:bg-neutral-600" />
+                <span className="text-neutral-700 dark:text-neutral-300 font-semibold">WebRTC SFU</span>
+              </div>
+              <div className="p-3.5 rounded-xl border border-neutral-200 dark:border-neutral-800/80 bg-white/50 dark:bg-neutral-900/40 backdrop-blur flex items-center gap-2.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-neutral-400 dark:bg-neutral-600" />
+                <span className="text-neutral-700 dark:text-neutral-300 font-semibold">Next.js Edge</span>
+              </div>
+            </div>
           </div>
         </section>
 
