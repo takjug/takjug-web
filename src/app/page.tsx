@@ -31,6 +31,7 @@ const ART_VARIANTS: ArtVariant[] = ["knot", "matrix", "ribbon", "orb"];
 export default function Home() {
   const { resolvedTheme } = useTheme();
   const [artVariant, setArtVariant] = React.useState<ArtVariant>("knot");
+  const [activeDeployment, setActiveDeployment] = React.useState<"portasnap" | "akonilede">("portasnap");
   const [activePhotoPreset, setActivePhotoPreset] = React.useState<"icao" | "us">("icao");
   const [isPlayingAudio, setIsPlayingAudio] = React.useState(false);
   const [isContactOpen, setIsContactOpen] = React.useState(false);
@@ -208,329 +209,398 @@ export default function Home() {
       <main className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
         {/* Systems Index (Direction 1: Swiss Engineering Grid) */}
         <section id="deployments" className="py-24 border-b border-neutral-200 dark:border-neutral-800/60">
-          {/* Header Bar */}
-          <div className="flex items-baseline justify-between pb-6 border-b border-neutral-300 dark:border-neutral-800">
+          {/* Header Bar with Deployment Tab Switcher */}
+          <div className="flex flex-col sm:flex-row sm:items-baseline justify-between pb-6 border-b border-neutral-300 dark:border-neutral-800 gap-4">
             <div className="flex items-center gap-3">
               <span className="w-2 h-2 rounded-full bg-neutral-950 dark:bg-white animate-pulse" />
               <h2 className="text-xs font-mono uppercase tracking-widest text-neutral-900 dark:text-neutral-100 font-semibold">
                 Systems Index
               </h2>
             </div>
-            <span className="text-xs font-mono text-neutral-500">
-              02 Active Deployments
-            </span>
+
+            {/* Tactical Deployment Switcher Tabs */}
+            <div className="flex items-center gap-2 p-1 rounded-xl bg-neutral-200/70 dark:bg-neutral-900/90 border border-neutral-300/80 dark:border-neutral-800 self-start sm:self-auto">
+              <button
+                type="button"
+                onClick={() => setActiveDeployment("portasnap")}
+                className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-mono transition-all duration-200 cursor-pointer ${
+                  activeDeployment === "portasnap"
+                    ? "bg-white dark:bg-neutral-950 text-neutral-950 dark:text-white font-bold shadow-xs border border-neutral-300/70 dark:border-neutral-800"
+                    : "text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white"
+                }`}
+              >
+                <img
+                  src="/brand/portasnap_icon.png"
+                  alt=""
+                  className="w-3.5 h-3.5 rounded-sm shrink-0"
+                />
+                <span>01 // PortaSnap</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setActiveDeployment("akonilede")}
+                className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-mono transition-all duration-200 cursor-pointer ${
+                  activeDeployment === "akonilede"
+                    ? "bg-white dark:bg-neutral-950 text-neutral-950 dark:text-white font-bold shadow-xs border border-neutral-300/70 dark:border-neutral-800"
+                    : "text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white"
+                }`}
+              >
+                <div className="w-3.5 h-3.5 rounded-sm bg-white p-0.5 flex items-center justify-center shrink-0">
+                  <img
+                    src="/brand/akonilede_logo.svg"
+                    alt=""
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+                <span>02 // Àkọ́niledè Yorùbá</span>
+              </button>
+            </div>
           </div>
 
-          <div className="divide-y divide-neutral-200 dark:divide-neutral-800/80">
-            {/* System 01: PortaSnap */}
-            <article className="py-16 sm:py-20">
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
-                {/* Left: Editorial & Technical Specifications */}
-                <div className="lg:col-span-7">
-                  <div className="flex items-center gap-3 mb-4 text-xs font-mono uppercase tracking-wider text-neutral-500">
-                    <span className="font-bold text-neutral-950 dark:text-white">01 // Flagship Venture</span>
-                    <span>•</span>
-                    <span>On-Device AI</span>
-                    <span>•</span>
-                    <span className="text-emerald-600 dark:text-emerald-400">Verified</span>
-                  </div>
-
-                  <div className="flex items-center gap-3.5 mb-4">
-                    <img
-                      src="/brand/portasnap_icon.png"
-                      alt="PortaSnap App Icon"
-                      className="w-11 h-11 rounded-2xl border border-neutral-200 dark:border-neutral-800 shadow-sm shrink-0"
-                    />
-                    <h3 className="text-3xl sm:text-4xl font-extrabold text-neutral-950 dark:text-white tracking-tight">
-                      PortaSnap
-                    </h3>
-                  </div>
-
-                  <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-400 leading-relaxed mb-6 max-w-xl">
-                    The on-device biometric passport and visa studio. Verified for international ICAO Doc 9303 compliance with sub-pixel face alignment. All processing runs locally on device hardware—zero photos or biometric vectors ever leave your phone.
-                  </p>
-
-                  {/* Monospace Technical Specification Strip */}
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 py-4 mb-6 border-y border-neutral-200 dark:border-neutral-800/80 text-[11px] font-mono">
-                    <div>
-                      <span className="text-neutral-400 dark:text-neutral-500 block mb-0.5">ENGINE</span>
-                      <span className="font-semibold text-neutral-900 dark:text-neutral-200">TFLite GPU</span>
-                    </div>
-                    <div>
-                      <span className="text-neutral-400 dark:text-neutral-500 block mb-0.5">STANDARD</span>
-                      <span className="font-semibold text-neutral-900 dark:text-neutral-200">ICAO Doc 9303</span>
-                    </div>
-                    <div>
-                      <span className="text-neutral-400 dark:text-neutral-500 block mb-0.5">LATENCY</span>
-                      <span className="font-semibold text-neutral-900 dark:text-neutral-200">&lt;8.4ms Sub-Pixel</span>
-                    </div>
-                    <div>
-                      <span className="text-neutral-400 dark:text-neutral-500 block mb-0.5">TELEMETRY</span>
-                      <span className="font-semibold text-neutral-900 dark:text-neutral-200">0 KB Exfiltration</span>
-                    </div>
-                  </div>
-
-                  <div className="flex flex-wrap items-center gap-4 text-xs font-mono">
-                    <a
-                      href="https://play.google.com/store/apps/details?id=com.takjug.portasnap"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-xl bg-neutral-950 text-white hover:bg-neutral-800 dark:bg-white dark:text-black dark:hover:bg-neutral-200 transition-colors shadow-sm cursor-pointer"
-                    >
-                      <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none">
-                        <path
-                          d="M3.609 1.813C3.36 2.073 3.2 2.51 3.2 3.093v17.814c0 .583.16 1.02.41 1.28l.067.067L13.68 12.25v-.277L3.676 1.745l-.067.068z"
-                          fill="#00D2FF"
-                        />
-                        <path
-                          d="M17.017 15.59l-3.336-3.34v-.278l3.336-3.34.075.042 3.953 2.247c1.129.641 1.129 1.69 0 2.333l-3.953 2.248-.075.089z"
-                          fill="#FFCE00"
-                        />
-                        <path
-                          d="M13.756 12.113L3.609 22.254c.371.393.985.441 1.68.046l11.728-6.662-3.261-3.525z"
-                          fill="#FF334B"
-                        />
-                        <path
-                          d="M13.756 11.887l3.261-3.525L5.289 1.7c-.695-.395-1.309-.347-1.68.046l10.147 10.14z"
-                          fill="#00F076"
-                        />
-                      </svg>
-                      <div className="flex flex-col text-left leading-none font-sans">
-                        <span className="text-[8px] uppercase tracking-wider font-semibold opacity-70">
-                          GET IT ON
-                        </span>
-                        <span className="text-[11px] font-bold tracking-tight mt-0.5">
-                          Google Play
-                        </span>
-                      </div>
-                    </a>
-                    <Link
-                      href="/privacy/portasnap"
-                      className="text-neutral-500 hover:text-black dark:text-neutral-400 dark:hover:text-white transition-colors underline"
-                    >
-                      Privacy Policy →
-                    </Link>
-                    <Link
-                      href="/terms/portasnap"
-                      className="text-neutral-500 hover:text-black dark:text-neutral-400 dark:hover:text-white transition-colors underline"
-                    >
-                      Terms of Service →
-                    </Link>
-                  </div>
-                </div>
-
-                {/* Right: Precision CAD Biometric Optical Viewfinder */}
-                <div className="lg:col-span-5">
-                  <div className="relative border border-neutral-300 dark:border-neutral-800 bg-neutral-100/60 dark:bg-neutral-900/40 p-4 rounded-xl">
-                    {/* Viewfinder Header Controls */}
-                    <div className="flex items-center justify-between mb-3 text-[11px] font-mono">
-                      <div className="flex items-center gap-2">
-                        <Camera className="w-3.5 h-3.5 text-neutral-700 dark:text-neutral-300" />
-                        <span className="font-bold text-neutral-950 dark:text-white">OPTICAL RETICLE</span>
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                      </div>
-
-                      {/* Aspect Ratio Standard Switcher */}
-                      <div className="flex gap-1 p-0.5 rounded-md bg-neutral-200 dark:bg-neutral-800 border border-neutral-300/80 dark:border-neutral-700">
-                        <button
-                          type="button"
-                          onClick={() => setActivePhotoPreset("icao")}
-                          className={`px-2 py-0.5 text-[10px] font-mono rounded transition-colors cursor-pointer ${activePhotoPreset === "icao"
-                            ? "bg-neutral-950 text-white dark:bg-white dark:text-black font-bold"
-                            : "text-neutral-600 hover:text-black dark:text-neutral-400 dark:hover:text-white"
-                            }`}
-                        >
-                          ICAO 35×45mm
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setActivePhotoPreset("us")}
-                          className={`px-2 py-0.5 text-[10px] font-mono rounded transition-colors cursor-pointer ${activePhotoPreset === "us"
-                            ? "bg-neutral-950 text-white dark:bg-white dark:text-black font-bold"
-                            : "text-neutral-600 hover:text-black dark:text-neutral-400 dark:hover:text-white"
-                            }`}
-                        >
-                          US 2×2"
-                        </button>
-                      </div>
+          {/* Spotlight Stage Viewport */}
+          <div className="min-h-[520px]">
+            {activeDeployment === "portasnap" && (
+              <article className="py-16 sm:py-20 animate-in fade-in duration-300">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+                  {/* Left: Editorial & Technical Specifications */}
+                  <div className="lg:col-span-7">
+                    <div className="flex items-center gap-3 mb-4 text-xs font-mono uppercase tracking-wider text-neutral-500">
+                      <span className="font-bold text-neutral-950 dark:text-white">01 // Flagship Venture</span>
+                      <span>•</span>
+                      <span>On-Device AI</span>
+                      <span>•</span>
+                      <span className="text-emerald-600 dark:text-emerald-400">Verified</span>
                     </div>
 
-                    {/* CAD Canvas Frame */}
-                    <div className="h-52 rounded-lg border border-neutral-300 dark:border-neutral-800 bg-white dark:bg-neutral-950 relative overflow-hidden flex items-center justify-center shadow-inner">
-                      {/* Corner Crosshair Markers */}
-                      <span className="absolute top-2 left-2 text-[10px] font-mono text-neutral-400 dark:text-neutral-600 select-none">+</span>
-                      <span className="absolute top-2 right-2 text-[10px] font-mono text-neutral-400 dark:text-neutral-600 select-none">+</span>
-                      <span className="absolute bottom-2 left-2 text-[10px] font-mono text-neutral-400 dark:text-neutral-600 select-none">+</span>
-                      <span className="absolute bottom-2 right-2 text-[10px] font-mono text-neutral-400 dark:text-neutral-600 select-none">+</span>
-
-                      {/* Technical Coordinate Sub-Grid */}
-                      <div className="absolute inset-x-8 top-1/2 border-t border-dashed border-neutral-200 dark:border-neutral-800 -translate-y-4" />
-                      <div className="absolute inset-y-6 left-1/2 border-l border-dashed border-neutral-200 dark:border-neutral-800" />
-
-                      {/* Animated Scanning Sweep Laser Beam */}
-                      <div className="absolute inset-x-0 h-px bg-gradient-to-r from-transparent via-neutral-950 dark:via-white to-transparent opacity-30 animate-[scan_4s_ease-in-out_infinite]" />
-
-                      {/* Biometric Head Oval Guideline */}
-                      <div
-                        className={`transition-all duration-500 border border-neutral-500 dark:border-neutral-400 flex items-center justify-center relative ${activePhotoPreset === "icao"
-                          ? "w-28 h-36 rounded-[50%]"
-                          : "w-32 h-32 rounded-[50%]"
-                          }`}
-                      >
-                        <div className="w-1.5 h-1.5 rounded-full bg-neutral-950 dark:bg-white absolute" />
-                        <span className="text-[10px] font-mono text-neutral-700 dark:text-neutral-300 bg-white/90 dark:bg-neutral-950/90 px-1.5 py-0.5 rounded border border-neutral-200 dark:border-neutral-800">
-                          {activePhotoPreset === "icao" ? "70–80% Ratio" : "50–69% Ratio"}
-                        </span>
-                      </div>
-
-                      {/* Telemetry Footer */}
-                      <div className="absolute bottom-2 left-3 text-[10px] font-mono text-neutral-700 dark:text-neutral-400 flex items-center gap-1.5">
-                        <CheckCircle2 className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
-                        <span>Geometry Validated</span>
-                      </div>
-                      <div className="absolute bottom-2 right-3 text-[10px] font-mono text-neutral-400 dark:text-neutral-500">
-                        ISO/IEC 19794-5
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </article>
-
-            {/* System 02: Àkọ́niledè Yorùbá */}
-            <article className="py-16 sm:py-20">
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
-                {/* Left: Editorial & Technical Specifications */}
-                <div className="lg:col-span-7">
-                  <div className="flex items-center gap-3 mb-4 text-xs font-mono uppercase tracking-wider text-neutral-500">
-                    <span className="font-bold text-neutral-950 dark:text-white">02 // Client Partnership</span>
-                    <span>•</span>
-                    <span>Indigenous Infrastructure</span>
-                    <span>•</span>
-                    <span className="text-neutral-900 dark:text-neutral-200">Active</span>
-                  </div>
-
-                  <div className="flex items-center gap-3.5 mb-4">
-                    <div className="w-11 h-11 rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white p-1.5 flex items-center justify-center shadow-sm overflow-hidden shrink-0">
+                    <div className="flex items-center gap-3.5 mb-4">
                       <img
-                        src="/brand/akonilede_logo.svg"
-                        alt="Àkọ́niledè Yorùbá Logo"
-                        className="w-full h-full object-contain"
+                        src="/brand/portasnap_icon.png"
+                        alt="PortaSnap App Icon"
+                        className="w-11 h-11 rounded-2xl border border-neutral-200 dark:border-neutral-800 shadow-sm shrink-0"
                       />
+                      <h3 className="text-3xl sm:text-4xl font-extrabold text-neutral-950 dark:text-white tracking-tight">
+                        PortaSnap
+                      </h3>
                     </div>
-                    <h3 className="text-3xl sm:text-4xl font-extrabold text-neutral-950 dark:text-white tracking-tight">
-                      Àkọ́niledè Yorùbá
-                    </h3>
-                  </div>
 
-                  <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-400 leading-relaxed mb-6 max-w-xl">
-                    End-to-end digital infrastructure for indigenous language education and cultural preservation. Real-time WebRTC virtual classrooms paired with intelligent Gemini AI dialect tutoring. Systems architecture and multiplatform client engineered by Takjug.
-                  </p>
+                    <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-400 leading-relaxed mb-6 max-w-xl">
+                      The on-device biometric passport and visa studio. Verified for international ICAO Doc 9303 compliance with sub-pixel face alignment. All processing runs locally on device hardware—zero photos or biometric vectors ever leave your phone.
+                    </p>
 
-                  {/* Monospace Technical Specification Strip */}
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 py-4 mb-6 border-y border-neutral-200 dark:border-neutral-800/80 text-[11px] font-mono">
-                    <div>
-                      <span className="text-neutral-400 dark:text-neutral-500 block mb-0.5">ARCHITECTURE</span>
-                      <span className="font-semibold text-neutral-900 dark:text-neutral-200">WebRTC SFU</span>
-                    </div>
-                    <div>
-                      <span className="text-neutral-400 dark:text-neutral-500 block mb-0.5">AI ENGINE</span>
-                      <span className="font-semibold text-neutral-900 dark:text-neutral-200">Gemini 1.5 Live</span>
-                    </div>
-                    <div>
-                      <span className="text-neutral-400 dark:text-neutral-500 block mb-0.5">ACCURACY</span>
-                      <span className="font-semibold text-neutral-900 dark:text-neutral-200">99.2% Tone Parsing</span>
-                    </div>
-                    <div>
-                      <span className="text-neutral-400 dark:text-neutral-500 block mb-0.5">DEPLOYMENT</span>
-                      <span className="font-semibold text-neutral-900 dark:text-neutral-200">Multiplatform</span>
-                    </div>
-                  </div>
-
-                  <div className="text-xs font-mono text-neutral-500">
-                    Full-lifecycle systems engineering &amp; managed platform partnership.
-                  </div>
-                </div>
-
-                {/* Right: Linguistic Tone Oscilloscope & Phonation Synthesizer */}
-                <div className="lg:col-span-5">
-                  <div className="relative border border-neutral-300 dark:border-neutral-800 bg-neutral-100/60 dark:bg-neutral-900/40 p-4 rounded-xl">
-                    {/* Viewfinder Header Controls */}
-                    <div className="flex items-center justify-between mb-3 text-[11px] font-mono">
-                      <div className="flex items-center gap-2">
-                        <Activity className="w-3.5 h-3.5 text-neutral-700 dark:text-neutral-300" />
-                        <span className="font-bold text-neutral-950 dark:text-white">PHONATION OSCILLOSCOPE</span>
+                    {/* Monospace Technical Specification Strip */}
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 py-4 mb-6 border-y border-neutral-200 dark:border-neutral-800/80 text-[11px] font-mono">
+                      <div>
+                        <span className="text-neutral-400 dark:text-neutral-500 block mb-0.5">ENGINE</span>
+                        <span className="font-semibold text-neutral-900 dark:text-neutral-200">TFLite GPU</span>
                       </div>
-                      <div className="text-[10px] font-mono text-neutral-500 dark:text-neutral-400 flex items-center gap-1.5">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                        <span>Live Stream</span>
+                      <div>
+                        <span className="text-neutral-400 dark:text-neutral-500 block mb-0.5">STANDARD</span>
+                        <span className="font-semibold text-neutral-900 dark:text-neutral-200">ICAO Doc 9303</span>
+                      </div>
+                      <div>
+                        <span className="text-neutral-400 dark:text-neutral-500 block mb-0.5">LATENCY</span>
+                        <span className="font-semibold text-neutral-900 dark:text-neutral-200">&lt;8.4ms Sub-Pixel</span>
+                      </div>
+                      <div>
+                        <span className="text-neutral-400 dark:text-neutral-500 block mb-0.5">TELEMETRY</span>
+                        <span className="font-semibold text-neutral-900 dark:text-neutral-200">0 KB Exfiltration</span>
                       </div>
                     </div>
 
-                    {/* Oscilloscope Canvas */}
-                    <div className="h-52 rounded-lg border border-neutral-300 dark:border-neutral-800 bg-white dark:bg-neutral-950 relative overflow-hidden p-4 flex flex-col justify-between shadow-inner">
-                      {/* Corner CAD Markers */}
-                      <span className="absolute top-2 left-2 text-[10px] font-mono text-neutral-400 dark:text-neutral-600 select-none">+</span>
-                      <span className="absolute top-2 right-2 text-[10px] font-mono text-neutral-400 dark:text-neutral-600 select-none">+</span>
-
-                      {/* Top Action Bar */}
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <span className="text-xs font-mono text-neutral-950 dark:text-white font-bold block">
-                            Ẹ ǹlẹ́ o <span className="text-neutral-500 font-normal">(Greetings)</span>
+                    <div className="flex flex-wrap items-center gap-4 text-xs font-mono">
+                      <a
+                        href="https://play.google.com/store/apps/details?id=com.takjug.portasnap"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-xl bg-neutral-950 text-white hover:bg-neutral-800 dark:bg-white dark:text-black dark:hover:bg-neutral-200 transition-colors shadow-sm cursor-pointer"
+                      >
+                        <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none">
+                          <path
+                            d="M3.609 1.813C3.36 2.073 3.2 2.51 3.2 3.093v17.814c0 .583.16 1.02.41 1.28l.067.067L13.68 12.25v-.277L3.676 1.745l-.067.068z"
+                            fill="#00D2FF"
+                          />
+                          <path
+                            d="M17.017 15.59l-3.336-3.34v-.278l3.336-3.34.075.042 3.953 2.247c1.129.641 1.129 1.69 0 2.333l-3.953 2.248-.075.089z"
+                            fill="#FFCE00"
+                          />
+                          <path
+                            d="M13.756 12.113L3.609 22.254c.371.393.985.441 1.68.046l11.728-6.662-3.261-3.525z"
+                            fill="#FF334B"
+                          />
+                          <path
+                            d="M13.756 11.887l3.261-3.525L5.289 1.7c-.695-.395-1.309-.347-1.68.046l10.147 10.14z"
+                            fill="#00F076"
+                          />
+                        </svg>
+                        <div className="flex flex-col text-left leading-none font-sans">
+                          <span className="text-[8px] uppercase tracking-wider font-semibold opacity-70">
+                            GET IT ON
                           </span>
-                          <span className="text-[10px] font-mono text-neutral-400">
-                            Tone Contour: Re (Mid) → Dò (Low) → Mí (High) → Re (Mid)
+                          <span className="text-[11px] font-bold tracking-tight mt-0.5">
+                            Google Play
                           </span>
                         </div>
+                      </a>
+                      <Link
+                        href="/privacy/portasnap"
+                        className="text-neutral-500 hover:text-black dark:text-neutral-400 dark:hover:text-white transition-colors underline"
+                      >
+                        Privacy Policy →
+                      </Link>
+                      <Link
+                        href="/terms/portasnap"
+                        className="text-neutral-500 hover:text-black dark:text-neutral-400 dark:hover:text-white transition-colors underline"
+                      >
+                        Terms of Service →
+                      </Link>
+                    </div>
+                  </div>
 
-                        <Button
-                          type="button"
-                          onClick={handleAudioPreview}
-                          size="sm"
-                          className="h-7 text-[10px] font-mono bg-neutral-950 text-white hover:bg-neutral-800 dark:bg-white dark:text-black dark:hover:bg-neutral-200 font-bold gap-1 cursor-pointer shadow-xs"
+                  {/* Right: Precision CAD Biometric Optical Viewfinder */}
+                  <div className="lg:col-span-5">
+                    <div className="relative border border-neutral-300 dark:border-neutral-800 bg-neutral-100/60 dark:bg-neutral-900/40 p-4 rounded-xl">
+                      {/* Viewfinder Header Controls */}
+                      <div className="flex items-center justify-between mb-3 text-[11px] font-mono">
+                        <div className="flex items-center gap-2">
+                          <Camera className="w-3.5 h-3.5 text-neutral-700 dark:text-neutral-300" />
+                          <span className="font-bold text-neutral-950 dark:text-white">OPTICAL RETICLE</span>
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                        </div>
+
+                        {/* Aspect Ratio Standard Switcher */}
+                        <div className="flex gap-1 p-0.5 rounded-md bg-neutral-200 dark:bg-neutral-800 border border-neutral-300/80 dark:border-neutral-700">
+                          <button
+                            type="button"
+                            onClick={() => setActivePhotoPreset("icao")}
+                            className={`px-2 py-0.5 text-[10px] font-mono rounded transition-colors cursor-pointer ${
+                              activePhotoPreset === "icao"
+                                ? "bg-neutral-950 text-white dark:bg-white dark:text-black font-bold"
+                                : "text-neutral-600 hover:text-black dark:text-neutral-400 dark:hover:text-white"
+                            }`}
+                          >
+                            ICAO 35×45mm
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setActivePhotoPreset("us")}
+                            className={`px-2 py-0.5 text-[10px] font-mono rounded transition-colors cursor-pointer ${
+                              activePhotoPreset === "us"
+                                ? "bg-neutral-950 text-white dark:bg-white dark:text-black font-bold"
+                                : "text-neutral-600 hover:text-black dark:text-neutral-400 dark:hover:text-white"
+                            }`}
+                          >
+                            US 2×2"
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* CAD Canvas Frame */}
+                      <div className="h-52 rounded-lg border border-neutral-300 dark:border-neutral-800 bg-white dark:bg-neutral-950 relative overflow-hidden flex items-center justify-center shadow-inner">
+                        {/* Corner Crosshair Markers */}
+                        <span className="absolute top-2 left-2 text-[10px] font-mono text-neutral-400 dark:text-neutral-600 select-none">+</span>
+                        <span className="absolute top-2 right-2 text-[10px] font-mono text-neutral-400 dark:text-neutral-600 select-none">+</span>
+                        <span className="absolute bottom-2 left-2 text-[10px] font-mono text-neutral-400 dark:text-neutral-600 select-none">+</span>
+                        <span className="absolute bottom-2 right-2 text-[10px] font-mono text-neutral-400 dark:text-neutral-600 select-none">+</span>
+
+                        {/* Technical Coordinate Sub-Grid */}
+                        <div className="absolute inset-x-8 top-1/2 border-t border-dashed border-neutral-200 dark:border-neutral-800 -translate-y-4" />
+                        <div className="absolute inset-y-6 left-1/2 border-l border-dashed border-neutral-200 dark:border-neutral-800" />
+
+                        {/* Animated Scanning Sweep Laser Beam */}
+                        <div className="absolute inset-x-0 h-px bg-gradient-to-r from-transparent via-neutral-950 dark:via-white to-transparent opacity-30 animate-[scan_4s_ease-in-out_infinite]" />
+
+                        {/* Biometric Head Oval Guideline */}
+                        <div
+                          className={`transition-all duration-500 border border-neutral-500 dark:border-neutral-400 flex items-center justify-center relative ${
+                            activePhotoPreset === "icao"
+                              ? "w-28 h-36 rounded-[50%]"
+                              : "w-32 h-32 rounded-[50%]"
+                          }`}
                         >
-                          <Volume2 className="w-3 h-3" /> {isPlayingAudio ? "Synthesizing..." : "Test Drill"}
-                        </Button>
-                      </div>
-
-                      {/* Pitch Contour Line and Frequency Waveform Bars */}
-                      <div className="py-2">
-                        <div className="flex items-end gap-1.5 h-12 mb-2">
-                          {[35, 70, 50, 90, 60, 85, 40, 95, 65, 50, 80, 60, 90, 45, 75, 55].map((h, i) => (
-                            <div
-                              key={i}
-                              className={`flex-1 rounded-full transition-all duration-200 ${isPlayingAudio
-                                ? "bg-neutral-950 dark:bg-white"
-                                : "bg-neutral-200 dark:bg-neutral-800"
-                                }`}
-                              style={{
-                                height: isPlayingAudio ? `${h}%` : "22%",
-                                transitionDelay: `${i * 15}ms`,
-                              }}
-                            />
-                          ))}
+                          <div className="w-1.5 h-1.5 rounded-full bg-neutral-950 dark:bg-white absolute" />
+                          <span className="text-[10px] font-mono text-neutral-700 dark:text-neutral-300 bg-white/90 dark:bg-neutral-950/90 px-1.5 py-0.5 rounded border border-neutral-200 dark:border-neutral-800">
+                            {activePhotoPreset === "icao" ? "70–80% Ratio" : "50–69% Ratio"}
+                          </span>
                         </div>
 
-                        {/* Tone Scale Guide */}
-                        <div className="flex justify-between text-[9px] font-mono text-neutral-400 uppercase tracking-wider border-t border-neutral-100 dark:border-neutral-900 pt-1">
-                          <span>Re (294 Hz)</span>
-                          <span>Dò (261 Hz)</span>
-                          <span>Mí (330 Hz)</span>
-                          <span>Re (294 Hz)</span>
+                        {/* Telemetry Footer */}
+                        <div className="absolute bottom-2 left-3 text-[10px] font-mono text-neutral-700 dark:text-neutral-400 flex items-center gap-1.5">
+                          <CheckCircle2 className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
+                          <span>Geometry Validated</span>
                         </div>
-                      </div>
-
-                      {/* Telemetry Footer */}
-                      <div className="flex items-center justify-between text-[10px] font-mono text-neutral-500 pt-1 border-t border-neutral-100 dark:border-neutral-900">
-                        <span>WebRTC 24ms SFU</span>
-                        <span className="text-emerald-600 dark:text-emerald-400">Dialect Fidelity: 99.2%</span>
+                        <div className="absolute bottom-2 right-3 text-[10px] font-mono text-neutral-400 dark:text-neutral-500">
+                          ISO/IEC 19794-5
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </article>
+              </article>
+            )}
+
+            {activeDeployment === "akonilede" && (
+              <article className="py-16 sm:py-20 animate-in fade-in duration-300">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+                  {/* Left: Editorial & Technical Specifications */}
+                  <div className="lg:col-span-7">
+                    <div className="flex items-center gap-3 mb-4 text-xs font-mono uppercase tracking-wider text-neutral-500">
+                      <span className="font-bold text-neutral-950 dark:text-white">02 // Client Partnership</span>
+                      <span>•</span>
+                      <span>Indigenous Infrastructure</span>
+                      <span>•</span>
+                      <span className="text-neutral-900 dark:text-neutral-200">Active</span>
+                    </div>
+
+                    <div className="flex items-center gap-3.5 mb-4">
+                      <div className="w-11 h-11 rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white p-1.5 flex items-center justify-center shadow-sm overflow-hidden shrink-0">
+                        <img
+                          src="/brand/akonilede_logo.svg"
+                          alt="Àkọ́niledè Yorùbá Logo"
+                          className="w-full h-full object-contain"
+                        />
+                      </div>
+                      <h3 className="text-3xl sm:text-4xl font-extrabold text-neutral-950 dark:text-white tracking-tight">
+                        Àkọ́niledè Yorùbá
+                      </h3>
+                    </div>
+
+                    <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-400 leading-relaxed mb-6 max-w-xl">
+                      End-to-end digital infrastructure for indigenous language education and cultural preservation. Real-time WebRTC virtual classrooms paired with intelligent Gemini AI dialect tutoring. Systems architecture and multiplatform client engineered by Takjug.
+                    </p>
+
+                    {/* Monospace Technical Specification Strip */}
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 py-4 mb-6 border-y border-neutral-200 dark:border-neutral-800/80 text-[11px] font-mono">
+                      <div>
+                        <span className="text-neutral-400 dark:text-neutral-500 block mb-0.5">ARCHITECTURE</span>
+                        <span className="font-semibold text-neutral-900 dark:text-neutral-200">WebRTC SFU</span>
+                      </div>
+                      <div>
+                        <span className="text-neutral-400 dark:text-neutral-500 block mb-0.5">AI ENGINE</span>
+                        <span className="font-semibold text-neutral-900 dark:text-neutral-200">Gemini 1.5 Live</span>
+                      </div>
+                      <div>
+                        <span className="text-neutral-400 dark:text-neutral-500 block mb-0.5">ACCURACY</span>
+                        <span className="font-semibold text-neutral-900 dark:text-neutral-200">99.2% Tone Parsing</span>
+                      </div>
+                      <div>
+                        <span className="text-neutral-400 dark:text-neutral-500 block mb-0.5">DEPLOYMENT</span>
+                        <span className="font-semibold text-neutral-900 dark:text-neutral-200">Multiplatform</span>
+                      </div>
+                    </div>
+
+                    <div className="text-xs font-mono text-neutral-500">
+                      Full-lifecycle systems engineering &amp; managed platform partnership.
+                    </div>
+                  </div>
+
+                  {/* Right: Linguistic Tone Oscilloscope & Phonation Synthesizer */}
+                  <div className="lg:col-span-5">
+                    <div className="relative border border-neutral-300 dark:border-neutral-800 bg-neutral-100/60 dark:bg-neutral-900/40 p-4 rounded-xl">
+                      {/* Viewfinder Header Controls */}
+                      <div className="flex items-center justify-between mb-3 text-[11px] font-mono">
+                        <div className="flex items-center gap-2">
+                          <Activity className="w-3.5 h-3.5 text-neutral-700 dark:text-neutral-300" />
+                          <span className="font-bold text-neutral-950 dark:text-white">PHONATION OSCILLOSCOPE</span>
+                        </div>
+                        <div className="text-[10px] font-mono text-neutral-500 dark:text-neutral-400 flex items-center gap-1.5">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                          <span>Live Stream</span>
+                        </div>
+                      </div>
+
+                      {/* Oscilloscope Canvas */}
+                      <div className="h-52 rounded-lg border border-neutral-300 dark:border-neutral-800 bg-white dark:bg-neutral-950 relative overflow-hidden p-4 flex flex-col justify-between shadow-inner">
+                        {/* Corner CAD Markers */}
+                        <span className="absolute top-2 left-2 text-[10px] font-mono text-neutral-400 dark:text-neutral-600 select-none">+</span>
+                        <span className="absolute top-2 right-2 text-[10px] font-mono text-neutral-400 dark:text-neutral-600 select-none">+</span>
+
+                        {/* Top Action Bar */}
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <span className="text-xs font-mono text-neutral-950 dark:text-white font-bold block">
+                              Ẹ ǹlẹ́ o <span className="text-neutral-500 font-normal">(Greetings)</span>
+                            </span>
+                            <span className="text-[10px] font-mono text-neutral-400">
+                              Tone Contour: Re (Mid) → Dò (Low) → Mí (High) → Re (Mid)
+                            </span>
+                          </div>
+
+                          <Button
+                            type="button"
+                            onClick={handleAudioPreview}
+                            size="sm"
+                            className="h-7 text-[10px] font-mono bg-neutral-950 text-white hover:bg-neutral-800 dark:bg-white dark:text-black dark:hover:bg-neutral-200 font-bold gap-1 cursor-pointer shadow-xs"
+                          >
+                            <Volume2 className="w-3 h-3" /> {isPlayingAudio ? "Synthesizing..." : "Test Drill"}
+                          </Button>
+                        </div>
+
+                        {/* Pitch Contour Line and Frequency Waveform Bars */}
+                        <div className="py-2">
+                          <div className="flex items-end gap-1.5 h-12 mb-2">
+                            {[35, 70, 50, 90, 60, 85, 40, 95, 65, 50, 80, 60, 90, 45, 75, 55].map((h, i) => (
+                              <div
+                                key={i}
+                                className={`flex-1 rounded-full transition-all duration-200 ${
+                                  isPlayingAudio
+                                    ? "bg-neutral-950 dark:bg-white"
+                                    : "bg-neutral-200 dark:bg-neutral-800"
+                                }`}
+                                style={{
+                                  height: isPlayingAudio ? `${h}%` : "22%",
+                                  transitionDelay: `${i * 15}ms`,
+                                }}
+                              />
+                            ))}
+                          </div>
+
+                          {/* Tone Scale Guide */}
+                          <div className="flex justify-between text-[9px] font-mono text-neutral-400 uppercase tracking-wider border-t border-neutral-100 dark:border-neutral-900 pt-1">
+                            <span>Re (294 Hz)</span>
+                            <span>Dò (261 Hz)</span>
+                            <span>Mí (330 Hz)</span>
+                            <span>Re (294 Hz)</span>
+                          </div>
+                        </div>
+
+                        {/* Telemetry Footer */}
+                        <div className="flex items-center justify-between text-[10px] font-mono text-neutral-500 pt-1 border-t border-neutral-100 dark:border-neutral-900">
+                          <span>WebRTC 24ms SFU</span>
+                          <span className="text-emerald-600 dark:text-emerald-400">Dialect Fidelity: 99.2%</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            )}
+          </div>
+
+          {/* Spotlight Stage Navigation Footer */}
+          <div className="flex items-center justify-between pt-8 border-t border-neutral-200 dark:border-neutral-800/80 text-xs font-mono text-neutral-500">
+            <div className="flex items-center gap-2">
+              <span className="text-neutral-950 dark:text-white font-bold">
+                {activeDeployment === "portasnap" ? "01" : "02"}
+              </span>
+              <span>/</span>
+              <span>02 Deployments</span>
+            </div>
+
+            <button
+              type="button"
+              onClick={() =>
+                setActiveDeployment(
+                  activeDeployment === "portasnap" ? "akonilede" : "portasnap"
+                )
+              }
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-neutral-300 dark:border-neutral-800 bg-white/70 dark:bg-neutral-900/60 hover:bg-neutral-100 dark:hover:bg-neutral-800 text-neutral-800 dark:text-neutral-200 transition-colors cursor-pointer"
+            >
+              <span>
+                View {activeDeployment === "portasnap" ? "02 // Àkọ́niledè Yorùbá" : "01 // PortaSnap"}
+              </span>
+              <ArrowUpRight className="w-3.5 h-3.5" />
+            </button>
           </div>
         </section>
 
