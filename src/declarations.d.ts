@@ -26,6 +26,8 @@ declare module "lucide-react" {
   export const Layers: LucideIcon;
   export const HeartHandshake: LucideIcon;
   export const ChevronDown: LucideIcon;
+  export const ChevronLeft: LucideIcon;
+  export const ChevronRight: LucideIcon;
   export const Send: LucideIcon;
   export const Radio: LucideIcon;
   export const Gamepad2: LucideIcon;
