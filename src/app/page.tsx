@@ -38,8 +38,6 @@ interface ProjectShowcase {
   description: string;
   logo: string;
   logoBg: string;
-  image: string;
-  imageAlt: string;
   accentGlow: string;
   accentDot: string;
   action: "playstore" | "contact";
@@ -56,8 +54,6 @@ const PROJECTS: ProjectShowcase[] = [
       "The on-device biometric passport and visa studio. Verified for international passport and visa standards with sub-pixel face alignment. All processing runs locally on device hardware—zero photos or biometric vectors ever leave your phone.",
     logo: "/brand/portasnap_icon.png",
     logoBg: "bg-black",
-    image: "/brand/portasnap/play_store_screenshot_1.png",
-    imageAlt: "PortaSnap On-Device Biometric Studio App",
     accentGlow: "from-cyan-500/12 via-emerald-500/8 to-transparent",
     accentDot: "bg-cyan-500",
     action: "playstore",
@@ -67,13 +63,11 @@ const PROJECTS: ProjectShowcase[] = [
     number: "02",
     category: "Client Partnership",
     name: "Àkọ́niledè Yorùbá",
-    tagline: "Indigenous Language Education Platform",
+    tagline: "Indigenous Language Education & Digital Infrastructure",
     description:
       "End-to-end digital infrastructure for indigenous language education and cultural preservation. Real-time virtual classrooms paired with intelligent dialect tutoring, engineered by Takjug in partnership with Àkọ́niledè.",
     logo: "/brand/akonilede_logo.svg",
     logoBg: "bg-white",
-    image: "/brand/akonilede/ai-teaching-tools.png",
-    imageAlt: "Àkọ́niledè Educational Systems Architecture",
     accentGlow: "from-amber-500/14 via-rose-500/8 to-transparent",
     accentDot: "bg-amber-500",
     action: "contact",
@@ -233,7 +227,7 @@ export default function Home() {
         ========================================================================
       */}
       <main className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
-        {/* Systems Index: Master Auto-Transitioning Project Carousel (Zero Clutter, Human Editorial) */}
+        {/* Systems Index: Pure Editorial Master Auto-Carousel (Logo on Left, Information on Right, Zero Noise) */}
         <section
           id="deployments"
           onMouseEnter={() => setIsPaused(true)}
@@ -243,11 +237,11 @@ export default function Home() {
           {/* Subtle Ambient Glow that smoothly adapts per project */}
           <div
             aria-hidden="true"
-            className={`absolute -top-12 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[550px] rounded-full blur-[130px] pointer-events-none transition-all duration-700 ease-in-out -z-10 bg-gradient-to-br ${activeProject.accentGlow}`}
+            className={`absolute -top-12 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[500px] rounded-full blur-[130px] pointer-events-none transition-all duration-700 ease-in-out -z-10 bg-gradient-to-br ${activeProject.accentGlow}`}
           />
 
-          {/* Section Header with Project Switcher & Auto-Cycle Indicators */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 mb-10 border-b border-neutral-200 dark:border-neutral-800/80 gap-4">
+          {/* Section Header with Project Switcher */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 mb-8 border-b border-neutral-200 dark:border-neutral-800/80 gap-4">
             <div className="flex items-center gap-3">
               <span className={`w-2 h-2 rounded-full transition-colors duration-500 ${activeProject.accentDot}`} />
               <h2 className="text-xs font-mono uppercase tracking-widest text-neutral-600 dark:text-neutral-400 font-medium">
@@ -255,7 +249,7 @@ export default function Home() {
               </h2>
             </div>
 
-            {/* Project Indicators */}
+            {/* Project Indicator Tabs */}
             <div className="flex items-center gap-2 self-start sm:self-auto">
               {PROJECTS.map((proj, idx) => (
                 <button
@@ -279,8 +273,8 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Master Auto-Swiping Project Stage */}
-          <div className="relative min-h-[460px] sm:min-h-[480px]">
+          {/* Master Auto-Transitioning Stage: Logo on Left, Information on Right */}
+          <div className="relative min-h-[320px] sm:min-h-[300px]">
             {PROJECTS.map((proj, idx) => {
               const isActive = idx === activeProjectIndex;
               return (
@@ -292,39 +286,41 @@ export default function Home() {
                       : "opacity-0 translate-x-8 absolute inset-0 pointer-events-none z-0"
                   }`}
                 >
-                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-                    {/* Left Column: Brand Identity, Simple Clear Copy & Direct Actions */}
-                    <div className="lg:col-span-7 max-w-xl">
-                      {/* Subtle Category Tag */}
-                      <div className="flex items-center gap-2 mb-4 text-xs font-mono text-neutral-500 font-normal">
-                        <span className="text-neutral-700 dark:text-neutral-300">{proj.number} // {proj.category}</span>
+                  <div className="flex flex-col md:flex-row items-start md:items-center gap-8 md:gap-12 py-4">
+                    {/* Left: Brand Logo */}
+                    <div className="shrink-0">
+                      <div className={`w-20 h-20 sm:w-24 sm:h-24 rounded-3xl border border-neutral-200/90 dark:border-neutral-800 shadow-md ${proj.logoBg} flex items-center justify-center p-3 sm:p-3.5 overflow-hidden`}>
+                        <img
+                          src={proj.logo}
+                          alt={proj.name}
+                          className={proj.id === "akonilede" ? "w-full h-full object-contain" : "w-full h-full object-cover rounded-2xl"}
+                        />
+                      </div>
+                    </div>
+
+                    {/* Right: Information (Title, Tagline, Story, and Actions) */}
+                    <div className="flex-1 max-w-2xl">
+                      {/* Category Label */}
+                      <div className="flex items-center gap-2 mb-2 text-xs font-mono text-neutral-500 font-normal">
+                        <span>{proj.number} // {proj.category}</span>
                       </div>
 
-                      {/* Logo & Project Title (Turned down bold) */}
-                      <div className="flex items-center gap-4 mb-4">
-                        <div className={`w-14 h-14 sm:w-16 sm:h-16 rounded-2xl border border-neutral-200 dark:border-neutral-800 shadow-sm ${proj.logoBg} overflow-hidden shrink-0 flex items-center justify-center p-0`}>
-                          <img
-                            src={proj.logo}
-                            alt={proj.name}
-                            className={proj.id === "akonilede" ? "w-10 h-10 object-contain" : "w-full h-full object-cover"}
-                          />
-                        </div>
-                        <div>
-                          <h3 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-neutral-900 dark:text-white tracking-tight leading-tight">
-                            {proj.name}
-                          </h3>
-                          <p className="text-xs font-mono text-neutral-500 font-normal mt-0.5">
-                            {proj.tagline}
-                          </p>
-                        </div>
+                      {/* Title & Tagline */}
+                      <div className="mb-3">
+                        <h3 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-neutral-900 dark:text-white tracking-tight leading-tight mb-1">
+                          {proj.name}
+                        </h3>
+                        <p className="text-xs font-mono text-neutral-500 font-normal">
+                          {proj.tagline}
+                        </p>
                       </div>
 
-                      {/* Simple, Human Narrative (Zero Tech-Jargon Noise) */}
+                      {/* Clean Story (Zero Tech Jargon) */}
                       <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-400 font-normal leading-relaxed mb-6">
                         {proj.description}
                       </p>
 
-                      {/* Direct Actions */}
+                      {/* Actions */}
                       {proj.action === "playstore" ? (
                         <div className="flex flex-wrap items-center gap-4 text-xs font-mono">
                           <a
@@ -377,27 +373,14 @@ export default function Home() {
                         </div>
                       )}
                     </div>
-
-                    {/* Right Column: Clean App Preview (Zero Overlaid Text or Clutter) */}
-                    <div className="lg:col-span-5 flex items-center justify-center">
-                      <div className="relative w-full max-w-[300px] sm:max-w-[320px] rounded-3xl border border-neutral-200/80 dark:border-neutral-800/80 bg-neutral-100/50 dark:bg-neutral-950 p-2 sm:p-2.5 shadow-xl">
-                        <div className="relative h-[360px] sm:h-[400px] w-full overflow-hidden rounded-2xl bg-neutral-950 flex items-center justify-center">
-                          <img
-                            src={proj.image}
-                            alt={proj.imageAlt}
-                            className="max-h-full max-w-full object-contain rounded-xl drop-shadow-xl"
-                          />
-                        </div>
-                      </div>
-                    </div>
                   </div>
                 </div>
               );
             })}
           </div>
 
-          {/* Simple Bottom Progress Track */}
-          <div className="flex items-center justify-between pt-8 mt-10 border-t border-neutral-200 dark:border-neutral-800/80 text-xs font-mono text-neutral-500">
+          {/* Bottom Progress Bar & Jump Dots */}
+          <div className="flex items-center justify-between pt-8 mt-8 border-t border-neutral-200 dark:border-neutral-800/80 text-xs font-mono text-neutral-500">
             <div className="flex items-center gap-2">
               <span className="text-neutral-700 dark:text-neutral-300 font-medium">
                 0{activeProjectIndex + 1}
@@ -406,7 +389,7 @@ export default function Home() {
               <span>0{PROJECTS.length} Systems</span>
             </div>
 
-            {/* Gentle Dots */}
+            {/* Minimalist Progress Indicators */}
             <div className="flex items-center gap-2">
               {PROJECTS.map((_, idx) => (
                 <button
