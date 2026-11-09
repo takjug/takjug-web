@@ -240,36 +240,19 @@ export default function Home() {
             className={`absolute -top-12 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[500px] rounded-full blur-[130px] pointer-events-none transition-all duration-700 ease-in-out -z-10 bg-gradient-to-br ${activeProject.accentGlow}`}
           />
 
-          {/* Section Header with Project Switcher */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 mb-8 border-b border-neutral-200 dark:border-neutral-800/80 gap-4">
+          {/* Section Header: Clean Editorial Heading without Project Pills */}
+          <div className="flex items-center justify-between pb-6 mb-8 border-b border-neutral-200 dark:border-neutral-800/80">
             <div className="flex items-center gap-3">
               <span className={`w-2 h-2 rounded-full transition-colors duration-500 ${activeProject.accentDot}`} />
               <h2 className="text-xs font-mono uppercase tracking-widest text-neutral-600 dark:text-neutral-400 font-medium">
-                Systems Index
+                Engineered Systems
               </h2>
             </div>
 
-            {/* Project Indicator Tabs */}
-            <div className="flex items-center gap-2 self-start sm:self-auto">
-              {PROJECTS.map((proj, idx) => (
-                <button
-                  key={proj.id}
-                  type="button"
-                  onClick={() => setActiveProjectIndex(idx)}
-                  className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-mono transition-all duration-300 cursor-pointer ${
-                    idx === activeProjectIndex
-                      ? "bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white font-medium shadow-xs border border-neutral-300/70 dark:border-neutral-800"
-                      : "text-neutral-500 hover:text-neutral-900 dark:hover:text-white font-normal"
-                  }`}
-                >
-                  <img
-                    src={proj.logo}
-                    alt=""
-                    className="w-3.5 h-3.5 rounded-xs shrink-0 object-contain"
-                  />
-                  <span>{proj.number} // {proj.name}</span>
-                </button>
-              ))}
+            <div className="text-xs font-mono text-neutral-400 dark:text-neutral-500 font-normal">
+              <span>0{activeProjectIndex + 1}</span>
+              <span className="mx-1.5 opacity-40">/</span>
+              <span>0{PROJECTS.length}</span>
             </div>
           </div>
 
