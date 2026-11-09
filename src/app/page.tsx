@@ -532,45 +532,6 @@ export default function Home() {
               </div>
             </article>
           </div>
-
-          {/* Ecosystem & Platform Standards */}
-          <div className="pt-16 border-t border-neutral-200 dark:border-neutral-800/80">
-            <div className="flex items-center justify-between pb-6">
-              <span className="text-[11px] font-mono uppercase tracking-widest text-neutral-500 font-semibold">
-                Ecosystem &amp; Technology Standards
-              </span>
-              <span className="text-[11px] font-mono text-neutral-400">
-                Verified Architecture
-              </span>
-            </div>
-
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 text-xs font-mono">
-              <div className="p-3.5 rounded-xl border border-neutral-200 dark:border-neutral-800/80 bg-white/50 dark:bg-neutral-900/40 backdrop-blur flex items-center gap-2.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                <span className="text-neutral-700 dark:text-neutral-300 font-semibold">Google Play</span>
-              </div>
-              <div className="p-3.5 rounded-xl border border-neutral-200 dark:border-neutral-800/80 bg-white/50 dark:bg-neutral-900/40 backdrop-blur flex items-center gap-2.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-neutral-400 dark:bg-neutral-600" />
-                <span className="text-neutral-700 dark:text-neutral-300 font-semibold">Android 16</span>
-              </div>
-              <div className="p-3.5 rounded-xl border border-neutral-200 dark:border-neutral-800/80 bg-white/50 dark:bg-neutral-900/40 backdrop-blur flex items-center gap-2.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-neutral-400 dark:bg-neutral-600" />
-                <span className="text-neutral-700 dark:text-neutral-300 font-semibold">ICAO Doc 9303</span>
-              </div>
-              <div className="p-3.5 rounded-xl border border-neutral-200 dark:border-neutral-800/80 bg-white/50 dark:bg-neutral-900/40 backdrop-blur flex items-center gap-2.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-neutral-400 dark:bg-neutral-600" />
-                <span className="text-neutral-700 dark:text-neutral-300 font-semibold">TFLite GPU</span>
-              </div>
-              <div className="p-3.5 rounded-xl border border-neutral-200 dark:border-neutral-800/80 bg-white/50 dark:bg-neutral-900/40 backdrop-blur flex items-center gap-2.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-neutral-400 dark:bg-neutral-600" />
-                <span className="text-neutral-700 dark:text-neutral-300 font-semibold">WebRTC SFU</span>
-              </div>
-              <div className="p-3.5 rounded-xl border border-neutral-200 dark:border-neutral-800/80 bg-white/50 dark:bg-neutral-900/40 backdrop-blur flex items-center gap-2.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-neutral-400 dark:bg-neutral-600" />
-                <span className="text-neutral-700 dark:text-neutral-300 font-semibold">Next.js Edge</span>
-              </div>
-            </div>
-          </div>
         </section>
 
         {/* The Mandate: Philosophical Statement & Pure Liquid Typographic Mirror */}
